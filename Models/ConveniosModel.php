@@ -1,5 +1,5 @@
 <?php
-class Convenios extends Mysql
+class ConveniosModel extends Mysql
 {
 
     public function __construct()
@@ -11,6 +11,14 @@ class Convenios extends Mysql
     public function getAll()
     {
         $sql = "SELECT convenios.idconvenios,convenios.nombre,convenios.descripcion,convenios.fechaInicio,convenios.fechaFin,convenios.fechaFin,convenios.descuento from convenios WHERE convenios.status > 0";
+        $request = $this->select_all($sql);
+        return $request;
+    }
+
+
+    public function getCanchas()
+    {
+        $sql = "SELECT  canchas.idcanchas,canchas.nombre FROM canchas WHERE canchas.status > 0 ";
         $request = $this->select_all($sql);
         return $request;
     }
