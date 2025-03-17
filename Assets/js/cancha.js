@@ -65,16 +65,16 @@ document.addEventListener("click", (e) => {
           }
         });
         break;
-
-      default:
-        Swal.fire({
-          title: "Accion no valida",
-          text: "La accion que no es reconocida",
-          icon: "error"
-        });
-        break;
+      /*
+            default:
+              Swal.fire({
+                title: "Accion no valida",
+                text: "La accion que no es reconocida",
+                icon: "error"
+              });
+              break; */
     }
-  } catch {}
+  } catch { }
 });
 
 btnCrearCancha.addEventListener("click", () => {
@@ -142,14 +142,14 @@ frmCrearCancha.addEventListener("submit", (e) => {
           }
         });
       break;
-
-    default:
-      Swal.fire({
-        title: "Accion no valida",
-        text: "La accion que no es reconocida",
-        icon: "error"
-      });
-      break;
+    /*
+        default:
+          Swal.fire({
+            title: "Accion no valida",
+            text: "La accion que no es reconocida",
+            icon: "error"
+          });
+          break; */
   }
 });
 
