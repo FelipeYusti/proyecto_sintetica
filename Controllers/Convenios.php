@@ -70,8 +70,8 @@ class Convenios extends Controllers
         $arrPost = ['idconvenio', 'txtDescripcion', 'txtFechaInicio', 'txtFechaFin', 'txtDescuento', 'txtCancha'];
 
         if (check_post($arrPost)) {
-            if ($idAprendiz == 0 || $idAprendiz == "") {
-                $requestModel = $this->model->insertarAprendices($nombreAprendiz, $apellidoAprendiz, $generoAprendiz, $numeroDocumentoAprendiz, $codigoAprendiz, $usuarioAprendiz, $contraAprendiz);
+            if ($idconvenio == 0 || $idconvenio == "") {
+                $requestModel = $this->model->addConvenios($nombre, $descripcion, $fechaInicio, $fechaFin, $descuento, $idCancha);
                 $option = 1;
             } else {
                 $requestModel = $this->model->editarAprendices($idAprendiz, $nombreAprendiz, $apellidoAprendiz, $generoAprendiz, $numeroDocumentoAprendiz, $codigoAprendiz);
