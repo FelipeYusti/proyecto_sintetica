@@ -309,12 +309,28 @@ getModal('conveniosModal', $data);
                         </li>
                     </div>
                 </div>
-                <div class="row" id="tablaConvenios">
-                </div>
+                <div class="row">
+                    <table id="myTable" class="display">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Nombre </th>
+                                <th>Descripcion</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin</th>
+                                <th>Descuento</th>
+                                <th>Cancha</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaConvenios">
 
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
     </div>
 </main>
 <?php footer_admin($data); ?>
+<script src="<?= media() ?>/js/convenio.js"></script>
