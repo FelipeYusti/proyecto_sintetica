@@ -154,10 +154,10 @@ class Convenios extends Controllers
     {
         if ($_POST) {
             $idConvenio = intval($_POST['idConvenio']);
+
             $requestDelete = $this->model->deleteConvenio($idConvenio);
+
             if ($requestDelete == 'empty') {
-                $arrResponse = array('status' => false, 'msg' => 'Error al eliminar el convenio.');
-            } else {
                 $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el convenio.');
             }
             echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);

@@ -27,9 +27,9 @@ function listConvenios() {
               <td>${convenio.nombre}</td>
               <td>${convenio.descripcion}</td>
               <td>${convenio.fechaInicio}</td>
-              <td>${convenio.txtFechaFin}</td>
+              <td>${convenio.fechaFin}</td>
               <td>${convenio.descuento}</td>
-              <td>${convenio.canchas_idcanchas}</td>
+              <td>${convenio.cancha_nombre}</td>
               <td>${convenio.actions}</td>
               <tr/>`;
             });
@@ -53,25 +53,17 @@ btnCrearConvenio.addEventListener("click", () => {
 
     $("#crearConvenioModal").modal("show");
 });
+
 frmCrearConvenio.addEventListener("submit", (e) => {
     e.preventDefault();
-    const frmData = new FormData(frmCrearConvenio);
+    frmData = new FormData(frmCrearConvenio);
     console.log(frmData);
 
     fetch(base_url + "/convenios/createConvenio", {
         method: "POST",
         body: frmData,
     })
-        .then((res) => {
-            // Verifica si la respuesta es de tipo JSON
-            const contentType = res.headers.get("content-type");
-            if (!contentType || !contentType.includes("application/json")) {
-                return res.text().then((text) => {
-                    throw new Error(`Esperaba JSON, pero recibí HTML: ${text}`);
-                });
-            }
-            return res.json();  // Si es JSON, procesamos la respuesta
-        })
+        .then((res) => res.json())
         .then((data) => {
             console.log(data);
             Swal.fire({
@@ -87,17 +79,85 @@ frmCrearConvenio.addEventListener("submit", (e) => {
 
                 window.location.reload();
             });
-        })
-        .catch((error) => {
-            // Muestra el error si algo sale mal
-            console.error("Error en la solicitud:", error);
-            Swal.fire({
-                title: "Error",
-                text: error.message,
-                icon: "error",
-            });
         });
 });
 
 
+
+document.addEventListener("click", (e) => {
+    try {
+        let selected = e.target.closest("button").getAttribute("data-action-type");
+        let idConvenio = e.target.closest("button").getAttribute("rel");
+
+        if (selected == "delete") {
+            Swal.fire({
+                title: "Eliminar el convenio",
+                text: "¿Está seguro de eliminar el convenio?",
+                icon: "warning",
+                showDenyButton: true,
+                confirmButtonText: "Sí",
+                denyButtonText: `Cancelar`,
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let formData = new FormData();
+                    formData.append("idConvenio", idConvenio);
+                    console.log(idConvenio);
+                    fetch(base_url + "/convenios/deleteConvenio/", {
+                        method: "POST",
+                        body: formData,
+                    })
+                        .then((res) => res.json())
+                        .then((data) => {
+                            Swal.fire({
+                                title: data.status ? "Correcto" : "Error",
+                                text: data.msg,
+                                icon: data.status ? "success" : "error",
+                            }).then(() => {
+                                if (data.status) {
+                                    window.location.reload();  // Recargar la página
+                                }
+                            })
+                        });
+                }
+            });
+
+        }
+
+        if (selected == "update") {
+            accion = "update";
+            $("#crearAprendizModal").modal("show");
+            document.getElementById("crearAprendizModalLabel").innerHTML =
+                "Actualizar Aprendiz";
+
+            fetch(aprendicesUrl + `getAprendizByID/` + idAprendiz, {
+                method: "GET",
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    aprendiz = res.data[0];
+                    console.log(aprendiz);
+
+                    document.querySelector("#numeroDocumentoAprendiz").value =
+                        aprendiz.numdoc;
+                    document.querySelector("#nombreAprendiz").value =
+                        aprendiz.nombre_aprendiz;
+                    document.querySelector("#apellidoAprendiz").value =
+                        aprendiz.apellido_aprendiz;
+                    document.querySelector("#generoAprendiz").value =
+                        aprendiz.generos_idgenero;
+                    document.querySelector("#codigoAprendiz").value =
+                        aprendiz.codigo_aprendiz;
+                    container2.style.display = "none";
+                    /*  document.querySelector(
+                      "#generoAprendiz"
+                    ).innerHTML = `<option selected hidden value="${aprendiz.generos_idgenero}">${aprendiz.generos_idgenero}</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Femenino">Femenino</option>
+                    <option value="Otros">Otros..</option>`; */
+                });
+        }
+
+    } catch { }
+});
 

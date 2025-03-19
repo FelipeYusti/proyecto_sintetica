@@ -10,7 +10,9 @@ class ConveniosModel extends Mysql
 
     public function getAll()
     {
-        $sql = "SELECT convenios.idconvenios,convenios.nombre,convenios.descripcion,convenios.fechaInicio,convenios.fechaFin,convenios.fechaFin,convenios.descuento from convenios WHERE convenios.status > 0";
+        $sql = "SELECT convenios.idconvenios,convenios.nombre,convenios.descripcion,convenios.fechaInicio,convenios.fechaFin,canchas.nombre AS cancha_nombre,  convenios.descuento FROM convenios
+         JOIN canchas ON convenios.canchas_idcanchas = canchas.idcanchas WHERE convenios.status > 0;
+";
         $request = $this->select_all($sql);
         return $request;
     }
@@ -85,9 +87,10 @@ class ConveniosModel extends Mysql
     public function deleteConvenio(int $idConvenio)
     {
         $this->idConvenio = $idConvenio;
+        $estado = 0;
 
-        $sql = "UPDATE convenios SET status = ? WHERE idconvenios = {$this->idConvenio}";
-        $arrData = array(0);
+        $sql = "UPDATE convenios SET status = ? WHERE idconvenios = ?";
+        $arrData = array(0, $this->idConvenio);
         $request = $this->update($sql, $arrData);
         return $request;
     }
