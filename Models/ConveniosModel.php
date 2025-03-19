@@ -33,12 +33,12 @@ class ConveniosModel extends Mysql
 
     }
 
-    public function addConvenios(string $nombreConvenio, string $descripcion, DateTime $fechaInicio, DateTime $fechaFinal, float $descuento, int $idCancha)
+    public function addConvenios(string $nombreConvenio, string $descripcion, string $fechaInicio, string $fechaFinal, float $descuento, int $idCancha)
     {
         $this->nombreConvenio = $nombreConvenio;
         $this->descripcion = $descripcion;
-        $this->fechaInicio = $fechaInicio->format('Y-m-d');
-        $this->fechaFinal = $fechaFinal->format('Y-m-d');
+        $this->fechaInicio = $fechaInicio;
+        $this->fechaFinal = $fechaFinal;
         $this->descuento = $descuento;
         $this->idCancha = $idCancha;
 

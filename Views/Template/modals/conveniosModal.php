@@ -44,7 +44,9 @@
                         <div id="userStatusZone" class="mb-3">
                             <label for="genero" class="form-label">Cancha elejida</label>
                             <select class="form-control" name="txtCancha" id="txtCancha">
-                                <div class="canchas" id="idCanchasDisponibles" name="idCanchasDisponibles"></div>
+                                <div class="canchas" id="idCanchasDisponibles" name="idCanchasDisponibles">
+
+                                </div>
                             </select>
                         </div>
                     </div>

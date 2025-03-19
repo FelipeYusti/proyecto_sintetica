@@ -55,6 +55,20 @@ class Convenios extends Controllers
         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         die();
     }
+    public function getCanchas()
+    {
+
+        $arrData = $this->model->getCanchas();
+
+        if (empty($arrData)) {
+            $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados');
+        } else {
+            $arrResponse = array('status' => true, 'data' => $arrData);
+        }
+
+        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        die();
+    }
 
     public function createConvenio()
     {
@@ -66,7 +80,7 @@ class Convenios extends Controllers
         $descuento = strClean($_POST['txtDescuento']);
         $idCancha = strClean($_POST['txtCancha']);
 
-        $arrPost = ['idconvenio', 'txtDescripcion', 'txtFechaInicio', 'txtFechaFin', 'txtDescuento', 'txtCancha'];
+        $arrPost = ['txtDescripcion', 'txtFechaInicio', 'txtFechaFin', 'txtDescuento', 'txtCancha'];
 
         if (check_post($arrPost)) {
             if ($idconvenio == 0 || $idconvenio == "") {
