@@ -377,11 +377,11 @@ header_admin($data);
             <div class="col-md-12 col-lg-8">
                 <div class="row">
                     <?php getModal('canchasModal', $data); ?>
-                    <div class="col-3">
+                    <div class="col-2">
                         <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1300">
                             <div class="card-body">
                                 <div class="progress-widget">
-                                    <button type="button" id="btnCrearCancha" class="btn btn-primary">
+                                    <button type="button" id="btnCrearCancha" class="btn btn-info">
                                         Registrar
                                     </button>
                                 </div>

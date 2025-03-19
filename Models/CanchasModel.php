@@ -25,7 +25,7 @@ class CanchasModel extends Mysql
         return $request;
     }
 
-    public function add(string $name, string $type, string $capacitance, int $price)
+    public function add(string $name, string $type, int $capacitance, int $price)
     {
         $this->name = $name;
         $this->type = $type;
@@ -50,7 +50,7 @@ class CanchasModel extends Mysql
         return $respuesta;
     }
 
-    public function updat(string $name, string $type, string $capacitance, int $price, int $status, int $idCancha)
+    public function updat(string $name, string $type, int $capacitance, int $price, int $estado, int $idCancha)
     {
 
         $this->idCancha = $idCancha;
@@ -58,20 +58,19 @@ class CanchasModel extends Mysql
         $this->type = $type;
         $this->price = $price;
         $this->capacitance = $capacitance;
-        $this->status = $status;
+        $this->estado = $estado;
 
-        $query_cancha = "SELECT * FROM canchas WHERE nombre = {$this->name} AND status > 0";
-
-        $request = $this->select_all($query_cancha);
-
-        if (!empty($request)) {
-            $respuesta = 'exist';
-        } else {
-            $query_update = "UPDATE usuario SET nombre = ?, tipo= ?, capacidad= ? , valor= ?, status= ? WHERE idcanchas = ? ";
-            $arrData = array($this->name, $this->type, $this->capacitance, $this->price, $this->status, $this->$idCancha);
-            $reques_update = $this->insert($query_update, $arrData);
-            $respuesta = $reques_update;
-        }
+        $query_update = "UPDATE canchas SET nombre = ?, tipo = ?, capacidad = ? , valor = ?, status = ? WHERE idcanchas = ? ";
+        $arrData = array(
+            $this->name,
+            $this->type,
+            $this->capacitance,
+            $this->price,
+            $this->estado,
+            $this->idCancha
+        );
+        $reques_update =  $this->update($query_update, $arrData);
+        $respuesta = $reques_update;
 
         return $respuesta;
     }
@@ -79,7 +78,7 @@ class CanchasModel extends Mysql
     {
         $this->idCancha = $idCancha;
 
-        $sql = "UPDATE usuario SET status = ? WHERE idcanchas = {$this->idCancha}";
+        $sql = "UPDATE canchas SET status = ? WHERE idcanchas = {$this->idCancha}";
         $arrData = array(0);
         $request = $this->update($sql, $arrData);
         return $request;

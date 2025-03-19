@@ -18,7 +18,10 @@
   <link rel="shortcut icon" href="<?= media() ?>/images/favicon.ico" />
 
   <link href="<?= media() ?>/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <!-- stylo indx -->
+  <link href="<?= media() ?>/css/style.css" rel="stylesheet">
 
+  <link href="<?= media() ?>/vendor/simple-datatables/style.css" rel="stylesheet">
   <!-- Library / Plugin Css Build -->
   <link rel="stylesheet" href="<?= media() ?>/css/core/libs.min.css" />
 

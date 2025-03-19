@@ -4,7 +4,9 @@ const frmName = document.querySelector("#txtName");
 const frmType = document.querySelector("#txtType");
 const frmCapacitance = document.querySelector("#txtCapacitance");
 const frmPrice = document.querySelector("#txtPrice");
-const frmUserStatus = document.querySelector("#userStatus");
+let frmIdCacancha = 0;
+const frmCanchaStatus = document.querySelector("#txtStatus");
+let btnEnviar = document.querySelector("#btnEnviar");
 let show = document.querySelector("#show");
 rederCanchas();
 
@@ -12,7 +14,7 @@ document.addEventListener("click", (e) => {
   try {
     let action = e.target.closest("a").getAttribute("data-action");
     let id = e.target.closest("a").getAttribute("data-id");
-
+    frmIdCacancha = id;
     switch (action) {
       case "edit":
         fetch(base_url + "/canchas/getById/" + id)
@@ -24,7 +26,8 @@ document.addEventListener("click", (e) => {
               frmPrice.value = data.valor;
               frmCapacitance.value = data.capacidad;
               frmType.value = data.tipo;
-              frmUserStatus.value = data.status;
+              frmCanchaStatus.value = data.status;
+              btnEnviar.setAttribute("data-action", "Modificar");
               $("#crearCanchasModal").modal("show");
               optionStatus(true);
             } else {
@@ -33,7 +36,7 @@ document.addEventListener("click", (e) => {
                 text: data.msg,
                 icon: "error"
               });
-              /* tablaUsuarios.api().ajax.reload(function () {}); */
+              tablaUsuarios.api().ajax.reload(function () {});
             }
           });
         break;
@@ -58,20 +61,17 @@ document.addEventListener("click", (e) => {
                 Swal.fire({
                   title: data.status ? "Correcto" : "Error",
                   text: data.msg,
-                  icon: data.status ? "success" : "error"
+                  icon: data.status ? "success" : "error",
+                  showConfirmButton: false,
+                  timer: 170
                 });
-                /*  tablaUsuarios.api().ajax.reload(function () {}); */
+                tablaUsuarios.api().ajax.reload(function () {});
               });
           }
         });
         break;
 
       default:
-        Swal.fire({
-          title: "Accion no valida",
-          text: "La accion que no es reconocida",
-          icon: "error"
-        });
         break;
     }
   } catch {}
@@ -80,28 +80,29 @@ document.addEventListener("click", (e) => {
 btnCrearCancha.addEventListener("click", () => {
   clearForm();
   optionStatus(false);
+  btnEnviar.setAttribute("data-action", "Crear");
   $("#crearCanchasModal").modal("show");
 });
 
 frmCrearCancha.addEventListener("submit", (e) => {
   e.preventDefault();
   let frmCancha = new FormData(frmCrearCancha);
-
+  let action = document.querySelector("#btnEnviar").getAttribute("data-action");
   switch (action) {
-    case "registar":
+    case "Crear":
       fetch(base_url + "/canchas/create", {
         method: "POST",
         body: frmCancha
       })
         .then((res) => res.json())
         .then((data) => {
-          if (data.status) {
+          if (data.status == true) {
             Swal.fire({
               title: "Registro Canchas",
               text: data.msg,
               icon: "success",
               showConfirmButton: false,
-              timer: 1700
+              timer: 1800
             });
             /*  tablaUsuarios.api().ajax.reload(function () {}); */
             $("#crearCanchasModal").modal("hide");
@@ -115,20 +116,21 @@ frmCrearCancha.addEventListener("submit", (e) => {
           }
         });
       break;
-    case "modificar":
+    case "Modificar":
+      frmCancha.append("txtIdCancha", frmIdCacancha);
       fetch(base_url + "/canchas/modify", {
         method: "POST",
         body: frmCancha
       })
         .then((res) => res.json())
         .then((data) => {
-          if (data.status) {
+          if (data.status == true) {
             Swal.fire({
-              title: "Registro Canchas",
+              title: "Actualizacion Canchas",
               text: data.msg,
               icon: "success",
               showConfirmButton: false,
-              timer: 1700
+              timer: 1900
             });
             /*  tablaUsuarios.api().ajax.reload(function () {}); */
             $("#crearCanchasModal").modal("hide");
@@ -160,8 +162,8 @@ function rederCanchas() {
       if (data.length > 0) {
         data.forEach((cancha) => {
           let fila = `
-          <div class="col-md-6">
-                        <div class="card border-primary" style="max-width: 600px; margin: auto;" data-aos="fade-up" data-aos-delay="800">
+          <div class="col-md-6 mt-4 ">
+                        <div class="card border-primary" style="max-width: 600px; margin: auto;" data-aos="fade-down" data-aos-delay="1100">
                             <div class="flex-wrap card-header d-flex justify-content-between  bg-primary text-white align-items-end position-relative">
                                 <div class="position-absolute top-0 end-0 mt-2 me-2">
                                     <input type="hidden" id="txtIdCancha" value="${cancha.ID}">
@@ -174,8 +176,8 @@ function rederCanchas() {
                                     </ul>
                                 </div>
                                 <div>
-                                    <h4 class="card-title text-white mb-0">${cancha.nombre}</h4>
-                                    <p class="mb-2">${cancha.tipo} de ${cancha.capacidad}</p>
+                                    <h4 class="card-title text-white mb-1">${cancha.nombre}</h4>
+                                    <p class="mb-2">${cancha.tipo} de ${cancha.capacidad} jugadores. </p>
                                 </div>
                             </div>
                             <div class="card-body text-center">

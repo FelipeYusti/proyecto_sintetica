@@ -122,13 +122,13 @@ class Canchas extends Controllers
         if (check_post($arrPosts)) {
             $name = strClean($_POST['txtName']);
             $type = strClean($_POST['txtType']);
-            $capacitance = strClean($_POST['txtCapacitance']);
+            $capacitance = intval(strClean($_POST['txtCapacitance']));
             $price = intval(strClean($_POST['txtPrice']));
             $status = intval(strClean($_POST['txtStatus']));
             $idCancha = intval(strClean($_POST['txtIdCancha']));
             try {
 
-                $insert = $this->model->updat(
+                $updat = $this->model->updat(
                     $name,
                     $type,
                     $capacitance,
@@ -137,15 +137,14 @@ class Canchas extends Controllers
                     $idCancha
                 );
 
-                if (intval($insert) > 0) {
+                if (intval($updat) > 0) {
 
                     $arrResponse = array('status' => true, 'msg' => 'Cancha actualizada correctamente');
-                } else if ($insert == 'exist') {
+                } else if ($updat == 'exist') {
 
                     $arrResponse = array('status' => false, 'msg' => 'Ya existe una cancha con el mismo nombre');
                 } else {
-
-                    $arrResponse = array('status' => false, 'msg' => 'Error al insertar');
+                    $arrResponse = array('status' => false, 'msg' => 'Error al Actualizar');
                 }
             } catch (\Throwable $th) {
                 $arrResponse = array('status' => false, 'msg' => "Error desconocido: $th");

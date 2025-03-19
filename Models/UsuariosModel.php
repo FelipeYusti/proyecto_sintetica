@@ -1,41 +1,51 @@
 <?php
 
-class UsuariosModel extends Mysql{
+class UsuariosModel extends Mysql
+{
 
-    public function __construct(){
+    private $table_name = "users";
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    public function selectUsuarios(){
-        $sql = "SELECT idUsuarios AS ID, CONCAT(u.nombre, ' ', u.apellido) AS nombre_completo, u.documento, u.telefono, u.correo, u.rol, u.status FROM usuario u WHERE u.status > 0";
+    public function getAll()
+    {
+        $sql = "SELECT idusers AS ID, username,correo,rol,status FROM " . $this->table_name . " WHERE status > 0";
         $request = $this->select_all($sql);
         return $request;
     }
 
-    public function selectUsuariosById(int $idUsuario){
+    public function getById(int $idUsuario)
+    {
         $this->idUsuario = $idUsuario;
-        $sql = "SELECT idUsuarios AS id, u.nombre, u.apellido, u.documento, u.telefono, u.genero, u.correo, u.codigo, u.rol, u.status FROM usuario u WHERE u.status > 0 AND idUsuarios = {$this->idUsuario}";
+        $sql = "SELECT idusers AS ID, username, password,correo,rol,status FROM " . $this->table_name . " WHERE status > 0 AND idusers = {$this->idUsuario}";
         $request = $this->select($sql);
         return $request;
     }
 
-    public function insertUsuario(string $strNombre, string $strApellido, int $intDocumento, int $intTelefono, int $intGenero, string $strEmail, string $strCodigo, string $strRol, string $password, string $strFirma){
-        $this->strNombre = $strNombre;
-        $this->strApellido = $strApellido;
-        $this->intDocumento = $intDocumento;
-        $this->intTelefono = $intTelefono;
-        $this->strRol = $strRol;
+    public function add(string $username, string $password, string $email, string $rol)
+    {
+        $this->username = $username;
+        $this->email = $email;
+        $this->rol = $rol;
         $this->password = $password;
-        
-        $query_usuarios = "SELECT * FROM usuario WHERE documento = {$this->intDocumento} AND status > 0";
+        $this->password = password_hash($this->password, PASSWORD_BCRYPT);
+        $query_usuarios = "SELECT * FROM users WHERE username = '{$this->username}' AND status > 0";
 
         $request = $this->select_all($query_usuarios);
 
         if (!empty($request)) {
             $respuesta = 'exist';
-        }else{
-            $query_insert = "INSERT INTO usuario(nombre, apellido, documento , telefono, genero, correo, codigo, firma, rol, password, status) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
-            $arrData = array($this->strNombre, $this->strApellido, $this->intDocumento, $this->intTelefono, $this->intGenero, $this->strEmail, $this->strCodigo, $this->strFirma, $this->strRol, $this->password, 1);
+        } else {
+            $query_insert = "INSERT INTO users(username,password,correo,rol,status) VALUES(?,?,?,?,?)";
+            $arrData = array(
+                $this->username,
+                $this->password,
+                $this->email,
+                $this->rol,
+                1
+            );
             $reques_insert = $this->insert($query_insert, $arrData);
             $respuesta = $reques_insert;
         }
@@ -43,52 +53,48 @@ class UsuariosModel extends Mysql{
         return $respuesta;
     }
 
-    public function updateUsuario(int $idUsuario, string $strNombre, string $strApellido, int $intDocumento, int $intTelefono, int $intGenero, string $strEmail, string $strCodigo, string $strRol, string $strFirma, int $status){
-        $this->strNombre = $strNombre;
-        $this->strApellido = $strApellido;
-        $this->intDocumento = $intDocumento;
-        $this->intTelefono = $intTelefono;
-        $this->intGenero = $intGenero;
-        $this->strEmail = $strEmail;
-        $this->strCodigo = $strCodigo;
-        $this->strFirma = $strFirma;
-        $this->strRol = $strRol;
-        $this->idUduario = $idUsuario;
-        $this->intStatus = $status;
+    public function updat(string $username, string $password, string $email, string $rol, int $status, int $idUser)
+    {
+        $this->username = $username;
+        $this->password = $password;
+        $this->email = $email;
+        $this->rol = $rol;
+        $this->idUser = $idUser;
+        $this->status = $status;
 
-        $sql = "SELECT * FROM usuario WHERE (documento = '{$this->intDocumento}' AND codigo = '{$this->strCodigo}' AND idUsuarios != {$this->idUduario})";
+        if (!empty($this->password)) {
+            $this->password = password_hash($this->password, PASSWORD_BCRYPT);
+        }
+        $sql = "SELECT * FROM users WHERE username = '{$this->username}' AND status > 0 AND rol = 'admin'";
 
         $request = $this->select_all($sql);
 
         if (!empty($request)) {
             $respuesta = 'exist';
-        }else{
-            $query_insert = "UPDATE usuario SET nombre = ?, apellido = ?, telefono = ?, genero = ?, correo = ?, codigo = ?, firma = ?, rol = ?, status = ? WHERE status > 0 AND idUsuarios = {$this->idUduario}";
+        } else {
+            $query_update = "UPDATE users 
+            SET username = ?,password = ?,correo = ?, rol = ?, status = ? WHERE status > 0 AND idusers = {$this->idUser}";
             $arrData = array(
-                $this->strNombre,
-                $this->strApellido,
-                $this->intTelefono,
-                $this->intGenero,
-                $this->strEmail,
-                $this->strCodigo,
-                $this->strFirma,
-                $this->strRol,
-                $this->intStatus
+                $this->username,
+                $this->password,
+                $this->email,
+                $this->rol,
+                $this->status
             );
-            $reques_insert = $this->update($query_insert, $arrData);
-            $respuesta = $reques_insert;
+            $reques_update = $this->update($query_update, $arrData);
+            $respuesta = $reques_update;
         }
 
         return $respuesta;
     }
 
-    public function deleteUsuario(int $idUsuario){
-        $this->idUsuario = $idUsuario;
+    public function delet(int $idUser)
+    {
+        $this->idUser = $idUser;
 
-        $sql = "UPDATE usuario SET status = ? WHERE idUsuarios = {$this->idUsuario}";
+        $sql = "UPDATE users SET status = ? WHERE idusers = {$this->idUser}";
         $arrData = array(0);
         $request = $this->update($sql, $arrData);
         return $request;
     }
-
 }
