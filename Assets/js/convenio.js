@@ -24,6 +24,7 @@ function listConvenios() {
               <td>${convenio.txtFechaFin}</td>
               <td>${convenio.descuento}</td>
               <td>${convenio.canchas_idcanchas}</td>
+              <td>${convenio.actions}</td>
               <tr/>`;
             });
         });

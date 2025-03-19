@@ -310,7 +310,7 @@ getModal('conveniosModal', $data);
                     </div>
                 </div>
                 <div class="row">
-                    <table id="myTable" class="display">
+                    <table class="table" id="tablaConvenios">
                         <thead>
                             <tr>
                                 <th>id</th>
@@ -320,12 +320,13 @@ getModal('conveniosModal', $data);
                                 <th>Fecha Fin</th>
                                 <th>Descuento</th>
                                 <th>Cancha</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody id="tablaConvenios">
-
+                        <tbody>
                         </tbody>
                     </table>
+
                 </div>
             </div>
         </div>

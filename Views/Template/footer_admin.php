@@ -52,7 +52,7 @@
 <!-- App Script -->
 
 <script src="<?= media() ?>/js/hope-ui.js"></script>
-<script src="/DataTables/datatables.js"></script>
+
 <!-- <script src="/js/usuarios.js"></script>
   <script src="/js/reservas.js"></script>
   <script src="/js/convenios.js"></script>
