@@ -86,9 +86,6 @@ class Convenios extends Controllers
             if ($idconvenio == 0 || $idconvenio == "") {
                 $requestModel = $this->model->addConvenios($nombre, $descripcion, $fechaInicio, $fechaFin, $descuento, $idCancha);
                 $option = 1;
-            } else {
-                $requestModel = $this->model->updateConvenio($nombre, $descripcion, $fechaInicio, $fechaFin, $descuento, $idCancha, $idconvenio);
-                $option = 2;
             }
             if ($requestModel > 0) {
                 if ($option === 1) {
@@ -108,7 +105,7 @@ class Convenios extends Controllers
 
     public function updateConvenio()
     {
-        $arrPost = ['idconvenio', 'txtDescripcion', 'txtFechaInicio', 'txtFechaFin', 'txtDescuento', 'txtCancha'];
+        $arrPost = ['idConvenio', 'txtDescripcion', 'txtFechaInicio', 'txtFechaFin', 'txtDescuento', 'txtCancha'];
 
         if (check_post($arrPost)) {
             $idconvenio = strClean($_POST['idConvenio']);

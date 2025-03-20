@@ -1,95 +1,75 @@
 const frmCrearConvenio = document.querySelector('#frmCrearConvenio');
-let idConvenio = document.querySelector('#idConvenio');
+let idConvenioInput = document.querySelector('#idConvenio');
 let txtNombre = document.querySelector('#txtNombre');
 let txtDescripcion = document.querySelector('#txtDescripcion');
 let txtFechaInicio = document.querySelector('#txtFechaInicio');
 let txtFechaFin = document.querySelector('#txtFechaFin');
 let Descuento = document.querySelector('#Descuento');
 const btnCrearConvenio = document.querySelector('#btnCrearConvenio');
-//let idCanchasDisponibles = document.querySelectorAll('#idCanchasDisponibles');
 
-window.addEventListener("DOMContentLoaded", (e) => {
+let select = '';
+
+window.addEventListener("DOMContentLoaded", () => {
     listConvenios();
     listCanchasSelect();
 });
 
-
 function listConvenios() {
-
     fetch(base_url + "/convenios/showTabla")
-        .then((data) => data.json())
+        .then((res) => res.json())
         .then((data) => {
-            console.log(data);
+            let tabla = document.getElementById("tablaConvenios");
+            tabla.innerHTML = '';
             data.forEach((convenio) => {
-                document.getElementById("tablaConvenios").innerHTML += `
-              <tr>
-              <td>${convenio.idconvenios}</td>
-              <td>${convenio.nombre}</td>
-              <td>${convenio.descripcion}</td>
-              <td>${convenio.fechaInicio}</td>
-              <td>${convenio.fechaFin}</td>
-              <td>${convenio.descuento}</td>
-              <td>${convenio.cancha_nombre}</td>
-              <td>${convenio.actions}</td>
-              <tr/>`;
+                tabla.innerHTML += `
+                  <tr>
+                      <td>${convenio.idconvenios}</td>
+                      <td>${convenio.nombre}</td>
+                      <td>${convenio.descripcion}</td>
+                      <td>${convenio.fechaInicio}</td>
+                      <td>${convenio.fechaFin}</td>
+                      <td>${convenio.descuento}</td>
+                      <td>${convenio.cancha_nombre}</td>
+                      <td>
+                          <button data-action-type="update" rel="${convenio.idconvenios}" class="btn btn-warning">Editar</button>
+                          <button data-action-type="delete" rel="${convenio.idconvenios}" class="btn btn-danger">Eliminar</button>
+                      </td>
+                  </tr>`;
             });
-        });
+        })
+        .catch(error => console.error("Error al listar convenios:", error));
 }
 
 function listCanchasSelect() {
-
     fetch(base_url + "/convenios/getCanchas")
-        .then((data) => data.json())
+        .then((res) => res.json())
         .then((data) => {
-            console.log(data);
+            let selectElem = document.getElementById("idCanchasDisponibles");
+            selectElem.innerHTML = '';
             data.data.forEach((cancha) => {
-                document.getElementById("idCanchasDisponibles").innerHTML +=
-                    `<option value=${cancha.idcanchas}>${cancha.nombre}</option>`
+                selectElem.innerHTML += `<option value="${cancha.idcanchas}">${cancha.nombre}</option>`;
             });
-        });
+        })
+        .catch(error => console.error("Error al listar canchas:", error));
 }
 
 btnCrearConvenio.addEventListener("click", () => {
-
+    frmCrearConvenio.reset();
+    idConvenioInput.value = '';
+    select = '';
+    document.getElementById("exampleModalLabel").innerHTML = "Crear Convenio";
     $("#crearConvenioModal").modal("show");
 });
 
-frmCrearConvenio.addEventListener("submit", (e) => {
-    e.preventDefault();
-    frmData = new FormData(frmCrearConvenio);
-    console.log(frmData);
-
-    fetch(base_url + "/convenios/createConvenio", {
-        method: "POST",
-        body: frmData,
-    })
-        .then((res) => res.json())
-        .then((data) => {
-            console.log(data);
-            Swal.fire({
-                title: data.status ? "Correcto" : "Error",
-                text: data.msg,
-                icon: data.status ? "success" : "error",
-            }).then(() => {
-                // Solo después de que el usuario haya cerrado el SweetAlert
-                if (data.status) {
-                    frmCrearConvenio.reset();
-                    $("#crearConvenioModal").modal("hide");
-                }
-
-                window.location.reload();
-            });
-        });
-});
-
-
-
 document.addEventListener("click", (e) => {
     try {
-        let selected = e.target.closest("button").getAttribute("data-action-type");
-        let idConvenio = e.target.closest("button").getAttribute("rel");
+        let button = e.target.closest("button");
+        if (!button) return;
 
-        if (selected == "delete") {
+        let selected = button.getAttribute("data-action-type");
+        let idConvenio = button.getAttribute("rel");
+
+        if (selected === "delete") {
             Swal.fire({
                 title: "Eliminar el convenio",
                 text: "¿Está seguro de eliminar el convenio?",
@@ -97,15 +77,14 @@ document.addEventListener("click", (e) => {
                 showDenyButton: true,
                 confirmButtonText: "Sí",
                 denyButtonText: `Cancelar`,
-
             }).then((result) => {
                 if (result.isConfirmed) {
-                    let formData = new FormData();
-                    formData.append("idConvenio", idConvenio);
-                    console.log(idConvenio);
                     fetch(base_url + "/convenios/deleteConvenio/", {
-                        method: "POST",
-                        body: formData,
+                        method: "DELETE",
+                        body: JSON.stringify({ idConvenio }),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
                     })
                         .then((res) => res.json())
                         .then((data) => {
@@ -115,49 +94,85 @@ document.addEventListener("click", (e) => {
                                 icon: data.status ? "success" : "error",
                             }).then(() => {
                                 if (data.status) {
-                                    window.location.reload();  // Recargar la página
+                                    listConvenios();
                                 }
-                            })
+                            });
                         });
                 }
             });
-
         }
 
-        if (selected == "update") {
-            accion = "update";
-            $("#crearAprendizModal").modal("show");
-            document.getElementById("crearAprendizModalLabel").innerHTML =
-                "Actualizar Aprendiz";
+        if (selected === "update") {
+            select = 'update';
+            idConvenioInput.value = idConvenio; // Guardar el ID en el input hidden
+            $("#crearConvenioModal").modal("show");
+            document.getElementById("exampleModalLabel").innerHTML = "Actualizar Convenio";
 
-            fetch(aprendicesUrl + `getAprendizByID/` + idAprendiz, {
+            fetch(base_url + `/convenios/getConvenio/` + idConvenio, {
                 method: "GET",
             })
                 .then((res) => res.json())
-                .then((res) => {
-                    aprendiz = res.data[0];
-                    console.log(aprendiz);
-
-                    document.querySelector("#numeroDocumentoAprendiz").value =
-                        aprendiz.numdoc;
-                    document.querySelector("#nombreAprendiz").value =
-                        aprendiz.nombre_aprendiz;
-                    document.querySelector("#apellidoAprendiz").value =
-                        aprendiz.apellido_aprendiz;
-                    document.querySelector("#generoAprendiz").value =
-                        aprendiz.generos_idgenero;
-                    document.querySelector("#codigoAprendiz").value =
-                        aprendiz.codigo_aprendiz;
-                    container2.style.display = "none";
-                    /*  document.querySelector(
-                      "#generoAprendiz"
-                    ).innerHTML = `<option selected hidden value="${aprendiz.generos_idgenero}">${aprendiz.generos_idgenero}</option>
-                    <option value="Masculino">Masculino</option>
-                    <option value="Femenino">Femenino</option>
-                    <option value="Otros">Otros..</option>`; */
-                });
+                .then((data) => {
+                    if (data.data.length > 0) {
+                        const convenio = data.data[0];
+                        txtNombre.value = convenio.nombre;
+                        txtDescripcion.value = convenio.descripcion;
+                        txtFechaInicio.value = convenio.fechaInicio;
+                        txtFechaFin.value = convenio.fechaFin;
+                        Descuento.value = convenio.descuento;
+                    }
+                })
+                .catch((error) => console.error("Error al obtener datos del convenio:", error));
         }
 
-    } catch { }
+    } catch (error) {
+        console.error("Error al manejar el clic:", error);
+    }
 });
 
+frmCrearConvenio.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    let frmData = new FormData(frmCrearConvenio);
+    if (select === 'update') {
+        frmData.append('idConvenio', idConvenioInput.value); // Usar el input hidden con el ID
+
+        fetch(base_url + "/convenios/updateConvenio", {
+            method: "POST",
+            body: frmData,
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                Swal.fire({
+                    title: data.status ? "Correcto" : "Error",
+                    text: data.msg,
+                    icon: data.status ? "success" : "error",
+                }).then(() => {
+                    if (data.status) {
+                        frmCrearConvenio.reset();
+                        $("#crearConvenioModal").modal("hide");
+                        listConvenios();
+                    }
+                });
+            });
+    } else {
+        fetch(base_url + "/convenios/createConvenio", {
+            method: "POST",
+            body: frmData,
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                Swal.fire({
+                    title: data.status ? "Correcto" : "Error",
+                    text: data.msg,
+                    icon: data.status ? "success" : "error",
+                }).then(() => {
+                    if (data.status) {
+                        frmCrearConvenio.reset();
+                        $("#crearConvenioModal").modal("hide");
+                        listConvenios();
+                    }
+                });
+            });
+    }
+});
