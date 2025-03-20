@@ -39,7 +39,7 @@ class Canchas extends Controllers
                 }
             }
             if ($arrData[$i]['tipo'] == 'Volley') {
-                $arrData[$i]['rutaImagen'] = 'Assets/images/valley/volley-players.jpg';
+                $arrData[$i]['rutaImagen'] = 'Assets/images/volley/volley-players.jpg';
             }
         }
         echo json_encode($arrData);
@@ -63,15 +63,13 @@ class Canchas extends Controllers
         die();
     }
     public function create()
-    {
-
+    {;
         $arrPosts = [
             'txtName',
             'txtType',
             'txtCapacitance',
             'txtPrice',
         ];
-
         if (check_post($arrPosts)) {
 
             $name = strClean($_POST['txtName']);
