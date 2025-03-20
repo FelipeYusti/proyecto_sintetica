@@ -31,7 +31,7 @@ function listConvenios() {
                       <td>${convenio.descuento}</td>
                       <td>${convenio.cancha_nombre}</td>
                       <td>
-                          <button data-action-type="update" rel="${convenio.idconvenios}" class="btn btn-warning">Editar</button>
+                          <button data-action-type="update" rel="${convenio.idconvenios}" class="btn btn-success">Editar</button>
                           <button data-action-type="delete" rel="${convenio.idconvenios}" class="btn btn-danger">Eliminar</button>
                       </td>
                   </tr>`;
