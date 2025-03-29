@@ -46,6 +46,7 @@ class Convenios extends Controllers
         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         die();
     }
+
     public function getCanchas()
     {
 
@@ -154,5 +155,4 @@ class Convenios extends Controllers
         }
         die();
     }
-
 }
