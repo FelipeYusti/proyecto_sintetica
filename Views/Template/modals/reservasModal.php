@@ -7,19 +7,22 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="frmCrearCancha" method="POST">
-                    <input type="hidden" name="idReserva" id="idReserva" value="0">
-                    <div class="row">
-                        <label for="txtName" class="form-label"><b>Nombre de el reservante</b> </label>
-                        <input type="text" class="form-control" id="nombreReserva" name="nombreReserva" required>
+                <form id="frmCrearReserva" method="POST">
+                    <div id="userStatusZone" class="mb-3">
+                        <input type="hidden" name="idReserva" id="idReserva" value="0">
+                        <div class="row">
+                            <label for="txtName" class="form-label"><b>Nombre de el reservante</b> </label>
+                            <input type="text" class="form-control" id="nombreReserva" name="nombreReserva" required>
+                        </div>
                     </div>
-
                     <div class="row">
-                        <label for="txtType" class="form-label"><b>Convenio(Si aplica)</b></label>
-                        <select class="form-control" name="idConvenio" id="idConvenio" required>
-                            <option selected="" value="" disabled>No aplica</option>
-                            <div class="selectConvenio" name="nombreReserva" id="nombreReserva"></div>
-                        </select>
+                        <div id="userStatusZone" class="mb-3">
+                            <label for="txtType" class="form-label"><b>Convenio(Si aplica)</b></label>
+                            <select class="form-control" name="idConvenio" id="idConvenio" required>
+                                <option selected="" value="" disabled>No aplica</option>
+                                <div class="selectConvenio" name="selectConvenio" id="selectConvenio"></div>
+                            </select>
+                        </div>
                     </div>
                     <div class="row">
                         <div id="userStatusZone" class="mb-3">

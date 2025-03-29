@@ -47,6 +47,35 @@ class Reservas extends Controllers
         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         die();
     }
+    public function getConvenios()
+    {
+
+        $arrData = $this->model->getConvenios();
+
+        if (empty($arrData)) {
+            $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados');
+        } else {
+            $arrResponse = array('status' => true, 'data' => $arrData);
+        }
+
+        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function getUsuarios()
+    {
+
+        $arrData = $this->model->getUsuarios();
+
+        if (empty($arrData)) {
+            $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados');
+        } else {
+            $arrResponse = array('status' => true, 'data' => $arrData);
+        }
+
+        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        die();
+    }
 
     public function createReserva()
     {

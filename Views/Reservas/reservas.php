@@ -309,7 +309,7 @@ header_admin($data);
                         </li>
                     </div>
                 </div>
-                <div class="row" id="tablaConvenios">
+                <div class="row" id="tablaReserva">
                 </div>
 
             </div>
