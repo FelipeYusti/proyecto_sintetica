@@ -68,8 +68,9 @@ document.addEventListener("click", (e) => {
 
         let selected = button.getAttribute("data-action-type");
         let idConvenio = button.getAttribute("rel");
-
         if (selected === "delete") {
+            console.log("ID que se envía:", idConvenio); // Verifica si el ID se obtiene bien
+
             Swal.fire({
                 title: "Eliminar el convenio",
                 text: "¿Está seguro de eliminar el convenio?",
@@ -79,12 +80,10 @@ document.addEventListener("click", (e) => {
                 denyButtonText: `Cancelar`,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch(base_url + "/convenios/deleteConvenio/", {
-                        method: "DELETE",
-                        body: JSON.stringify({ idConvenio }),
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
+                    fetch(base_url + "/convenios/deleteConvenio", {
+                        method: "POST", // Enviar como POST
+                        body: JSON.stringify({ idConvenio }), // Enviar el ID como JSON
+                        headers: { "Content-Type": "application/json" }
                     })
                         .then((res) => res.json())
                         .then((data) => {
@@ -97,10 +96,12 @@ document.addEventListener("click", (e) => {
                                     listConvenios();
                                 }
                             });
-                        });
+                        })
+                        .catch(error => console.error("Error en la eliminación:", error));
                 }
             });
         }
+
 
         if (selected === "update") {
             select = 'update';

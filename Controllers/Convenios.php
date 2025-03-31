@@ -141,18 +141,26 @@ class Convenios extends Controllers
 
     public function deleteConvenio()
     {
-        if ($_POST) {
-            $idConvenio = intval($_POST['idConvenio']);
+        $json = file_get_contents("php://input");
+        $data = json_decode($json, true);
+
+        if (isset($data["idConvenio"])) {
+            $idConvenio = intval($data["idConvenio"]);
 
             $requestDelete = $this->model->deleteConvenio($idConvenio);
 
-            if ($requestDelete == 'empty') {
-                $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el convenio.');
+            if ($requestDelete == "empty") {
+                $arrResponse = array("status" => true, "msg" => "Se ha eliminado el convenio.");
+            } else {
+                $arrResponse = array("status" => false, "msg" => "Error al eliminar.");
             }
+
             echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         } else {
-            print_r($_POST);
+            echo json_encode(["status" => false, "msg" => "ID no recibido"]);
         }
+
         die();
     }
+
 }

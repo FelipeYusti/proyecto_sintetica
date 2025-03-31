@@ -87,6 +87,7 @@ document.addEventListener("click", (e) => {
     let idReserva = button.getAttribute("rel");
 
     if (selected === "delete") {
+      console.log(idReserva);
       Swal.fire({
         title: "Eliminar la reserva",
         text: "¿Está seguro de eliminar la reserva?",
@@ -97,7 +98,7 @@ document.addEventListener("click", (e) => {
       }).then((result) => {
         if (result.isConfirmed) {
           fetch(base_url + "/reservas/deleteReserva/", {
-            method: "DELETE",
+            method: "POST",
             body: JSON.stringify({ idReserva }),
             headers: {
               "Content-Type": "application/json",

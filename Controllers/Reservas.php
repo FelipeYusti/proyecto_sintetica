@@ -146,7 +146,7 @@ class Reservas extends Controllers
         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
     }
 
-    public function deleteReserva()
+    public function deleteReserva1()
     {
         if ($_POST) {
             $idConvenio = intval($_POST['idReserva']);
@@ -160,6 +160,30 @@ class Reservas extends Controllers
         } else {
             print_r($_POST);
         }
+        die();
+    }
+
+    public function deleteReserva()
+    {
+        $json = file_get_contents("php://input");
+        $data = json_decode($json, true);
+
+        if (isset($data["idReserva"])) {
+            $idReserva = intval($data["idReserva"]);
+
+            $requestDelete = $this->model->deleteReserva($idReserva);
+
+            if ($requestDelete == "empty") {
+                $arrResponse = array("status" => true, "msg" => "Se ha eliminado la reserva.");
+            } else {
+                $arrResponse = array("status" => false, "msg" => "Error al eliminar.");
+            }
+
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode(["status" => false, "msg" => "ID no recibido"]);
+        }
+
         die();
     }
 }

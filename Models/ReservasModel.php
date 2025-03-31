@@ -19,7 +19,8 @@ class ReservasModel extends Mysql
         JOIN reservas ON reservas.idreservas=reservas_has_canchas.reservas_idreservas 
         JOIN canchas ON canchas.idcanchas=reservas_has_canchas.canchas_idcanchas
         JOIN convenios ON convenios.idconvenios=reservas.convenios_idconvenios
-        JOIN users ON users.idusers=reservas.users_idusers";
+        JOIN users ON users.idusers=reservas.users_idusers 
+        WHERE reservas.status>0";
         $request = $this->select_all($sql);
         return $request;
     }
@@ -102,7 +103,7 @@ class ReservasModel extends Mysql
         $estado = 0;
 
         $sql = "UPDATE reservas SET status = ? WHERE idreservas = ?";
-        $arrData = array(0, $this->idConvenio);
+        $arrData = array(0, $this->idReserva);
         $request = $this->update($sql, $arrData);
         return $request;
     }
