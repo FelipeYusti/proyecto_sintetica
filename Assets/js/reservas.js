@@ -1,20 +1,19 @@
-const frmCrearReserva = document.querySelector('#frmCrearReserva');
-const btnCrearReserva = document.querySelector('#btnCrearReserva');
-let idReservaInput = document.querySelector('#idReserva')
+const frmCrearReserva = document.querySelector("#frmCrearReserva");
+const btnCrearReserva = document.querySelector("#btnCrearReserva");
+let idReservaInput = document.querySelector("#idReserva");
+let nombreReserva = document.querySelector("#nombreReserva");
+let idConvenio = document.querySelector("#idConvenio");
+let idUsuario = document.querySelector("#idUsuario");
 
-let select = '';
-
+let select = "";
 
 btnCrearReserva.addEventListener("click", () => {
   frmCrearReserva.reset();
-  idReservaInput.value = '';
-  select = '';
+  idReservaInput.value = "";
+  select = "";
   document.getElementById("exampleModalLabel").innerHTML = "Crear Reserva";
   $("#crearReservaModal").modal("show");
 });
-
-
-
 
 window.addEventListener("DOMContentLoaded", () => {
   listUsuariosSelect();
@@ -54,18 +53,18 @@ function listReserva() {
   fetch(base_url + "/reservas/showTabla")
     .then((res) => res.json())
     .then((data) => {
-      let tabla = document.getElementById("tablaReserva");
-      tabla.innerHTML = '';
+      let tabla = document.getElementById("tablaReservas");
+      tabla.innerHTML = "";
       data.forEach((reserva) => {
         tabla.innerHTML += `
                 <tr>
                     <td>${reserva.idreservas}</td>
-                    <td>${reserva.nombre}</td>
-                    <td>${reserva.descripcion}</td>
-                    <td>${reserva.fechaInicio}</td>
-                    <td>${reserva.fechaFin}</td>
-                    <td>${reserva.descuento}</td>
-                    <td>${reserva.cancha_nombre}</td>
+                    <td>${reserva.nombreReserva}</td>
+                    <td>${reserva.fechaReserva}</td>
+                    <td>${reserva.nombreCancha}</td>
+                    <td>${reserva.tipoCancha}</td>
+                    <td>${reserva.capacidadCancha}</td>
+                    <td>${reserva.valorCancha}</td>
                     <td>
                         <button data-action-type="update" rel="${reserva.idreservas}" class="btn btn-success">Editar</button>
                         <button data-action-type="delete" rel="${reserva.idreservas}" class="btn btn-danger">Eliminar</button>
@@ -73,7 +72,7 @@ function listReserva() {
                 </tr>`;
       });
     })
-    .catch(error => console.error("Error al listar reservas:", error));
+    .catch((error) => console.error("Error al listar reservas:", error));
 }
 
 listReserva();
@@ -101,8 +100,8 @@ document.addEventListener("click", (e) => {
             method: "DELETE",
             body: JSON.stringify({ idReserva }),
             headers: {
-              "Content-Type": "application/json"
-            }
+              "Content-Type": "application/json",
+            },
           })
             .then((res) => res.json())
             .then((data) => {
@@ -121,29 +120,82 @@ document.addEventListener("click", (e) => {
     }
 
     if (selected === "update") {
-      select = 'update';
-      idReservaInput.value = idConvenio; // Guardar el ID en el input hidden
-      $("#crearConvenioModal").modal("show");
-      document.getElementById("exampleModalLabel").innerHTML = "Actualizar Convenio";
+      select = "update";
+      idReservaInput.value = idReserva; // Guardar el ID en el input hidden
+      $("#crearReservaModal").modal("show");
+      document.getElementById("exampleModalLabel").innerHTML =
+        "Actualizar reserva";
 
-      fetch(base_url + `/convenios/getConvenio/` + idConvenio, {
+      fetch(base_url + `/reservas/getReserva/` + idReserva, {
         method: "GET",
       })
         .then((res) => res.json())
         .then((data) => {
           if (data.data.length > 0) {
-            const convenio = data.data[0];
-            txtNombre.value = convenio.nombre;
-            txtDescripcion.value = convenio.descripcion;
-            txtFechaInicio.value = convenio.fechaInicio;
-            txtFechaFin.value = convenio.fechaFin;
-            Descuento.value = convenio.descuento;
+            const reserva = data.data[0];
+            idReservaInput.value = reserva.idreservas;
+            nombreReserva.value = reserva.nombreReserva;
+            idConvenio.value = reserva.nombreConvenios;
+            idUsuario.value = reserva.username;
           }
         })
-        .catch((error) => console.error("Error al obtener datos del convenio:", error));
+        .catch((error) =>
+          console.error("Error al obtener datos del convenio:", error)
+        );
     }
-
   } catch (error) {
     console.error("Error al manejar el clic:", error);
+  }
+});
+
+frmCrearReserva.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  let frmData = new FormData(frmCrearReserva);
+
+  frmData.forEach((value, key) => {
+    console.log(key, value);
+  });
+
+  if (select === "update") {
+    frmData.append("idReserva", idReservaInput.value); // Usar el input hidden con el ID
+
+    fetch(base_url + "/reservas/updateReserva", {
+      method: "POST",
+      body: frmData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        Swal.fire({
+          title: data.status ? "Correcto" : "Error",
+          text: data.msg,
+          icon: data.status ? "success" : "error",
+        }).then(() => {
+          if (data.status) {
+            frmCrearConvenio.reset();
+            $("#crearReservaModal").modal("hide");
+            listReserva();
+          }
+        });
+      });
+  } else {
+    fetch(base_url + "/reservas/createReserva", {
+      method: "POST",
+      body: frmData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        Swal.fire({
+          title: data.status ? "Correcto" : "Error",
+          text: data.msg,
+          icon: data.status ? "success" : "error",
+        }).then(() => {
+          if (data.status) {
+            frmCrearReserva.reset();
+            $("#crearReservaModal").modal("hide");
+            listReserva();
+          }
+        });
+      });
   }
 });

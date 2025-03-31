@@ -85,11 +85,11 @@ class Reservas extends Controllers
         $idUsuario = strClean($_POST['idUsuario']);
 
 
-        $arrPost = ['idReserva', 'nombreReserva', 'idConvenio', 'idUsuario'];
+        $arrPost = ['nombreReserva', 'idConvenio', 'idUsuario'];
 
         if (check_post($arrPost)) {
             if ($idReserva == 0 || $idReserva == "") {
-                $requestModel = $this->model->addReserva($idReserva, $nombreReserva, $idConvenio, $idUsuario);
+                $requestModel = $this->model->addReserva($nombre, $idConvenio, $idUsuario);
                 $option = 1;
             }
             if ($requestModel > 0) {

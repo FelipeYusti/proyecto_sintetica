@@ -309,9 +309,25 @@ header_admin($data);
                         </li>
                     </div>
                 </div>
-                <div class="row" id="tablaReserva">
-                </div>
+                <div class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Nombre</th>
+                                <th>Fecha</th>
+                                <th>Cancha</th>
+                                <th>Tipo de cancha</th>
+                                <th>Capacidad</th>
+                                <th>Valor</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaReservas">
+                        </tbody>
+                    </table>
 
+                </div>
             </div>
         </div>
     </div>

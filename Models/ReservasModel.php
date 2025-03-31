@@ -9,9 +9,17 @@ class ReservasModel extends Mysql
 
     public function getAll()
     {
-        $sql = "SELECT reservas.nombre,reservas_has_canchas.fecha,canchas.nombre,canchas.tipo,canchas.capacidad,canchas.valor from reservas_has_canchas 
+        $sql = "SELECT reservas.idreservas,reservas.nombre 
+        as nombreReserva,reservas_has_canchas.fecha as 
+        fechaReserva,canchas.nombre as nombreCancha,canchas.tipo as 
+        tipoCancha,canchas.capacidad as capacidadCancha,canchas.valor as 
+        valorCancha,reservas.convenios_idconvenios,reservas.users_idusers,
+        convenios.nombre as nombreConvenios, users.username
+        from reservas_has_canchas 
         JOIN reservas ON reservas.idreservas=reservas_has_canchas.reservas_idreservas 
-        JOIN canchas ON canchas.idcanchas=reservas_has_canchas.canchas_idcanchas";
+        JOIN canchas ON canchas.idcanchas=reservas_has_canchas.canchas_idcanchas
+        JOIN convenios ON convenios.idconvenios=reservas.convenios_idconvenios
+        JOIN users ON users.idusers=reservas.users_idusers";
         $request = $this->select_all($sql);
         return $request;
     }
@@ -35,17 +43,24 @@ class ReservasModel extends Mysql
     {
         $this->idReserva = $idReserva;
 
-        $sql = "SELECT reservas.nombre,reservas_has_canchas.fecha,canchas.nombre,canchas.tipo,canchas.capacidad,canchas.valor 
+        $sql = "SELECT reservas.idreservas,reservas.nombre 
+        as nombreReserva,reservas_has_canchas.fecha as 
+        fechaReserva,canchas.nombre as nombreCancha,canchas.tipo as 
+        tipoCancha,canchas.capacidad as capacidadCancha,canchas.valor as 
+        valorCancha,reservas.convenios_idconvenios,reservas.users_idusers,
+        convenios.nombre as nombreConvenios, users.username
         from reservas_has_canchas 
         JOIN reservas ON reservas.idreservas=reservas_has_canchas.reservas_idreservas 
         JOIN canchas ON canchas.idcanchas=reservas_has_canchas.canchas_idcanchas
+        JOIN convenios ON convenios.idconvenios=reservas.convenios_idconvenios
+        JOIN users ON users.idusers=reservas.users_idusers
         WHERE reservas.status > 0 AND reservas.idreservas = '{$this->idReserva}'";
 
         $request = $this->select_all($sql);
         return $request;
     }
 
-    public function addReserva(string $nombreReserva, int $idConvenio, string $idUser)
+    public function addReserva(string $nombreReserva, int $idConvenio, int $idUser)
     {
         $this->nombreReserva = $nombreReserva;
         $this->idConvenio = $idConvenio;
