@@ -20,6 +20,15 @@ class Reservas extends Controllers
         $this->views->getView($this, "reservas", $data);
     }
 
+    public function formularioReservas()
+    {
+
+        $data['page_title'] = "Página de reservas";
+        $data['page_name'] = "crearReservas";
+        $data['script'] = "crearReservas";
+        $this->views->getView($this, "crearReserva", $data);
+    }
+
     public function showTabla()
     {
         $arrData = $this->model->getAll();
@@ -28,6 +37,13 @@ class Reservas extends Controllers
         die();
     }
 
+    public function crearReserva()
+    {
+        $arrData = $this->model->getAll();
+
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        die();
+    }
     public function getReserva($idReserva)
     {
 
@@ -47,6 +63,10 @@ class Reservas extends Controllers
         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         die();
     }
+
+
+
+
     public function getConvenios()
     {
 

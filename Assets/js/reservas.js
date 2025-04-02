@@ -4,15 +4,23 @@ let idReservaInput = document.querySelector("#idReserva");
 let nombreReserva = document.querySelector("#nombreReserva");
 let idConvenio = document.querySelector("#idConvenio");
 let idUsuario = document.querySelector("#idUsuario");
+let container2 = document.querySelector("#container2");
+let container1 = document.querySelector("#container1");
+let foother = document.querySelector("#footer");
+let btnFormularioProducto = document.querySelector("#btnFormularioProducto");
+let formularioProducto = document.querySelector("#formularioProducto");
 
 let select = "";
 
 btnCrearReserva.addEventListener("click", () => {
   frmCrearReserva.reset();
+  document.getElementById("selectConvenio").selectedIndex = 0;
+  document.getElementById("selectUsuario").selectedIndex = 0;
+  container1.style.display = "none";
+  foother.style.display = "none";
+  container2.style.display = "block";
   idReservaInput.value = "";
   select = "";
-  document.getElementById("exampleModalLabel").innerHTML = "Crear Reserva";
-  $("#crearReservaModal").modal("show");
 });
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -45,7 +53,7 @@ function listUsuariosSelect() {
         selectElem.innerHTML += `<option value="${user.idusers}">${user.username}</option>`;
       });
     })
-    .catch((error) => console.error("Error al listar convenios:", error));
+    .catch((error) => console.error("Error al listar usuarios:", error));
 }
 //====================================Listar las reservas en la tabla=============================================
 
@@ -198,5 +206,42 @@ frmCrearReserva.addEventListener("submit", (e) => {
           }
         });
       });
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const btnFormularioProducto = document.querySelector(
+    "#btnFormularioProducto"
+  );
+
+  if (btnFormularioProducto) {
+    btnFormularioProducto.addEventListener("click", () => {
+      const formularioProducto = document.querySelector("#formularioProducto");
+
+      if (formularioProducto) {
+        formularioProducto.innerHTML += `
+         <div class="row">
+                                <div style="margin: 50px; border: 1px solid #ccc; padding: 50px; border-radius: 50px; box-shadow: 0 0 10px rgba(0,0,0,0.1); " class="mb-3">
+                                    <input type="hidden" name="idReserva" id="idReserva" value="0">
+                                    <div class="row">
+                                        <label for="txtName" class="form-label"><b>Día de la reserva</b> </label>
+                                        <input type="date" class="form-control" id="diaReserva" name="diaReserva" require>
+                                    </div>
+                                    <div class="row">
+                                        <label for="txtName" class="form-label"><b>Hora de la reserva</b> </label>
+                                        <input type="time" class="form-control" id="horaReserva" name="horaReserva" require>
+                                    </div>
+                                    <div class="row">
+                                        <label for="txtName" class="form-label"><b>Horas reservadas</b> </label>
+                                        <input type="number" class="form-control" id="horasReservadas" name="horasReservadas" require>
+                                    </div>
+                                </div>
+                            </div>`;
+      } else {
+        console.error("El elemento con id 'formularioProducto' no existe.");
+      }
+    });
+  } else {
+    console.error("El botón 'btnFormularioProducto' no existe.");
   }
 });
