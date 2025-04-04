@@ -76,6 +76,23 @@ class ReservasModel extends Mysql
         return $this->insert($sql, $arrData);
     }
 
+    public function addReservaPivote(int $idReserva, int $idCancha, string $fecha, string $horaReserva, int $horasReservadas)
+    {
+        $this->idReserva = $idReserva;
+        $this->idCancha = $idCancha;
+        $this->fecha = $fecha;
+        $this->horaReserva = $horaReserva;
+        $this->horasReservadas = $horasReservadas;
+
+        $sql = "INSERT INTO reservas_has_canchas (reservas_has_canchas.reservas_idreservas,reservas_has_canchas.canchas_idcanchas,reservas_has_canchas.fecha,reservas_has_canchas.horaReserva,reservas_has_canchas.horasReservadas)
+         VALUES(?,?,?,?,?)";
+
+        $arrData = array($this->idReserva, $this->idCancha, $this->fecha, $this->horaReserva, $this->horasReservadas);
+
+        return $this->insert($sql, $arrData);
+    }
+
+
     public function updateReserva(int $idReserva, string $nombreReserva, int $idConvenio, string $idUser)
     {
         $this->idReserva = $idReserva;

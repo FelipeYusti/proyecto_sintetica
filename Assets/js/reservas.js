@@ -12,6 +12,8 @@ let formularioProducto = document.querySelector("#formularioProducto");
 
 let select = "";
 
+let contadorClicks = 1;
+
 btnCrearReserva.addEventListener("click", () => {
   frmCrearReserva.reset();
   document.getElementById("selectConvenio").selectedIndex = 0;
@@ -166,6 +168,7 @@ frmCrearReserva.addEventListener("submit", (e) => {
     console.log(key, value);
   });
 
+  // ========================================================================COMENTAREADO POR PRUEBAAAAAAAA MK========================
   if (select === "update") {
     frmData.append("idReserva", idReservaInput.value); // Usar el input hidden con el ID
 
@@ -188,6 +191,7 @@ frmCrearReserva.addEventListener("submit", (e) => {
         });
       });
   } else {
+
     fetch(base_url + "/reservas/createReserva", {
       method: "POST",
       body: frmData,
@@ -213,6 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnFormularioProducto = document.querySelector(
     "#btnFormularioProducto"
   );
+  contadorClicks++;
 
   if (btnFormularioProducto) {
     btnFormularioProducto.addEventListener("click", () => {
@@ -220,20 +225,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (formularioProducto) {
         formularioProducto.innerHTML += `
-         <div class="row">
+                          <div class="row" id="idRow${contadorClicks}">
                                 <div style="margin: 50px; border: 1px solid #ccc; padding: 50px; border-radius: 50px; box-shadow: 0 0 10px rgba(0,0,0,0.1); " class="mb-3">
-                                    <input type="hidden" name="idReserva" id="idReserva" value="0">
+                                    <input type="hidden" name="idReserva${contadorClicks}" id="idReserva${contadorClicks}" value="8">
                                     <div class="row">
                                         <label for="txtName" class="form-label"><b>Día de la reserva</b> </label>
-                                        <input type="date" class="form-control" id="diaReserva" name="diaReserva" require>
+                                        <input type="date" class="form-control" id="diaReserva${contadorClicks}" name="diaReserva${contadorClicks}" require>
                                     </div>
                                     <div class="row">
                                         <label for="txtName" class="form-label"><b>Hora de la reserva</b> </label>
-                                        <input type="time" class="form-control" id="horaReserva" name="horaReserva" require>
+                                        <input type="time" class="form-control" id="horaReserva${contadorClicks}" name="horaReserva${contadorClicks}" require>
                                     </div>
                                     <div class="row">
                                         <label for="txtName" class="form-label"><b>Horas reservadas</b> </label>
-                                        <input type="number" class="form-control" id="horasReservadas" name="horasReservadas" require>
+                                        <input type="number" class="form-control" id="horasReservadas${contadorClicks}" name="horasReservadas${contadorClicks}" require>
                                     </div>
                                 </div>
                             </div>`;

@@ -303,7 +303,7 @@ header_admin($data);
                                 <div class="card-body">
                                     <div class="progress-widget">
                                         <button type="button" id="btnCrearReserva" class="btn btn-primary">
-                                            Registrar
+                                            Agregar reserva
                                         </button>
 
                                     </div>
@@ -338,67 +338,76 @@ header_admin($data);
     <div class="container2" id="container2" style="display:none">
         <div class="mt-n5 py-0">
             <div class="row">
-                <div class="col-4" style="margin: 80px;">
-
-                    <form id="frmCrearReserva" method="POST">
-                        <div class="row">
-                            <div id="userStatusZone" class="mb-3">
-                                <input type="hidden" name="idReserva" id="idReserva" value="0">
-                                <div class="row">
-                                    <label for="txtName" class="form-label"><b>Nombre de el reservante</b> </label>
-                                    <input type="text" class="form-control" id="nombreReserva" name="nombreReserva">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div id="userStatusZone" class="mb-3">
-                                <label for="txtType" class="form-label"><b>Convenio(Si aplica)</b></label>
-                                <select class="form-control" name="idConvenio" id="idConvenio">
-                                    <option selected="" value="" disabled>No aplica</option>
-                                    <div class="selectConvenio" name="selectConvenio" id="selectConvenio"></div>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div id="userStatusZone" class="mb-3">
-                                <label for="genero" class="form-label">Usuario</label>
-                                <select class="form-control" name="idUsuario" id="idUsuario">
-                                    <option selected="" value="" disabled>Seleccione el usuario</option>
-                                    <div class="selectUsuario" name="selectUsuario" id="selectUsuario"></div>
-                                </select>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Reservar</button>
-                    </form>
-
-                </div>
-                <div class="col-5" style="text-align: center;">
-                    <form id="frmCrearReserva" method="POST">
-                        <div class="formularioProducto" id="formularioProducto">
+                <form id="frmCrearReserva" method="POST">
+                    <div class="row">
+                        <div class="col-4" style="margin: 80px;">
                             <div class="row">
-                                <div style="margin: 50px; border: 1px solid #ccc; padding: 50px; border-radius: 50px; box-shadow: 0 0 10px rgba(0,0,0,0.1); " class="mb-3">
+                                <div id="userStatusZone" class="mb-3">
                                     <input type="hidden" name="idReserva" id="idReserva" value="0">
                                     <div class="row">
-                                        <label for="txtName" class="form-label"><b>Día de la reserva</b> </label>
-                                        <input type="date" class="form-control" id="diaReserva" name="diaReserva" require>
-                                    </div>
-                                    <div class="row">
-                                        <label for="txtName" class="form-label"><b>Hora de la reserva</b> </label>
-                                        <input type="time" class="form-control" id="horaReserva" name="horaReserva" require>
-                                    </div>
-                                    <div class="row">
-                                        <label for="txtName" class="form-label"><b>Horas reservadas</b> </label>
-                                        <input type="number" class="form-control" id="horasReservadas" name="horasReservadas" require>
+                                        <label for="txtName" class="form-label"><b>Nombre de el reservante</b> </label>
+                                        <input type="text" class="form-control" id="nombreReserva" name="nombreReserva">
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div id="userStatusZone" class="mb-3">
+                                    <label for="txtType" class="form-label"><b>Convenio (Si aplica)</b></label>
+                                    <select class="form-control" name="idConvenio" id="idConvenio">
+                                        <option selected="" value="" disabled>No aplica</option>
+                                        <div class="selectConvenio" name="selectConvenio" id="selectConvenio"></div>
+                                    </select>
+                                    <div class="selectConvenio" name="selectConvenio" id="selectConvenio"></div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div id="userStatusZone" class="mb-3">
+                                    <label for="genero" class="form-label">Usuario</label>
+                                    <select class="form-control" name="idUsuario" id="idUsuario">
+                                        <option selected="" value="" disabled>Seleccione el usuario</option>
+                                        <div class="selectUsuario" name="selectUsuario" id="selectUsuario"></div>
+                                    </select>
+                                    <div class="selectUsuario" name="selectUsuario" id="selectUsuario"></div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Reservar</button>
                         </div>
 
-                    </form>
-                    <button type="submit" id="btnFormularioProducto" class="btn btn-primary">Agregar otro producto</button>
-                </div>
+                        <div class="col-5" style="text-align: center;">
+                            <div class="formularioProducto" id="formularioProducto">
+                                <div class="row">
+                                    <div style="margin: 50px; border: 1px solid #ccc; padding: 50px; border-radius: 50px; box-shadow: 0 0 10px rgba(0,0,0,0.1);"
+                                        class="mb-3">
+                                        <input type="hidden" name="idReservaPivote1" id="idReservaPivote1" value="11">
+                                        <div class="row">
+                                            <label for="txtName" class="form-label"><b>Día de la reserva</b> </label>
+                                            <input type="date" class="form-control" id="diaReserva1" name="diaReserva1"
+                                                required>
+                                        </div>
+                                        <div class="row">
+                                            <label for="txtName" class="form-label"><b>Hora de la reserva</b> </label>
+                                            <input type="time" class="form-control" id="horaReserva1"
+                                                name="horaReserva1" required>
+                                        </div>
+                                        <div class="row">
+                                            <label for="txtName" class="form-label"><b>Horas reservadas</b> </label>
+                                            <input type="number" class="form-control" id="horasReservadas1"
+                                                name="horasReservadas1" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" id="btnFormularioProducto" class="btn btn-primary">Agregar otro
+                                producto</button>
+                        </div>
+                    </div>
+                </form>
+
+
 
             </div>
         </div>

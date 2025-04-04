@@ -20,15 +20,6 @@ class Reservas extends Controllers
         $this->views->getView($this, "reservas", $data);
     }
 
-    public function formularioReservas()
-    {
-
-        $data['page_title'] = "Página de reservas";
-        $data['page_name'] = "crearReservas";
-        $data['script'] = "crearReservas";
-        $this->views->getView($this, "crearReserva", $data);
-    }
-
     public function showTabla()
     {
         $arrData = $this->model->getAll();
@@ -37,13 +28,6 @@ class Reservas extends Controllers
         die();
     }
 
-    public function crearReserva()
-    {
-        $arrData = $this->model->getAll();
-
-        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
-        die();
-    }
     public function getReserva($idReserva)
     {
 
@@ -63,10 +47,6 @@ class Reservas extends Controllers
         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         die();
     }
-
-
-
-
     public function getConvenios()
     {
 
@@ -103,30 +83,41 @@ class Reservas extends Controllers
         $nombre = strClean($_POST['nombreReserva']);
         $idConvenio = strClean($_POST['idConvenio']);
         $idUsuario = strClean($_POST['idUsuario']);
-
+        $idReservaPivote = strClean($_POST['idReservaPivote1']);
+        $diaReserva1 = strClean($_POST['diaReserva1']);
+        $horaReserva1 = strClean($_POST['horaReserva1']);
+        $horasReservadas1 = strClean($_POST['horasReservadas1']);
 
         $arrPost = ['nombreReserva', 'idConvenio', 'idUsuario'];
 
         if (check_post($arrPost)) {
+            $option = 0;
             if ($idReserva == 0 || $idReserva == "") {
                 $requestModel = $this->model->addReserva($nombre, $idConvenio, $idUsuario);
-                $option = 1;
-            }
-            if ($requestModel > 0) {
-                if ($option === 1) {
-                    $arrRespuesta = array('status' => true, 'msg' => 'Reserva agregado correctamente.');
+
+                if ($requestModel > 0) {
+                    $this->model->addReservaPivote($idReservaPivote, 5, $diaReserva1, $horaReserva1, $horasReservadas1);
+                    $option = 1;
                 }
+            } else {
+                $requestModel = 'exists';
+            }
+
+            if ($requestModel > 0) {
+                $arrRespuesta = array('status' => true, 'msg' => ($option === 1) ? 'Reserva agregada correctamente.' : 'Reserva actualizada correctamente.');
             } elseif ($requestModel === 'exists') {
                 $arrRespuesta = array('status' => false, 'msg' => 'Esta reserva ya existe');
             } else {
-                $arrRespuesta = array('status' => true, 'msg' => 'Reserva actualizado correctamente.');
+                $arrRespuesta = array('status' => false, 'msg' => 'Error al procesar la reserva.');
             }
         } else {
             $arrRespuesta = array('status' => false, 'msg' => 'Debe ingresar todos los datos');
         }
+
         echo json_encode($arrRespuesta, JSON_UNESCAPED_UNICODE);
         die();
     }
+
 
     public function updateReserva()
     {
