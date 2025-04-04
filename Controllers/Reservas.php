@@ -77,32 +77,70 @@ class Reservas extends Controllers
         die();
     }
 
+    public function getCanchas()
+    {
+
+        $arrData = $this->model->getCanchas();
+
+        if (empty($arrData)) {
+            $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados');
+        } else {
+            $arrResponse = array('status' => true, 'data' => $arrData);
+        }
+
+        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        die();
+    }
     public function createReserva()
     {
         $idReserva = strClean($_POST['idReserva']);
         $nombre = strClean($_POST['nombreReserva']);
         $idConvenio = strClean($_POST['idConvenio']);
         $idUsuario = strClean($_POST['idUsuario']);
-        $idReservaPivote = strClean($_POST['idReservaPivote1']);
-        $diaReserva1 = strClean($_POST['diaReserva1']);
-        $horaReserva1 = strClean($_POST['horaReserva1']);
-        $horasReservadas1 = strClean($_POST['horasReservadas1']);
+    
+        $idMaximo =$this->model->getIdMaximo();
 
+        $reservasPivote = [];
+
+        // 5 es el maximo de inserciones 
+        for ($i = 1; $i <= 5; $i++) {
+            // Valida si la data llega
+            if (isset($_POST["diaReserva$i"], $_POST["horaReserva$i"], $_POST["horasReservadas$i"])) {
+                $reservasPivote[] = [
+                    'idReservaPivote' => strClean($_POST["idReservaPivote$i"]),
+                    'diaReserva' => strClean($_POST["diaReserva$i"]),
+                    'idCancha' =>strClean($_POST["idCancha$i"]),
+                    'horaReserva' => strClean($_POST["horaReserva$i"]),
+                    'horasReservadas' => strClean($_POST["horasReservadas$i"])
+                ];
+            }
+        }
+    
         $arrPost = ['nombreReserva', 'idConvenio', 'idUsuario'];
-
+    
         if (check_post($arrPost)) {
             $option = 0;
+    
             if ($idReserva == 0 || $idReserva == "") {
                 $requestModel = $this->model->addReserva($nombre, $idConvenio, $idUsuario);
-
+    
                 if ($requestModel > 0) {
-                    $this->model->addReservaPivote($idReservaPivote, 5, $diaReserva1, $horaReserva1, $horasReservadas1);
+                    // Insercion
+                    foreach ($reservasPivote as $reserva) {
+                        $this->model->addReservaPivote(
+                            $reserva['idReservaPivote'],
+                            $reserva['idCancha'], 
+                            $reserva['diaReserva'],
+                            $reserva['horaReserva'],
+                            $reserva['horasReservadas']
+                        );
+                    }
                     $option = 1;
                 }
             } else {
                 $requestModel = 'exists';
             }
-
+    
             if ($requestModel > 0) {
                 $arrRespuesta = array('status' => true, 'msg' => ($option === 1) ? 'Reserva agregada correctamente.' : 'Reserva actualizada correctamente.');
             } elseif ($requestModel === 'exists') {
@@ -113,11 +151,11 @@ class Reservas extends Controllers
         } else {
             $arrRespuesta = array('status' => false, 'msg' => 'Debe ingresar todos los datos');
         }
-
+    
         echo json_encode($arrRespuesta, JSON_UNESCAPED_UNICODE);
         die();
     }
-
+    
 
     public function updateReserva()
     {

@@ -358,7 +358,7 @@ header_admin($data);
                                         <option selected="" value="" disabled>No aplica</option>
                                         <div class="selectConvenio" name="selectConvenio" id="selectConvenio"></div>
                                     </select>
-                                    <div class="selectConvenio" name="selectConvenio" id="selectConvenio"></div>
+                                   
                                 </div>
                             </div>
 
@@ -369,7 +369,7 @@ header_admin($data);
                                         <option selected="" value="" disabled>Seleccione el usuario</option>
                                         <div class="selectUsuario" name="selectUsuario" id="selectUsuario"></div>
                                     </select>
-                                    <div class="selectUsuario" name="selectUsuario" id="selectUsuario"></div>
+                                    
                                 </div>
                             </div>
 
@@ -378,14 +378,21 @@ header_admin($data);
 
                         <div class="col-5" style="text-align: center;">
                             <div class="formularioProducto" id="formularioProducto">
-                                <div class="row">
+                                <div class="row" id="idRow1">
                                     <div style="margin: 50px; border: 1px solid #ccc; padding: 50px; border-radius: 50px; box-shadow: 0 0 10px rgba(0,0,0,0.1);"
                                         class="mb-3">
-                                        <input type="hidden" name="idReservaPivote1" id="idReservaPivote1" value="11">
+                                        <input type="hidden" name="idReservaPivote1" id="idReservaPivote1" value="40">
+            
                                         <div class="row">
                                             <label for="txtName" class="form-label"><b>Día de la reserva</b> </label>
                                             <input type="date" class="form-control" id="diaReserva1" name="diaReserva1"
                                                 required>
+                                        </div>
+                                        <div class="row">           
+                                          <label for="genero" class="form-label"><b>Cancha</b></label>
+                                          <select class="form-control" name="idCancha1" id="idCancha1">
+                                            <option selected="" value="" disabled>Seleccione la cancha</option>
+                                          </select>
                                         </div>
                                         <div class="row">
                                             <label for="txtName" class="form-label"><b>Hora de la reserva</b> </label>
@@ -399,6 +406,7 @@ header_admin($data);
                                         </div>
                                     </div>
                                 </div>
+                              
                             </div>
 
                             <button type="submit" id="btnFormularioProducto" class="btn btn-primary">Agregar otro

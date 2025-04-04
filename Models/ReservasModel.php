@@ -26,8 +26,21 @@ class ReservasModel extends Mysql
     }
     public function getConvenios()
     {
-        $sql = "SELECT convenios.idconvenios,convenios.nombre 
-        FROM convenios WHERE convenios.status>0";
+        $sql = "SELECT convenios.idconvenios,convenios.nombre FROM convenios WHERE convenios.status>0";
+        $request = $this->select_all($sql);
+        return $request;
+    }
+
+    public function getIdMaximo()
+    {
+        $sql = "SELECT max(reservas.idreservas) FROM reservas";
+        $request = $this->select_all($sql);
+        return $request;
+    }
+
+    public function getCanchas()
+    {
+        $sql = "SELECT canchas.idcanchas,canchas.nombre FROM canchas WHERE canchas.status>0";
         $request = $this->select_all($sql);
         return $request;
     }
@@ -76,6 +89,14 @@ class ReservasModel extends Mysql
         return $this->insert($sql, $arrData);
     }
 
+    public function addReserva1($nombre, $idConvenio, $idUsuario) {
+        $query = "INSERT INTO reservas (reservas.nombre,reservas.status,reservas.convenios_idconvenios,reservas.users_idusers)
+        VALUES (?,1,?,?);";
+        $arrData = [$nombre, $idConvenio, $idUsuario];
+        $requestInsert = $this->insert($query, $arrData);
+        return $requestInsert; 
+    }
+    
     public function addReservaPivote(int $idReserva, int $idCancha, string $fecha, string $horaReserva, int $horasReservadas)
     {
         $this->idReserva = $idReserva;

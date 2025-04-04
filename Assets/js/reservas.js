@@ -12,7 +12,7 @@ let formularioProducto = document.querySelector("#formularioProducto");
 
 let select = "";
 
-let contadorClicks = 1;
+//let contadorClicks = 1;
 
 btnCrearReserva.addEventListener("click", () => {
   frmCrearReserva.reset();
@@ -36,6 +36,7 @@ function listConveniosSelect() {
   fetch(base_url + "/reservas/getConvenios")
     .then((res) => res.json())
     .then((data) => {
+      console.log(data);
       let selectElem = document.getElementById("selectConvenio");
       selectElem.innerHTML = "";
       data.data.forEach((convenio) => {
@@ -57,6 +58,19 @@ function listUsuariosSelect() {
     })
     .catch((error) => console.error("Error al listar usuarios:", error));
 }
+
+function listCanchasSelect() {
+  fetch(base_url + "/reservas/getCanchas")
+  .then((res) => res.json())
+  .then((data) => {
+    data.data.forEach((cancha) => {
+      let selectElem = document.getElementById("idCancha1");
+      selectElem.innerHTML += `<option value="${cancha.idcanchas}">${cancha.nombre}</option>`;
+    });
+  })
+  .catch((error) => console.error("Error al listar canchas:", error));
+}
+listCanchasSelect();
 //====================================Listar las reservas en la tabla=============================================
 
 function listReserva() {
@@ -214,39 +228,59 @@ frmCrearReserva.addEventListener("submit", (e) => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const btnFormularioProducto = document.querySelector(
-    "#btnFormularioProducto"
-  );
-  contadorClicks++;
+  let contadorClicks = 1; 
 
-  if (btnFormularioProducto) {
-    btnFormularioProducto.addEventListener("click", () => {
-      const formularioProducto = document.querySelector("#formularioProducto");
+  const btnFormularioProducto = document.querySelector("#btnFormularioProducto");
+  
+  btnFormularioProducto.addEventListener("click", () => {
+    const formularioProducto = document.querySelector("#formularioProducto");
+    contadorClicks++;
+    
+    if (formularioProducto) {
+      formularioProducto.innerHTML += `
+        <div class="row" id="idRow${contadorClicks}">
+          <div style="margin: 50px; border: 1px solid #ccc; padding: 50px; border-radius: 50px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" class="mb-3">
+            <input type="hidden" name="idReservaPivote${contadorClicks}" id="idReservaPivote${contadorClicks}" value="40">
+            <input type="hidden" name="numeroInserciones${contadorClicks}" id="numeroInserciones${contadorClicks}" value="${contadorClicks}">
 
-      if (formularioProducto) {
-        formularioProducto.innerHTML += `
-                          <div class="row" id="idRow${contadorClicks}">
-                                <div style="margin: 50px; border: 1px solid #ccc; padding: 50px; border-radius: 50px; box-shadow: 0 0 10px rgba(0,0,0,0.1); " class="mb-3">
-                                    <input type="hidden" name="idReserva${contadorClicks}" id="idReserva${contadorClicks}" value="8">
-                                    <div class="row">
-                                        <label for="txtName" class="form-label"><b>Día de la reserva</b> </label>
-                                        <input type="date" class="form-control" id="diaReserva${contadorClicks}" name="diaReserva${contadorClicks}" require>
-                                    </div>
-                                    <div class="row">
-                                        <label for="txtName" class="form-label"><b>Hora de la reserva</b> </label>
-                                        <input type="time" class="form-control" id="horaReserva${contadorClicks}" name="horaReserva${contadorClicks}" require>
-                                    </div>
-                                    <div class="row">
-                                        <label for="txtName" class="form-label"><b>Horas reservadas</b> </label>
-                                        <input type="number" class="form-control" id="horasReservadas${contadorClicks}" name="horasReservadas${contadorClicks}" require>
-                                    </div>
-                                </div>
-                            </div>`;
-      } else {
-        console.error("El elemento con id 'formularioProducto' no existe.");
-      }
-    });
-  } else {
-    console.error("El botón 'btnFormularioProducto' no existe.");
-  }
+            <div class="row">
+              <label for="txtName" class="form-label"><b>Día de la reserva</b></label>
+              <input type="date" class="form-control" id="diaReserva${contadorClicks}" name="diaReserva${contadorClicks}" required>
+            </div>
+
+            <div class="row">
+              <label for="txtName" class="form-label"><b>Cancha</b></label>
+              <select class="form-control" name="idCancha${contadorClicks}" id="idCancha${contadorClicks}">
+                <option selected="" value="" disabled>Seleccione la cancha</option>
+              </select> 
+            </div>
+
+            <div class="row">
+              <label for="txtName" class="form-label"><b>Hora de la reserva</b></label>
+              <input type="time" class="form-control" id="horaReserva${contadorClicks}" name="horaReserva${contadorClicks}" required>
+            </div>
+
+            <div class="row">
+              <label for="txtName" class="form-label"><b>Horas reservadas</b></label>
+              <input type="number" class="form-control" id="horasReservadas${contadorClicks}" name="horasReservadas${contadorClicks}" required>
+            </div>
+          </div>
+        </div>`;
+
+      let selectElem = document.getElementById(`idCancha${contadorClicks}`);
+      
+      fetch(base_url + "/reservas/getCanchas")
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          data.data.forEach((cancha) => {
+            selectElem.innerHTML += `<option value="${cancha.idcanchas}">${cancha.nombre}</option>`;
+          });
+        })
+        .catch((error) => console.error("Error al listar canchas:", error));
+    } else {
+      console.error("El elemento con id 'formularioProducto' no existe.");
+    }
+  });
 });
+
