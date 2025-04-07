@@ -1,6 +1,6 @@
 <?php
 
-const BASE_URL = "http://localhost/sinteticas";
+const BASE_URL = "http://localhost/proyecto_sintetica";
 
 date_default_timezone_set('America/Bogota');
 
