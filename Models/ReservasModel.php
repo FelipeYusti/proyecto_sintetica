@@ -33,10 +33,11 @@ class ReservasModel extends Mysql
 
     public function getIdMaximo()
     {
-        $sql = "SELECT max(reservas.idreservas) FROM reservas";
-        $request = $this->select_all($sql);
-        return $request;
+        $sql = "SELECT MAX(idreservas) AS idMaximo FROM reservas";
+        $request = $this->select($sql);
+        return $request['idMaximo'];
     }
+
 
     public function getCanchas()
     {
@@ -89,14 +90,15 @@ class ReservasModel extends Mysql
         return $this->insert($sql, $arrData);
     }
 
-    public function addReserva1($nombre, $idConvenio, $idUsuario) {
+    public function addReserva1($nombre, $idConvenio, $idUsuario)
+    {
         $query = "INSERT INTO reservas (reservas.nombre,reservas.status,reservas.convenios_idconvenios,reservas.users_idusers)
         VALUES (?,1,?,?);";
         $arrData = [$nombre, $idConvenio, $idUsuario];
         $requestInsert = $this->insert($query, $arrData);
-        return $requestInsert; 
+        return $requestInsert;
     }
-    
+
     public function addReservaPivote(int $idReserva, int $idCancha, string $fecha, string $horaReserva, int $horasReservadas)
     {
         $this->idReserva = $idReserva;

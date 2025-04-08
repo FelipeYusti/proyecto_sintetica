@@ -61,14 +61,14 @@ function listUsuariosSelect() {
 
 function listCanchasSelect() {
   fetch(base_url + "/reservas/getCanchas")
-  .then((res) => res.json())
-  .then((data) => {
-    data.data.forEach((cancha) => {
-      let selectElem = document.getElementById("idCancha1");
-      selectElem.innerHTML += `<option value="${cancha.idcanchas}">${cancha.nombre}</option>`;
-    });
-  })
-  .catch((error) => console.error("Error al listar canchas:", error));
+    .then((res) => res.json())
+    .then((data) => {
+      data.data.forEach((cancha) => {
+        let selectElem = document.getElementById("idCancha1");
+        selectElem.innerHTML += `<option value="${cancha.idcanchas}">${cancha.nombre}</option>`;
+      });
+    })
+    .catch((error) => console.error("Error al listar canchas:", error));
 }
 listCanchasSelect();
 //====================================Listar las reservas en la tabla=============================================
@@ -205,7 +205,6 @@ frmCrearReserva.addEventListener("submit", (e) => {
         });
       });
   } else {
-
     fetch(base_url + "/reservas/createReserva", {
       method: "POST",
       body: frmData,
@@ -228,59 +227,67 @@ frmCrearReserva.addEventListener("submit", (e) => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  let contadorClicks = 1; 
+  let contadorClicks = 1;
 
-  const btnFormularioProducto = document.querySelector("#btnFormularioProducto");
-  
+  const btnFormularioProducto = document.querySelector(
+    "#btnFormularioProducto"
+  );
+
   btnFormularioProducto.addEventListener("click", () => {
     const formularioProducto = document.querySelector("#formularioProducto");
     contadorClicks++;
-    
-    if (formularioProducto) {
-      formularioProducto.innerHTML += `
-        <div class="row" id="idRow${contadorClicks}">
-          <div style="margin: 50px; border: 1px solid #ccc; padding: 50px; border-radius: 50px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" class="mb-3">
-            <input type="hidden" name="idReservaPivote${contadorClicks}" id="idReservaPivote${contadorClicks}" value="40">
-            <input type="hidden" name="numeroInserciones${contadorClicks}" id="numeroInserciones${contadorClicks}" value="${contadorClicks}">
-
-            <div class="row">
-              <label for="txtName" class="form-label"><b>Día de la reserva</b></label>
-              <input type="date" class="form-control" id="diaReserva${contadorClicks}" name="diaReserva${contadorClicks}" required>
-            </div>
-
-            <div class="row">
-              <label for="txtName" class="form-label"><b>Cancha</b></label>
-              <select class="form-control" name="idCancha${contadorClicks}" id="idCancha${contadorClicks}">
-                <option selected="" value="" disabled>Seleccione la cancha</option>
-              </select> 
-            </div>
-
-            <div class="row">
-              <label for="txtName" class="form-label"><b>Hora de la reserva</b></label>
-              <input type="time" class="form-control" id="horaReserva${contadorClicks}" name="horaReserva${contadorClicks}" required>
-            </div>
-
-            <div class="row">
-              <label for="txtName" class="form-label"><b>Horas reservadas</b></label>
-              <input type="number" class="form-control" id="horasReservadas${contadorClicks}" name="horasReservadas${contadorClicks}" required>
-            </div>
-          </div>
-        </div>`;
-
-      let selectElem = document.getElementById(`idCancha${contadorClicks}`);
-      
-      fetch(base_url + "/reservas/getCanchas")
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          data.data.forEach((cancha) => {
-            selectElem.innerHTML += `<option value="${cancha.idcanchas}">${cancha.nombre}</option>`;
-          });
-        })
-        .catch((error) => console.error("Error al listar canchas:", error));
+    if (contadorClicks > 5) {
+      Swal.fire({
+        icon: "error",
+        title: "Llegaste al limite",
+        text: "No se pueden hacer más de 5 reservas",
+      });
     } else {
-      console.error("El elemento con id 'formularioProducto' no existe.");
+      if (formularioProducto) {
+        formularioProducto.innerHTML += `
+          <div class="row" id="idRow${contadorClicks}">
+            <div style="margin: 50px; border: 1px solid #ccc; padding: 50px; border-radius: 50px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" class="mb-3">
+              <input type="hidden" name="idReservaPivote${contadorClicks}" id="idReservaPivote${contadorClicks}" value="40">
+              <input type="hidden" name="numeroInserciones${contadorClicks}" id="numeroInserciones${contadorClicks}" value="${contadorClicks}">
+  
+              <div class="row">
+                <label for="txtName" class="form-label"><b>Día de la reserva</b></label>
+                <input type="date" class="form-control" id="diaReserva${contadorClicks}" name="diaReserva${contadorClicks}" required>
+              </div>
+  
+              <div class="row">
+                <label for="txtName" class="form-label"><b>Cancha</b></label>
+                <select class="form-control" name="idCancha${contadorClicks}" id="idCancha${contadorClicks}">
+                  <option selected="" value="" disabled>Seleccione la cancha</option>
+                </select> 
+              </div>
+  
+              <div class="row">
+                <label for="txtName" class="form-label"><b>Hora de la reserva</b></label>
+                <input type="time" class="form-control" id="horaReserva${contadorClicks}" name="horaReserva${contadorClicks}" required>
+              </div>
+  
+              <div class="row">
+                <label for="txtName" class="form-label"><b>Horas reservadas</b></label>
+                <input type="number" class="form-control" id="horasReservadas${contadorClicks}" name="horasReservadas${contadorClicks}" required>
+              </div>
+            </div>
+          </div>`;
+
+        let selectElem = document.getElementById(`idCancha${contadorClicks}`);
+
+        fetch(base_url + "/reservas/getCanchas")
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            data.data.forEach((cancha) => {
+              selectElem.innerHTML += `<option value="${cancha.idcanchas}">${cancha.nombre}</option>`;
+            });
+          })
+          .catch((error) => console.error("Error al listar canchas:", error));
+      } else {
+        console.error("El elemento con id 'formularioProducto' no existe.");
+      }
     }
   });
 });
-

@@ -97,39 +97,39 @@ class Reservas extends Controllers
         $nombre = strClean($_POST['nombreReserva']);
         $idConvenio = strClean($_POST['idConvenio']);
         $idUsuario = strClean($_POST['idUsuario']);
-    
-        $idMaximo =$this->model->getIdMaximo();
 
         $reservasPivote = [];
 
         // 5 es el maximo de inserciones 
         for ($i = 1; $i <= 5; $i++) {
-            // Valida si la data llega
             if (isset($_POST["diaReserva$i"], $_POST["horaReserva$i"], $_POST["horasReservadas$i"])) {
                 $reservasPivote[] = [
                     'idReservaPivote' => strClean($_POST["idReservaPivote$i"]),
                     'diaReserva' => strClean($_POST["diaReserva$i"]),
-                    'idCancha' =>strClean($_POST["idCancha$i"]),
+                    'idCancha' => strClean($_POST["idCancha$i"]),
                     'horaReserva' => strClean($_POST["horaReserva$i"]),
                     'horasReservadas' => strClean($_POST["horasReservadas$i"])
                 ];
             }
         }
-    
+
         $arrPost = ['nombreReserva', 'idConvenio', 'idUsuario'];
-    
+
         if (check_post($arrPost)) {
             $option = 0;
-    
+
             if ($idReserva == 0 || $idReserva == "") {
                 $requestModel = $this->model->addReserva($nombre, $idConvenio, $idUsuario);
-    
+
                 if ($requestModel > 0) {
-                    // Insercion
+                    // Obtener el ID máximo actualizado DESPUÉS de insertar la reserva principal
+                    $idMaximo = $this->model->getIdMaximo();
+
+                    // Inserción de reservas pivote
                     foreach ($reservasPivote as $reserva) {
                         $this->model->addReservaPivote(
-                            $reserva['idReservaPivote'],
-                            $reserva['idCancha'], 
+                            $idMaximo,
+                            $reserva['idCancha'],
                             $reserva['diaReserva'],
                             $reserva['horaReserva'],
                             $reserva['horasReservadas']
@@ -140,7 +140,7 @@ class Reservas extends Controllers
             } else {
                 $requestModel = 'exists';
             }
-    
+
             if ($requestModel > 0) {
                 $arrRespuesta = array('status' => true, 'msg' => ($option === 1) ? 'Reserva agregada correctamente.' : 'Reserva actualizada correctamente.');
             } elseif ($requestModel === 'exists') {
@@ -151,11 +151,12 @@ class Reservas extends Controllers
         } else {
             $arrRespuesta = array('status' => false, 'msg' => 'Debe ingresar todos los datos');
         }
-    
+
         echo json_encode($arrRespuesta, JSON_UNESCAPED_UNICODE);
         die();
     }
-    
+
+
 
     public function updateReserva()
     {
