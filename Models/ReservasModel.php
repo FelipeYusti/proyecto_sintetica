@@ -38,7 +38,6 @@ class ReservasModel extends Mysql
         return $request['idMaximo'];
     }
 
-
     public function getCanchas()
     {
         $sql = "SELECT canchas.idcanchas,canchas.nombre FROM canchas WHERE canchas.status>0";
