@@ -308,29 +308,56 @@ header_admin($data);
                         </li>
                     </div>
                 </div>
-                <div class="row">
-                    <table class="table" id="tablaConvenios">
-                        <thead>
-                            <tr>
-                                <th>id</th>
-                                <th>Nombre </th>
-                                <th>Descripcion</th>
-                                <th>Fecha Inicio</th>
-                                <th>Fecha Fin</th>
-                                <th>Descuento</th>
-                                <th>Cancha</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                <div class="row" id="contenidoCanchas" name="contenidoCanchas">
 
+
+                    <div class="col-3">
+                        <div class="card shadow-sm p-4 mb-4 bg-white rounded text-center">
+                            <img src="<?= media() ?>/images/canchas/canchaFutbol.png" alt="Cancha de Fútbol" class="img-fluid rounded">
+                            <label for="canchas" class="form-label">Cancha tales</label>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card shadow-sm p-4 mb-4 bg-white rounded text-center">
+                            <img src="<?= media() ?>/images/canchas/canchaFutbol.png" alt="Cancha de Fútbol" class="img-fluid rounded">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card shadow-sm p-4 mb-4 bg-white rounded text-center">
+                            <img src="<?= media() ?>/images/canchas/canchaFutbol.png" alt="Cancha de Fútbol" class="img-fluid rounded">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card shadow-sm p-4 mb-4 bg-white rounded text-center">
+                            <img src="<?= media() ?>/images/canchas/canchaFutbol.png" alt="Cancha de Fútbol" class="img-fluid rounded">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card shadow-sm p-4 mb-4 bg-white rounded text-center">
+                            <img src="<?= media() ?>/images/volley/canchaVolley.png" alt="Cancha de Fútbol" class="img-fluid rounded">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card shadow-sm p-4 mb-4 bg-white rounded text-center">
+                            <img src="<?= media() ?>/images/volley/canchaVolley.png" alt="Cancha de Fútbol" class="img-fluid rounded">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card shadow-sm p-4 mb-4 bg-white rounded text-center">
+                            <img src="<?= media() ?>/images/volley/canchaVolley.png" alt="Cancha de Fútbol" class="img-fluid rounded">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card shadow-sm p-4 mb-4 bg-white rounded text-center">
+                            <img src="<?= media() ?>/images/volley/canchaVolley.png" alt="Cancha de Fútbol" class="img-fluid rounded">
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
     </div>
 </main>
 <?php footer_admin($data); ?>
-<script src="<?= media() ?>/js/convenio.js"></script>
+<script src="<?= media() ?>/js/showCanchas.js"></script>
