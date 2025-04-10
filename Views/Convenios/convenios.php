@@ -1,6 +1,6 @@
 <?php
 header_admin($data);
-getModal('conveniosModal', $data);
+
 ?>
 <main class="main-content">
     <div class="position-relative iq-banner">
@@ -297,6 +297,7 @@ getModal('conveniosModal', $data);
             </div> -->
             <div class="col-md-12 col-lg-8">
                 <div class="row">
+                    <?php getModal('conveniosModal', $data); ?>
                     <div class="col-3">
                         <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1300">
                             <div class="card-body">

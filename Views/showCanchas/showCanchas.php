@@ -300,9 +300,10 @@ header_admin($data);
                         <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1300">
                             <div class="card-body">
                                 <div class="progress-widget">
-                                    <button type="button" id="btnCrearConvenio" class="btn btn-primary">
-                                        Registrar
-                                    </button>
+                                    <h1
+                                        class="btn btn-primary text-white fw-bold shadow-lg rounded-pill px-4 py-2 fs-4">
+                                        Canchas
+                                    </h1>
                                 </div>
                             </div>
                         </li>
@@ -310,48 +311,6 @@ header_admin($data);
                 </div>
                 <div class="row" id="contenidoCanchas" name="contenidoCanchas">
 
-
-                    <div class="col-3">
-                        <div class="card shadow-sm p-4 mb-4 bg-white rounded text-center">
-                            <img src="<?= media() ?>/images/canchas/canchaFutbol.png" alt="Cancha de Fútbol" class="img-fluid rounded">
-                            <label for="canchas" class="form-label">Cancha tales</label>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="card shadow-sm p-4 mb-4 bg-white rounded text-center">
-                            <img src="<?= media() ?>/images/canchas/canchaFutbol.png" alt="Cancha de Fútbol" class="img-fluid rounded">
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="card shadow-sm p-4 mb-4 bg-white rounded text-center">
-                            <img src="<?= media() ?>/images/canchas/canchaFutbol.png" alt="Cancha de Fútbol" class="img-fluid rounded">
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="card shadow-sm p-4 mb-4 bg-white rounded text-center">
-                            <img src="<?= media() ?>/images/canchas/canchaFutbol.png" alt="Cancha de Fútbol" class="img-fluid rounded">
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="card shadow-sm p-4 mb-4 bg-white rounded text-center">
-                            <img src="<?= media() ?>/images/volley/canchaVolley.png" alt="Cancha de Fútbol" class="img-fluid rounded">
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="card shadow-sm p-4 mb-4 bg-white rounded text-center">
-                            <img src="<?= media() ?>/images/volley/canchaVolley.png" alt="Cancha de Fútbol" class="img-fluid rounded">
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="card shadow-sm p-4 mb-4 bg-white rounded text-center">
-                            <img src="<?= media() ?>/images/volley/canchaVolley.png" alt="Cancha de Fútbol" class="img-fluid rounded">
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="card shadow-sm p-4 mb-4 bg-white rounded text-center">
-                            <img src="<?= media() ?>/images/volley/canchaVolley.png" alt="Cancha de Fútbol" class="img-fluid rounded">
-                        </div>
-                    </div>
                 </div>
 
             </div>
