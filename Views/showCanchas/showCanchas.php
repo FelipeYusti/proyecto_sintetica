@@ -121,10 +121,9 @@ header_admin($data);
             </div>
         </div>
     </div>
-    <div class="container1" id="container1">
-        <div class="conatiner-fluid content-inner mt-n5 py-0">
-            <div class="row">
-                <!--  <div class="col-md-12 col-lg-12">
+    <div class="conatiner-fluid content-inner mt-n5 py-0">
+        <div class="row">
+            <!--  <div class="col-md-12 col-lg-12">
                 <div class="row row-cols-1">
                     <div class="overflow-hidden d-slider1">
                         <ul class="p-0 m-0 mb-2 swiper-wrapper list-inline">
@@ -295,134 +294,43 @@ header_admin($data);
                     </div>
                 </div>
             </div> -->
-                <div class="col-md-12 col-lg-8">
-                    <div class="row">
-
-                        <div class="col-3">
-                            <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1300">
-                                <div class="card-body">
-                                    <div class="progress-widget">
-                                        <button type="button" id="btnCrearReserva" class="btn btn-primary">
-                                            Agregar reserva
-                                        </button>
-
-                                    </div>
-
+            <div class="col-md-12 col-lg-8">
+                <div class="row">
+                    <div class="col-3">
+                        <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1300">
+                            <div class="card-body">
+                                <div class="progress-widget">
+                                    <button type="button" id="btnCrearConvenio" class="btn btn-primary">
+                                        Registrar
+                                    </button>
                                 </div>
-                            </li>
-                        </div>
+                            </div>
+                        </li>
                     </div>
-                    <div class="row">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>id</th>
-                                    <th>Nombre</th>
-                                    <th>Fecha</th>
-                                    <th>Cancha</th>
-                                    <th>Tipo de cancha</th>
-                                    <th>Capacidad</th>
-                                    <th>Valor</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tablaReservas">
-                            </tbody>
-                        </table>
+                </div>
+                <div class="row">
+                    <table class="table" id="tablaConvenios">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Nombre </th>
+                                <th>Descripcion</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin</th>
+                                <th>Descuento</th>
+                                <th>Cancha</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
 
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container2" id="container2" style="display:none">
-        <div class="mt-n5 py-0">
-            <div class="row">
-                <form id="frmCrearReserva" method="POST">
-                    <div class="row">
-                        <div class="col-4" style="margin: 80px;">
-                            <div class="row">
-                                <div id="userStatusZone" class="mb-3">
-                                    <input type="hidden" name="idReserva" id="idReserva" value="0">
-                                    <div class="row">
-                                        <label for="txtName" class="form-label"><b>Nombre de el reservante</b> </label>
-                                        <input type="text" class="form-control" id="nombreReserva" name="nombreReserva">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div id="userStatusZone" class="mb-3">
-                                    <label for="txtType" class="form-label"><b>Convenio (Si aplica)</b></label>
-                                    <select class="form-control" name="idConvenio" id="idConvenio">
-                                        <option selected="" value="" disabled>No aplica</option>
-                                        <div class="selectConvenio" name="selectConvenio" id="selectConvenio"></div>
-                                    </select>
-                                   
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div id="userStatusZone" class="mb-3">
-                                    <label for="genero" class="form-label">Usuario</label>
-                                    <select class="form-control" name="idUsuario" id="idUsuario">
-                                        <option selected="" value="" disabled>Seleccione el usuario</option>
-                                        <div class="selectUsuario" name="selectUsuario" id="selectUsuario"></div>
-                                    </select>
-                                    
-                                </div>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Reservar</button>
-                        </div>
-
-                        <div class="col-5" style="text-align: center;">
-                            <div class="formularioProducto" id="formularioProducto">
-                                <div class="row" id="idRow1">
-                                    <div style="margin: 50px; border: 1px solid #ccc; padding: 50px; border-radius: 50px; box-shadow: 0 0 10px rgba(0,0,0,0.1);"
-                                        class="mb-3">
-                                        <input type="hidden" name="idReservaPivote1" id="idReservaPivote1" value="40">
-            
-                                        <div class="row">
-                                            <label for="txtName" class="form-label"><b>Día de la reserva</b> </label>
-                                            <input type="date" class="form-control" id="diaReserva1" name="diaReserva1"
-                                                required>
-                                        </div>
-                                        <div class="row">           
-                                          <label for="genero" class="form-label"><b>Cancha</b></label>
-                                          <select class="form-control" name="idCancha1" id="idCancha1">
-                                            <option selected="" value="" disabled>Seleccione la cancha</option>
-                                          </select>
-                                        </div>
-                                        <div class="row">
-                                            <label for="txtName" class="form-label"><b>Hora de la reserva</b> </label>
-                                            <input type="time" class="form-control" id="horaReserva1"
-                                                name="horaReserva1" required>
-                                        </div>
-                                        <div class="row">
-                                            <label for="txtName" class="form-label"><b>Horas reservadas</b> </label>
-                                            <input type="number" class="form-control" id="horasReservadas1"
-                                                name="horasReservadas1" required>
-                                        </div>
-                                    </div>
-                                </div>
-                              
-                            </div>
-
-                            <button type="submit" id="btnFormularioProducto" class="btn btn-primary">Agregar otro
-                                producto</button>
-                        </div>
-                    </div>
-                </form>
-
-
-
-            </div>
-        </div>
-
-    </div>
-
     </div>
 </main>
 <?php footer_admin($data); ?>
-<script src="<?= media() ?>/js/reservas.js"></script>
+<script src="<?= media() ?>/js/convenio.js"></script>
