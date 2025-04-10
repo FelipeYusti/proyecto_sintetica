@@ -1,26 +1,29 @@
 window.addEventListener("DOMContentLoaded", () => {
   getCanchas();
+  restaurarCronometrosActivos();
 });
 
-// Cronómetros activos por cancha
+function notificacionCancha() {
+  if (Notification.permission !== "granted") {
+    Notification.requestPermission();
+  }
+}
+
 const cronometros = {};
+const STORAGE_KEY = "cronometrosActivos";
 
 function getCanchas() {
   fetch(base_url + "/showCanchas/getCanchas")
     .then((res) => res.json())
     .then((data) => {
-      let contenido = document.querySelector("#contenidoCanchas");
+      const contenido = document.querySelector("#contenidoCanchas");
       contenido.innerHTML = "";
 
       data.forEach((cancha) => {
         let imagen = "";
-        if (cancha.tipo == "Futbol") {
-          imagen = "canchas/canchaFutbol.png";
-        } else if (cancha.tipo == "Volley") {
-          imagen = "volley/canchaVolley.png";
-        } else if (cancha.tipo == "Tenis") {
-          imagen = "tenis/canchaTenis.png";
-        }
+        if (cancha.tipo === "Futbol") imagen = "canchas/canchaFutbol.png";
+        else if (cancha.tipo === "Volley") imagen = "volley/canchaVolley.png";
+        else if (cancha.tipo === "Tenis") imagen = "tenis/canchaTenis.png";
 
         contenido.innerHTML += `
           <div class="col-12 col-md-6 col-lg-4 col-xl-3">
@@ -38,43 +41,144 @@ function getCanchas() {
                 <p class="card-text">
                   <i class="bi bi-tag-fill text-warning"></i> Tipo: <strong>${cancha.tipo}</strong>
                 </p>
+                <input 
+                  class="form-control form-control-sm mb-2" 
+                  type="number"
+                  id="horasReservadas-${cancha.idcanchas}" 
+                  name="horasReservadas" 
+                  min="1" 
+                  max="5" 
+                  placeholder="Horas reservadas" 
+                  oninput="this.value = Math.max(1, Math.min(5, this.value))">
                 <div id="timer-${cancha.idcanchas}" class="fs-4 fw-bold text-danger my-2">00:00</div>
-
-                <button type="button" class="btn btn-primary" onclick="iniciarCronometro(${cancha.idcanchas},3)">
-                  Iniciar
-                </button>
+                <div class="d-flex gap-2">
+                  <button 
+                    id="btn-${cancha.idcanchas}" 
+                    type="button" 
+                    class="btn btn-primary" 
+                    onclick="toggleCronometro(${cancha.idcanchas})">
+                    Iniciar
+                  </button>
+                  <button 
+                    type="button" 
+                    class="btn btn-danger" 
+                    onclick="resetCronometro(${cancha.idcanchas})">
+                    <i class="bi bi-skip-start-circle"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         `;
       });
+
+      restaurarCronometrosActivos(); // reactivar si hay activos
     })
     .catch((error) => console.error("Error al listar canchas:", error));
 }
 
-// 🎯 Función del cronómetro
-function iniciarCronometro(id, horas) {
+
+function toggleCronometro(id) {
   const display = document.getElementById(`timer-${id}`);
+  const boton = document.getElementById(`btn-${id}`);
+  const inputHoras = document.getElementById(`horasReservadas-${id}`);
+  let horas = parseInt(inputHoras.value);
 
-  // Evitar múltiples timers por cancha
-  if (cronometros[id]) return;
-
-  let tiempoRestante = (60 * 60) * horas; // 60 minutos en segundos
-
-  cronometros[id] = setInterval(() => {
-    const minutos = Math.floor(tiempoRestante / 60);
-    const segundos = tiempoRestante % 60;
-
-    display.textContent = `${minutos.toString().padStart(2, "0")}:${segundos
-      .toString()
-      .padStart(2, "0")}`;
-
-    if (tiempoRestante <= 0) {
-      clearInterval(cronometros[id]);
-      delete cronometros[id];
-      display.textContent = "¡Tiempo terminado!";
-    } else {
-      tiempoRestante--;
+  if (!cronometros[id]) {
+    if (isNaN(horas) || horas < 1 || horas > 5) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Ingrese una cantidad entre 1 y 5!",
+      });
+      return;
     }
-  }, 1000);
+
+    inputHoras.style.display = "none";
+
+    const tiempoTotal = 2 * 5 * horas;
+    const fin = Date.now() + tiempoTotal * 1000;
+
+    cronometros[id] = {
+      tiempoTotal,
+      fin,
+    };
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cronometros));
+  }
+
+  if (cronometros[id].intervalo) {
+    clearInterval(cronometros[id].intervalo);
+    delete cronometros[id].intervalo;
+    boton.textContent = "Iniciar";
+    return;
+  }
+
+  boton.textContent = "Detener";
+  actualizarDisplay(id);
+  cronometros[id].intervalo = setInterval(() => actualizarDisplay(id), 1000);
+}
+
+
+function actualizarDisplay(id) {
+  const now = Date.now();
+  const tiempoRestante = Math.floor((cronometros[id].fin - now) / 1000);
+  const display = document.getElementById(`timer-${id}`);
+  const boton = document.getElementById(`btn-${id}`);
+
+  if (tiempoRestante <= 0) {
+    clearInterval(cronometros[id].intervalo);
+    display.textContent = "¡Tiempo terminado!";
+    boton.textContent = "Iniciar";
+    delete cronometros[id];
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cronometros));
+
+    // Notificación
+    if (Notification.permission === "granted") {
+      new Notification("⏰ ¡Tiempo terminado!", {
+        body: `La cancha ${id} ha completado su tiempo.`
+      });
+    }
+
+    //  Sonido
+    const audio = new Audio("http://localhost/proyecto_sintetica/Assets/images/sound/alarma.mp3");
+    audio.play();
+
+    return;
+  }
+
+  const minutos = Math.floor(tiempoRestante / 60);
+  const segundos = tiempoRestante % 60;
+  display.textContent = `${minutos.toString().padStart(2, "0")}:${segundos.toString().padStart(2, "0")}`;
+}
+
+function resetCronometro(id) {
+  clearInterval(cronometros[id]?.intervalo);
+  delete cronometros[id];
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(cronometros));
+  document.getElementById(`timer-${id}`).textContent = "00:00";
+  document.getElementById(`btn-${id}`).textContent = "Iniciar";
+  document.getElementById(`horasReservadas-${id}`).style.display = "block";
+}
+
+function restaurarCronometrosActivos() {
+  const guardados = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+  Object.entries(guardados).forEach(([id, data]) => {
+    id = parseInt(id);
+    const display = document.getElementById(`timer-${id}`);
+    const boton = document.getElementById(`btn-${id}`);
+    const input = document.getElementById(`horasReservadas-${id}`);
+
+    if (!display || !boton) return;
+
+    cronometros[id] = {
+      tiempoTotal: data.tiempoTotal,
+      fin: data.fin,
+    };
+
+    if (input) input.style.display = "none";
+    boton.textContent = "Detener";
+    actualizarDisplay(id);
+    cronometros[id].intervalo = setInterval(() => actualizarDisplay(id), 1000);
+  });
 }
