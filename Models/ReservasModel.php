@@ -13,7 +13,7 @@ class ReservasModel extends Mysql
         as nombreReserva,reservas_has_canchas.fecha as 
         fechaReserva,canchas.nombre as nombreCancha,canchas.tipo as 
         tipoCancha,canchas.capacidad as capacidadCancha,canchas.valor as 
-        valorCancha,reservas.convenios_idconvenios,reservas.users_idusers,
+        valorCancha,reservas.convenios_idconvenios,reservas.users_idusers,reservas_has_canchas.horaReserva,
         convenios.nombre as nombreConvenios, users.username
         from reservas_has_canchas 
         JOIN reservas ON reservas.idreservas=reservas_has_canchas.reservas_idreservas 

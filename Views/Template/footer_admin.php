@@ -27,10 +27,10 @@
 <!-- Widgetchart Script -->
 <script src="<?= media() ?>/js/charts/widgetcharts.js"></script>
 
-  <!-- mapchart Script -->
-  <script src="<?= media() ?>/js/charts/vectore-chart.js"></script>
+<!-- mapchart Script -->
+<script src="<?= media() ?>/js/charts/vectore-chart.js"></script>
 
-  <script src="<?= media() ?>/js/charts/dashboard.js"></script>
+<script src="<?= media() ?>/js/charts/dashboard.js"></script>
 
 <!-- fslightbox Script -->
 <script src="<?= media() ?>/js/plugins/fslightbox.js"></script>
@@ -47,20 +47,19 @@
 <!-- AOS Animation Plugin-->
 <script src="<?= media() ?>/vendor/aos/dist/aos.js"></script>
 
-  <script src="<?= media() ?>/vendor/sweetalert/sweetalert2.all.min.js"></script>
+<script src="<?= media() ?>/vendor/sweetalert/sweetalert2.all.min.js"></script>
+<!--  <script src="<?= media() ?>/vendor/datatables/datatables.min.js"></script> -->
 
- <!--  <script src="<?= media() ?>/vendor/datatables/datatables.min.js"></script> -->
-  
-  <script src="<?= media() ?>/vendor/jquery/jquery-ui.js"></script>
-  <!-- App Script -->
+<script src="<?= media() ?>/vendor/jquery/jquery-ui.js"></script>
+<!-- App Script -->
 
-  <script src="<?= media() ?>/js/hope-ui.js"></script>
-  <!--  <script src="/js/reservas.js"></script>
+<script src="<?= media() ?>/js/hope-ui.js"></script>
+<!--  <script src="/js/reservas.js"></script>
   <script src="/js/convenios.js"></script> -->
-  <!--   <script src="/js/login.js"></script> - -->
-  <?php if (isset($data['script'])): ?>
-    <script src="<?= media() ?>/js/<?= $data['script'] ?>.js"></script>
-  <?php endif; ?>
-  </body>
+<!--   <script src="/js/login.js"></script> - -->
+<?php if (isset($data['script'])): ?>
+  <script src="<?= media() ?>/js/<?= $data['script'] ?>.js"></script>
+<?php endif; ?>
+</body>
 
 </html>

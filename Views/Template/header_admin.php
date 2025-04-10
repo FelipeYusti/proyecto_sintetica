@@ -20,6 +20,8 @@
   <!-- Favicon -->
   <link rel="shortcut icon" href="<?= media() ?>/images/favicon.ico" />
 
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js'></script>
+
   <link href="<?= media() ?>/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <!-- stylo indx -->
   <link href="<?= media() ?>/css/style.css" rel="stylesheet">

@@ -179,7 +179,6 @@
             </i>
           </a>
           <ul class="sub-nav collapse" id="sidebar-special" data-bs-parent="#sidebar-menu">
-
             <li class="nav-item">
               <a class="nav-link <?= $data['page_name'] != 'convenios' ? 'collapsed' : ''  ?>" href="<?= base_url() ?>/convenios">
                 <i class="icon">
@@ -216,8 +215,26 @@
                 <span class="item-name">Convenios</span>
               </a>
             </li>
-
+            <li class="nav-item">
+              <a class="nav-link <?= $data['page_name'] != 'showCanchas' ? 'collapsed' : ''  ?>" href="<?= base_url() ?>/showCanchas">
+                <i class="icon">
+                  <svg
+                    class="icon-10"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="10"
+                    viewBox="0 0 24 24"
+                    fill="currentColor">
+                    <g>
+                      <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                    </g>
+                  </svg>
+                </i>
+                <i class="sidenav-mini-icon"> L </i>
+                <span class="item-name">Ver canchas </span>
+              </a>
+            </li>
           </ul>
+
         </li>
         <li class="nav-item">
           <a
@@ -262,9 +279,19 @@
           </a>
           <ul class="sub-nav collapse" id="sidebar-auth" data-bs-parent="#sidebar-menu">
             <li class="nav-item">
-              <a class="nav-link <?= $data['page_name'] != 'reservas' ? 'collapsed' : ''  ?>" href="<?= base_url() ?>/reservas">
+              <a class="nav-link <?= $data['page_name'] != 'calendario' ? 'collapsed' : ''  ?>" href="<?= base_url() ?>/calendario">
                 <i class="icon">
                   <i class="bi bi-calendar3"></i>
+                  </svg>
+                </i>
+                <i class="sidenav-mini-icon"> L </i>
+                <span class="item-name">Calendario </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <?= $data['page_name'] != 'reservas' ? 'collapsed' : ''  ?>" href="<?= base_url() ?>/reservas">
+                <i class="icon">
+                  <i class="bi bi-journal-text"></i>
                 </i>
                 <i class="sidenav-mini-icon"> L </i>
                 <span class="item-name">Reservar </span>
@@ -277,24 +304,6 @@
                 </i>
                 <i class="sidenav-mini-icon"> L </i>
                 <span class="item-name">Registrar </span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link <?= $data['page_name'] != 'showCanchas' ? 'collapsed' : ''  ?>" href="<?= base_url() ?>/showCanchas">
-                <i class="icon">
-                  <svg
-                    class="icon-10"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="10"
-                    viewBox="0 0 24 24"
-                    fill="currentColor">
-                    <g>
-                      <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                    </g>
-                  </svg>
-                </i>
-                <i class="sidenav-mini-icon"> L </i>
-                <span class="item-name">Ver canchas </span>
               </a>
             </li>
           </ul>
