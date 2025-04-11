@@ -294,7 +294,7 @@ header_admin($data);
                     </div>
                 </div>
             </div> -->
-            <div class="col-md-12 col-lg-8">
+            <div class="col-md-15 col-lg-10">
                 <div class="row">
                     <div class="col-3">
                         <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1300">

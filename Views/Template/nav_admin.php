@@ -156,7 +156,7 @@
                     </g>
                   </svg>
                 </i>
-                <i class="sidenav-mini-icon"> L </i>
+                <i class="sidenav-mini-icon"> </i>
                 <span class="item-name">Ver canchas </span>
               </a>
             </li>

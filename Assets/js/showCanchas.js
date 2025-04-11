@@ -26,7 +26,7 @@ function getCanchas() {
         else if (cancha.tipo === "Tenis") imagen = "tenis/canchaTenis.png";
 
         contenido.innerHTML += `
-          <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+          <div class="col-12 col-md-8 col-lg- col-xl-3">
             <div class="card shadow-lg border-0 p-3 mb-4 bg-light rounded-4 h-100">
               <img src="http://localhost/proyecto_sintetica/Assets/images/${imagen}"
                   alt="Cancha de ${cancha.tipo}"
@@ -72,11 +72,10 @@ function getCanchas() {
         `;
       });
 
-      restaurarCronometrosActivos(); // reactivar si hay activos
+      restaurarCronometrosActivos(); // Vuelve a poner en funcion los cronometros si estan corriendo
     })
     .catch((error) => console.error("Error al listar canchas:", error));
 }
-
 
 function toggleCronometro(id) {
   const display = document.getElementById(`timer-${id}`);
@@ -85,6 +84,7 @@ function toggleCronometro(id) {
   let horas = parseInt(inputHoras.value);
 
   if (!cronometros[id]) {
+    // si numero de horas llea null o "", sale alerta
     if (isNaN(horas) || horas < 1 || horas > 5) {
       Swal.fire({
         icon: "error",
@@ -96,7 +96,7 @@ function toggleCronometro(id) {
 
     inputHoras.style.display = "none";
 
-    const tiempoTotal = 2 * 5 * horas;
+    const tiempoTotal = 60 * 60 * horas;
     const fin = Date.now() + tiempoTotal * 1000;
 
     cronometros[id] = {
@@ -104,7 +104,7 @@ function toggleCronometro(id) {
       fin,
     };
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(cronometros));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cronometros)); // Aqui guardo los datos en el localStorage
   }
 
   if (cronometros[id].intervalo) {
@@ -118,7 +118,6 @@ function toggleCronometro(id) {
   actualizarDisplay(id);
   cronometros[id].intervalo = setInterval(() => actualizarDisplay(id), 1000);
 }
-
 
 function actualizarDisplay(id) {
   const now = Date.now();
@@ -136,20 +135,24 @@ function actualizarDisplay(id) {
     // Notificación
     if (Notification.permission === "granted") {
       new Notification("⏰ ¡Tiempo terminado!", {
-        body: `La cancha ${id} ha completado su tiempo.`
+        body: `La cancha ${id} ha completado su tiempo.`,
       });
     }
 
     //  Sonido
-    const audio = new Audio("http://localhost/proyecto_sintetica/Assets/images/sound/alarma.mp3");
+    const audio = new Audio(
+      "http://localhost/proyecto_sintetica/Assets/images/sound/alarma.mp3"
+    );
     audio.play();
 
     return;
   }
 
-  const minutos = Math.floor(tiempoRestante / 60);
+  const minutos = Math.floor(tiempoRestante / 60); // Metodo floor es para redondear, si ingreso 5.6, redondea a 6
   const segundos = tiempoRestante % 60;
-  display.textContent = `${minutos.toString().padStart(2, "0")}:${segundos.toString().padStart(2, "0")}`;
+  display.textContent = `${minutos.toString().padStart(2, "0")}:${segundos
+    .toString()
+    .padStart(2, "0")}`;
 }
 
 function resetCronometro(id) {

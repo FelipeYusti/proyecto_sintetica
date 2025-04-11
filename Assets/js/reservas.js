@@ -254,7 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <label for="txtName" class="form-label"><b>Día de la reserva</b></label>
                 <input type="date" class="form-control" id="diaReserva${contadorClicks}" name="diaReserva${contadorClicks}" required>
               </div>
-  
+
               <div class="row">
                 <label for="txtName" class="form-label"><b>Cancha</b></label>
                 <select class="form-control" name="idCancha${contadorClicks}" id="idCancha${contadorClicks}">
@@ -275,6 +275,13 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>`;
 
         let selectElem = document.getElementById(`idCancha${contadorClicks}`);
+
+        // Validación para que el dia de la reserva, se puede hacer un dia pasado
+
+        const input = document.querySelector(`#diaReserva${contadorClicks}`);
+        const hoy = new Date().toISOString().split("T")[0];
+
+        input.setAttribute("min", hoy);
 
         fetch(base_url + "/reservas/getCanchas")
           .then((res) => res.json())
