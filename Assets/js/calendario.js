@@ -8,26 +8,48 @@ document.addEventListener("DOMContentLoaded", function () {
   var calendarEl = document.getElementById("calendar");
   var calendar = new FullCalendar.Calendar(calendarEl, {
     locale: "es",
-
     headerToolbar: {
       left: "prev,next today",
       center: "title",
       right: "dayGridMonth,timeGridWeek,timeGridDay"
     },
     initialView: "dayGridMonth",
-    editable: true,
-    evenDrop: (info) => {
-      if (
-        confirm(
-          "¿Estás seguro de que quieres mover " +
-            info.event.title +
-            " al " +
-            info.event.start.toISOString() +
-            "?"
-        )
-      ) {
-        updateEvent(info.event);
+    editable: true, // Permite arrastrar y soltar Reservas
+    ventOverlap: false, // No permite superposición de Reservas
+    eventDrop: async (info) => {
+      const fecha = info.event.start.toISOString().split("T")[0];
+      const hora = info.event.start.getHours() + ":" + info.event.start.getMinutes();
+      const id = info.event.extendedProps.idPivot;
+      const result = await Swal.fire({
+        title: "Actualizar Reserva",
+        text: "¿Está seguro de actualizar la reserva?",
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonText: "Sí",
+        denyButtonText: "Cancelar"
+      });
+
+      if (result.isConfirmed) {
+        let frmData = new FormData();
+        frmData.append("idPivot", id);
+        frmData.append("nuevaFecha", fecha);
+        frmData.append("nuevaHora", hora);
+
+        const data = await fetchData(`${base_url}/reservas/updateHorario`, "POST", frmData);
+
+        Swal.fire({
+          title: data.status ? "Correcto" : "Error",
+          text: data.msg,
+          icon: data.status ? "success" : "error",
+          showConfirmButton: false,
+          timer: 1700
+        });
+
+        if (!data.status) {
+          info.revert();
+        }
       } else {
+        // Si el usuario cancela, revertir el cambio
         info.revert();
       }
     },
@@ -37,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
       elements.modalBody.innerHTML += `<p><strong> Hora de Inicio : </strong> ${info.event.extendedProps.hora}</p>`;
       elements.modalBody.innerHTML += `<p><strong>Reservada por : </strong> ${info.event.extendedProps.individuo}</p>`;
       elements.modalBody.innerHTML += `<p><strong>Tipo de cancha : </strong> ${info.event.extendedProps.tipo}</p>`;
-      elements.modalBody.innerHTML += `<p><strong>Capacidad : ${info.event.extendedProps.capacidad} </p>`;
+      elements.modalBody.innerHTML += `<p><strong>Capacidad : ${info.event.extendedProps.capacidad} Jugadores</p>`;
       elements.modalBody.innerHTML += `<p><strong>Valor :</strong> $${info.event.extendedProps.valor} </p>`;
 
       $("#detalles").modal("show");
@@ -50,11 +72,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const reservas = response.map((reserva) => {
               // Convertir la fecha a un formato ISO 8601
               const fecha = new Date(reserva.fechaReserva);
-
               const fechaISO = fecha.toISOString().split("T")[0]; // Obtener solo la parte de la fecha
-
               return {
                 id: reserva.idreservas,
+                idPivot: reserva.idPivot,
                 title: reserva.nombreCancha,
                 individuo: reserva.nombreReserva,
                 capacidad: reserva.capacidadCancha,
@@ -77,13 +98,11 @@ document.addEventListener("DOMContentLoaded", function () {
   calendar.render();
 });
 
-const updateReserva = () => {};
-
 const fetchData = async (url, method = "GET", body = null) => {
   try {
     const options = {
       method: method,
-      body: body ? JSON.stringify(body) : null
+      body: body ? body : null
     };
 
     const response = await fetch(url, options);

@@ -243,23 +243,29 @@
     <div class="conatiner-fluid content-inner mt-n5 py-0">
         <div class="row">
             <div class="modal fade" id="detalles" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-primary">
-                            <h5 class="modal-title text-white" id="staticBackdropLabel">Detalle de la Reserva</h5>
+                            <h5 class="modal-title text-white text-align-center" id="staticBackdropLabel">Información de la Reserva</h5>
                             <button type="button" class="btn-close" id="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body" id="modal-body">
-
+                        <div class="modal-body"">
+                            <div class=" container-fluid">
+                            <div class="col-6" id="modal-body"></div>
+                            <div class="col-6">Imagen
+                                <img src="" id="img-reserva" alt="Imagen de la reserva" class="img-fluid">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-12  col-lg-12">
-                <div class="col-md-12">
-                    <div class="card" data-aos="fade-up" data-aos-delay="800"></div>
+        </div>
+        <div class="col-md-12 mt-2 col-lg-12">
+            <div class="col-md-12">
+                <div class="card mt-2" data-aos="fade-down" data-aos-delay="900">
                     <div id="calendar"></div>
                 </div>
+
             </div>
         </div>
     </div>

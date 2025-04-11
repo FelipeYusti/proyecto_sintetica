@@ -155,9 +155,6 @@ class Reservas extends Controllers
         echo json_encode($arrRespuesta, JSON_UNESCAPED_UNICODE);
         die();
     }
-
-
-
     public function updateReserva()
     {
         $arrPost = ['idReserva', 'nombreReserva', 'idConvenio', 'idUsuario'];
@@ -195,7 +192,37 @@ class Reservas extends Controllers
 
         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
     }
+    public function updateHorario()
+    {
+        $arrPost = ['idPivot', 'nuevaFecha', 'nuevaHora'];
 
+        if (check_post($arrPost)) {
+            $idPivot = strClean($_POST['idPivot']);
+            $nuevaFecha = strClean($_POST['nuevaFecha']);
+            $nuevaHora = strClean($_POST['nuevaHora']);
+            try {
+                $insert = $this->model->updateHorario(
+                    $idPivot,
+                    $nuevaFecha,
+                    $nuevaHora,
+                );
+                if (intval($insert) > 0) {
+
+                    $arrResponse = array('status' => true, 'msg' => 'Horaio actualizada correctamente');
+                } else if ($insert == 'exist') {
+                    $arrResponse = array('status' => false, 'msg' => 'Ya existe una convenio con el mismo nombre');
+                } else {
+                    $arrResponse = array('status' => false, 'msg' => 'Error al insertar');
+                }
+            } catch (\Throwable $th) {
+                $arrResponse = array('status' => false, 'msg' => "Error desconocido: $th");
+            }
+        } else {
+            $arrResponse = array('status' => false, 'msg' => 'Debe insertar todos los datos');
+        }
+
+        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+    }
     public function deleteReserva1()
     {
         if ($_POST) {
