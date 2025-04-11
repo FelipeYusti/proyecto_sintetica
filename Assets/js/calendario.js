@@ -54,10 +54,12 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     },
     eventClick: (info) => {
-      elements.modalBody.innerHTML = `<p><strong>Ubicacion : </strong> ${info.event.title}</p>`;
-      elements.modalBody.innerHTML += `<p><strong> Fecha de Reserva : </strong> ${info.event.start.toISOString()}</p>`;
+      elements.modalBody.innerHTML = ` <p><strong> Ubicacion : </strong> ${info.event.title}</p>`;
+      elements.modalBody.innerHTML += `<p><strong> Fecha de Reserva : </strong> ${
+        info.event.start.toISOString().split("T")[0]
+      }</p>`;
       elements.modalBody.innerHTML += `<p><strong> Hora de Inicio : </strong> ${info.event.extendedProps.hora}</p>`;
-      elements.modalBody.innerHTML += `<p><strong>Reservada por : </strong> ${info.event.extendedProps.individuo}</p>`;
+      elements.modalBody.innerHTML += `<p></i><strong> Reservada por : </strong> ${info.event.extendedProps.individuo}</p>`;
       elements.modalBody.innerHTML += `<p><strong>Tipo de cancha : </strong> ${info.event.extendedProps.tipo}</p>`;
       elements.modalBody.innerHTML += `<p><strong>Capacidad : ${info.event.extendedProps.capacidad} Jugadores</p>`;
       elements.modalBody.innerHTML += `<p><strong>Valor :</strong> $${info.event.extendedProps.valor} </p>`;
