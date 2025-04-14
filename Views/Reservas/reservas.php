@@ -295,9 +295,8 @@ header_admin($data);
                     </div>
                 </div>
             </div> -->
-                <div class="col-md-12 col-lg-8">
+                <div class="col-md-12 col-lg-12">
                     <div class="row">
-
                         <div class="col-3">
                             <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1300">
                                 <div class="card-body">
@@ -313,23 +312,26 @@ header_admin($data);
                         </div>
                     </div>
                     <div class="row">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>id</th>
-                                    <th>Nombre</th>
-                                    <th>Fecha</th>
-                                    <th>Cancha</th>
-                                    <th>Tipo de cancha</th>
-                                    <th>Capacidad</th>
-                                    <th>Valor</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tablaReservas">
-                            </tbody>
-                        </table>
+                        <div class="modal fade" id="detalles" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-primary">
+                                        <h4 class="modal-title text-white text-align-center" id="staticBackdropLabel"> <b>Información de la Reserva</b></h4>
+                                        <button type="button" class="btn-close" id="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body" id="modal-body">
 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-2 col-lg-12">
+                            <div class="col-md-12">
+                                <div class="card mt-2" data-aos="fade-down" data-aos-delay="900">
+                                    <div id="calendar"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -358,7 +360,7 @@ header_admin($data);
                                         <option selected="" value="" disabled>No aplica</option>
                                         <div class="selectConvenio" name="selectConvenio" id="selectConvenio"></div>
                                     </select>
-                                   
+
                                 </div>
                             </div>
 
@@ -369,7 +371,7 @@ header_admin($data);
                                         <option selected="" value="" disabled>Seleccione el usuario</option>
                                         <div class="selectUsuario" name="selectUsuario" id="selectUsuario"></div>
                                     </select>
-                                    
+
                                 </div>
                             </div>
 
@@ -382,17 +384,17 @@ header_admin($data);
                                     <div style="margin: 50px; border: 1px solid #ccc; padding: 50px; border-radius: 50px; box-shadow: 0 0 10px rgba(0,0,0,0.1);"
                                         class="mb-3">
                                         <input type="hidden" name="idReservaPivote1" id="idReservaPivote1" value="40">
-            
+
                                         <div class="row">
                                             <label for="txtName" class="form-label"><b>Día de la reserva</b> </label>
                                             <input type="date" class="form-control" id="diaReserva1" name="diaReserva1"
                                                 required>
                                         </div>
-                                        <div class="row">           
-                                          <label for="genero" class="form-label"><b>Cancha</b></label>
-                                          <select class="form-control" name="idCancha1" id="idCancha1">
-                                            <option selected="" value="" disabled>Seleccione la cancha</option>
-                                          </select>
+                                        <div class="row">
+                                            <label for="genero" class="form-label"><b>Cancha</b></label>
+                                            <select class="form-control" name="idCancha1" id="idCancha1">
+                                                <option selected="" value="" disabled>Seleccione la cancha</option>
+                                            </select>
                                         </div>
                                         <div class="row">
                                             <label for="txtName" class="form-label"><b>Hora de la reserva</b> </label>
@@ -406,7 +408,7 @@ header_admin($data);
                                         </div>
                                     </div>
                                 </div>
-                              
+
                             </div>
 
                             <button type="submit" id="btnFormularioProducto" class="btn btn-primary">Agregar otro
@@ -414,8 +416,6 @@ header_admin($data);
                         </div>
                     </div>
                 </form>
-
-
 
             </div>
         </div>
