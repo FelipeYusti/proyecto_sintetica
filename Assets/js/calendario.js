@@ -8,6 +8,13 @@ document.addEventListener("DOMContentLoaded", function () {
   var calendarEl = document.getElementById("calendar");
   var calendar = new FullCalendar.Calendar(calendarEl, {
     locale: "es",
+    timeZone: "UTC",
+    eventColor: "#378006",
+    eventTimeFormat: {
+      hour: "numeric",
+      minute: "2-digit",
+      meridiem: "short"
+    },
     headerToolbar: {
       left: "prev,next today",
       center: "title",
