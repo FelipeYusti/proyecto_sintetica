@@ -28,25 +28,26 @@ class Reservas extends Controllers
         die();
     }
 
-    public function getReserva($idReserva)
+    public function getReserva($idReservaPivote)
     {
+        $idReservaPivote = intval(strClean($idReservaPivote));
 
-        $intIdConvenio = intval(strClean($idReserva));
-
-        if ($intIdConvenio > 0) {
-
-            $arrData = $this->model->getById($idReserva);
+        if ($idReservaPivote > 0) {
+            $arrData = $this->model->getReserva($idReservaPivote);
 
             if (empty($arrData)) {
                 $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados');
             } else {
                 $arrResponse = array('status' => true, 'data' => $arrData);
             }
+        } else {
+            $arrResponse = array('status' => false, 'msg' => 'ID inválido');
         }
 
         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         die();
     }
+
     public function getConvenios()
     {
 

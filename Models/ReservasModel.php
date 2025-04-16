@@ -25,12 +25,27 @@ class ReservasModel extends Mysql
         return $request;
     }
 
-    public function getReserva()
+    public function getReserva($idReservaPivote)
     {
-        $sql = "SELECT convenios.idconvenios,convenios.nombre FROM convenios WHERE convenios.status>0";
-        $request = $this->select_all($sql);
-        return $request;
+        $this->idReservaPivote = $idReservaPivote;
+
+        $sql = "SELECT reservas.nombre,
+        reservas.convenios_idconvenios,
+        reservas.idreservas,
+        reservas.users_idusers,
+        reservas_has_canchas.idreservas_idreservas AS idPivote,
+        reservas_has_canchas.reservas_idreservas,
+        reservas_has_canchas.canchas_idcanchas,
+        reservas_has_canchas.fecha,
+        reservas_has_canchas.horaReserva,
+        reservas_has_canchas.horasReservadas
+        FROM reservas_has_canchas 
+        JOIN reservas ON reservas_has_canchas.reservas_idreservas = reservas.idreservas 
+        WHERE reservas_has_canchas.idreservas_idreservas = '{$this->idReservaPivote}'";
+
+        return $request = $this->select_all($sql);
     }
+
 
     public function getConvenios()
     {

@@ -199,26 +199,23 @@ function editar(idPivote) {
   $("#detalles").modal("hide");
   $("#editarReservaModal").modal("show");
 
-  document.addEventListener("submit", (e) => {
+  const idReservaInput = document.getElementById("idReserva");
+  idReservaInput.value = idPivote;
 
-    idReservaInput.value = idPivote; // Guardar el ID en el input hidden
-
-    fetch(base_url + `/reservas/getReserva/` + idPivote, {
-      method: "POST"
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.data.length > 0) {
-          const reserva = data.data[0];
-          idReservaInput.value = reserva.idreservas;
-          nombreReserva.value = reserva.nombreReserva;
-          idConvenio.value = reserva.nombreConvenios;
-          idUsuario.value = reserva.username;
-        }
-      })
-      .catch((error) => console.error("Error al obtener datos del convenio:", error));
-
+  fetch(`${base_url}/reservas/getReserva/${idPivote}`, {
+    method: "GET"
   })
+    .then((res) => {
+      if (!res.ok) throw new Error("Respuesta no OK del servidor");
+      return res.json();
+    })
+    .then((data) => {
+      console.log("DATA:", data); // Ver si hay status, msg, data, etc.
+
+    })
+    .catch((error) => {
+      console.error("Error al obtener datos de la reserva:", error);
+    });
 }
 
 
