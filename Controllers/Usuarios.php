@@ -19,24 +19,22 @@ class Usuarios extends Controllers
         $this->views->getView($this, "usuarios", $data);
     }
 
-    public function getUsarios()
+    public function show()
     {
-        $arrData = $this->model->selectUsuarios();
+        $arrData = $this->model->getAll();
 
         for ($i = 0; $i < count($arrData); $i++) {
             $arrData[$i]['accion'] = '
-            <button type="button" data-action="delete" data-id="' . $arrData[$i]['ID'] . '" class="btn btn-danger"><i class="bi bi-trash"></i></button>
-            <button type="button" data-action="edit" data-id="' . $arrData[$i]['ID'] . '" class="btn btn-primary"><i class="bi bi-pencil-square"></i></button>
+            <button type="button" data-action="delete" data-id="' . $arrData[$i]['ID'] . '" class="btn btn-outline-danger"><i class="bi bi-trash"></i></button>
+            <button type="button" data-action="edit" data-id="' . $arrData[$i]['ID'] . '" class="btn btn-outline-success"><i class="bi bi-pencil-square"></i></button>
             ';
 
-            if ($arrData[$i]['rol'] == "COORDINADOR") {
-                $arrData[$i]['rol'] = '<span class="badge bg-primary">Coordinador</span>';
+            if ($arrData[$i]['rol'] == "admin") {
+                $arrData[$i]['rol'] = '<span class="badge bg-primary">Admin</span>';
             }
-            if ($arrData[$i]['rol'] == "INSTRUCTOR") {
-                $arrData[$i]['rol'] = '<span class="badge bg-info text-dark">Instructor</span>';
-            }
-            if ($arrData[$i]['rol'] == "APRENDIZ") {
-                $arrData[$i]['rol'] = '<span class="badge bg-secondary">Aprendiz</span>';
+
+            if ($arrData[$i]['rol'] == "empleado") {
+                $arrData[$i]['rol'] = '<span class="badge bg-warning">Empleado</span>';
             }
 
             if ($arrData[$i]['status'] == 1) {
@@ -56,7 +54,7 @@ class Usuarios extends Controllers
         $intId = intval(strClean($id));
 
         if ($intId > 0) {
-            $arrData = $this->model->selectUsuariosById($id);
+            $arrData = $this->model->getByid($id);
         } else {
             $arrResponse = array('status' => false, 'msg' => 'tipo de dato no permitido');
         }
@@ -71,81 +69,89 @@ class Usuarios extends Controllers
         die();
     }
 
-    public function setUsuario()
+    public function create()
     {
+
         $arrPosts = [
-            'txtNombre',
-            'txtApellido',
-            'txtDocumento',
-            'txtTelefono',
-            'genero',
-            'txtEmail',
-            'txtCodigo',
-            'userStatus'
+            'txtUsername',
+            'txtPassword',
+            'txtCorreo',
+            'txtRol',
         ];
 
         if (check_post($arrPosts)) {
 
-            $strNombre = strClean($_POST['txtNombre']);
-            $strApellido = strClean($_POST['txtApellido']);
-            $intDocumento = intval(strClean($_POST['txtDocumento']));
-            $intTelefono = intval(strClean($_POST['txtTelefono']));
-            $intGenero = intval(strClean($_POST['genero']));
-            $strEmail = strtolower(strClean($_POST['txtEmail']));
-            $strCodigo = strClean($_POST['txtCodigo']);
-            $intStatus = intval(strClean($_POST['userStatus']));
-            $strFirma = "";
-            $strRol = "APRENDIZ";
-            $intIdUsuario = intval(strClean($_POST['idUsuario']));
-            $strPassword =  hash("SHA256", strClean($_POST['txtDocumento']));
-
+            $username = strClean($_POST['txtUsername']);
+            $password = strClean($_POST['txtPassword']);
+            $email = strClean($_POST['txtCorreo']);
+            $rol = strClean($_POST['txtRol']);
             try {
-                if ($intIdUsuario == 0 || $intIdUsuario == "" || $intIdUsuario == "0") {
-                    $insert = $this->model->insertUsuario(
-                        $strNombre,
-                        $strApellido,
-                        $intDocumento,
-                        $intTelefono,
-                        $intGenero,
-                        $strEmail,
-                        $strCodigo,
-                        $strRol,
-                        $strPassword,
-                        $strFirma
-                    );
-                    $option = 1;
-                } else {
-                    if ($intStatus == 0) {
-                        $intStatus = 1;
-                    }
-                    $insert = $this->model->updateUsuario(
-                        $intIdUsuario,
-                        $strNombre,
-                        $strApellido,
-                        $intDocumento,
-                        $intTelefono,
-                        $intGenero,
-                        $strEmail,
-                        $strCodigo,
-                        $strRol,
-                        $strFirma,
-                        $intStatus
-                    );
-                    $option = 2;
-                }
+
+                $insert = $this->model->add(
+                    $username,
+                    $password,
+                    $email,
+                    $rol
+                );
 
                 if (intval($insert) > 0) {
 
-                    if ($option == 1) {
-                        $arrResponse = array('status' => true, 'msg' => 'Usuario insertado correctamente');
-                    }
-
-                    if ($option == 2) {
-                        $arrResponse = array('status' => true, 'msg' => 'Usuario actualizado correctamente');
-                    }
+                    $arrResponse = array('status' => true, 'msg' => 'Usuario registrado correctamente');
                 } else if ($insert == 'exist') {
-                    $arrResponse = array('status' => false, 'msg' => 'Ya existe un usuario con el mismo documento');
+
+                    $arrResponse = array('status' => false, 'msg' => 'Ya existe un usuario con el mismo nombre');
                 } else {
+
+                    $arrResponse = array('status' => false, 'msg' => 'Error al insertar');
+                }
+            } catch (\Throwable $th) {
+                $arrResponse = array('status' => false, 'msg' => "Error desconocido: $th");
+            }
+        } else {
+            $arrResponse = array('status' => false, 'msg' => 'Debe insertar todos los datos');
+        }
+
+        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+    }
+
+
+    public function modify()
+    {
+        $arrPosts = [
+            'txtIdUsuario',
+            'txtUsername',
+            'txtPassword',
+            'txtCorreo',
+            'txtRol',
+            'txtStatus'
+        ];
+
+        if (check_post($arrPosts)) {
+            $username = strClean($_POST['txtUsername']);
+            $password = strClean($_POST['txtPassword']);
+            $email = strClean($_POST['txtCorreo']);
+            $rol = strClean($_POST['txtRol']);
+            $status = intval(strClean($_POST['txtStatus']));
+            $idUser = intval(strClean($_POST['txtIdUsuario']));
+            try {
+
+                $insert = $this->model->updat(
+                    $username,
+                    $password,
+                    $email,
+                    $rol,
+                    $status,
+                    $idUser
+                );
+
+                if (intval($insert) > 0) {
+
+                    $arrResponse = array('status' => true, 'msg' => 'Usuario actualizado correctamente');
+                } else if ($insert == 'exist') {
+
+                    $arrResponse = array('status' => false, 'msg' => 'Ya existe un usuario con el mismo nombre');
+                } else {
+
                     $arrResponse = array('status' => false, 'msg' => 'Error al insertar');
                 }
             } catch (\Throwable $th) {
@@ -161,8 +167,8 @@ class Usuarios extends Controllers
     function deleteUsuario()
     {
         if ($_POST) {
-            $intIdUsuario = intval($_POST['idUsuario']);
-            $requestDelete = $this->model->deleteUsuario($intIdUsuario);
+            $idUser = intval($_POST['idUser']);
+            $requestDelete = $this->model->delet($idUser);
 
             if ($requestDelete) {
                 $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el usuario');

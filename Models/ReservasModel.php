@@ -9,11 +9,11 @@ class ReservasModel extends Mysql
 
     public function getAll()
     {
-        $sql = "SELECT reservas.idreservas,reservas.nombre 
+        $sql = "SELECT reservas.idreservas,reservas_has_canchas.idreservas_idreservas as idPivot,reservas.nombre 
         as nombreReserva,reservas_has_canchas.fecha as 
         fechaReserva,canchas.nombre as nombreCancha,canchas.tipo as 
         tipoCancha,canchas.capacidad as capacidadCancha,canchas.valor as 
-        valorCancha,reservas.convenios_idconvenios,reservas.users_idusers,
+        valorCancha,reservas.convenios_idconvenios,reservas.users_idusers,reservas_has_canchas.horaReserva,
         convenios.nombre as nombreConvenios, users.username
         from reservas_has_canchas 
         JOIN reservas ON reservas.idreservas=reservas_has_canchas.reservas_idreservas 
@@ -133,7 +133,16 @@ class ReservasModel extends Mysql
 
         return $respuesta;
     }
+    public function updateHorario(int $idReservaPivote, string $fecha, string $horaReserva)
+    {
+        $this->idReservaPivote = $idReservaPivote;
+        $this->fecha = $fecha;
+        $this->horaReserva = $horaReserva;
+        $sql = "UPDATE reservas_has_canchas SET fecha = ?, horaReserva = ? WHERE idreservas_idreservas = ? ";
+        $arrData = array($this->fecha, $this->horaReserva, $this->idReservaPivote);
 
+        return $this->update($sql, $arrData);
+    }
 
     public function deleteReserva(int $idReserva)
     {

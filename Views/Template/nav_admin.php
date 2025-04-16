@@ -161,6 +161,7 @@
               </a>
             </li>
           </ul>
+
         </li>
         <li class="nav-item">
           <a class="nav-link" data-bs-toggle="collapse" href="#sidebar-auth" role="button" aria-expanded="false"
@@ -251,6 +252,7 @@
             </i>
           </a>
           <ul class="sub-nav collapse" id="sidebar-user" data-bs-parent="#sidebar-menu">
+
             <li class="nav-item">
               <a class="nav-link" href="../dashboard/app/user-profile.html">
                 <i class="icon">
@@ -297,7 +299,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="../dashboard/admin.html">
+          <a class="nav-link" href="<?= base_url() ?>/logout">
             <i class="icon">
               <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd"
