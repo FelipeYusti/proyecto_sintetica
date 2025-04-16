@@ -297,6 +297,7 @@ header_admin($data);
             </div> -->
                 <div class="col-md-12 col-lg-12">
                     <div class="row">
+                        <?php getModal('reservasModal', $data); ?>
                         <div class="col-3">
                             <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1300">
                                 <div class="card-body">
@@ -318,7 +319,8 @@ header_admin($data);
                                 <div class="modal-content">
                                     <div class="modal-header bg-primary">
                                         <h4 class="modal-title text-white text-align-center" id="staticBackdropLabel">
-                                            <b>Información de la Reserva</b></h4>
+                                            <b>Información de la Reserva</b>
+                                        </h4>
                                         <button type="button" class="btn-close" id="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>

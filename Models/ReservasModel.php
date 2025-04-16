@@ -133,6 +133,29 @@ class ReservasModel extends Mysql
 
         return $respuesta;
     }
+
+    public function updateReserva2(int $idPivote, string $diaReserva, int $idCancha, string $horaReserva, int $horasReservadas)
+    {
+        $this->idPivote = $idPivote;
+        $this->diaReserva = $diaReserva;
+        $this->idCancha = $idCancha;
+        $this->horaReserva = $horaReserva;
+        $this->horasReservadas = $horasReservadas;
+
+        $query_update = "UPDATE reservas_has_canchas SET reservas_has_canchas.reservas_idreservas=?, reservas_has_canchas.canchas_idcanchas=?,
+        reservas_has_canchas.fecha=?, reservas_has_canchas.horaReserva=?,
+        reservas_has_canchas.horasReservadas=? WHERE reservas_has_canchas.idreservas_idreservas=?";
+
+        $arrData = [$this->diaReserva, $this->idCancha, $this->horaReserva, $this->horasReservadas, $this->idPivote];
+
+        $request_update = $this->update($query_update, $arrData);
+        $respuesta = $request_update;
+
+        return $respuesta;
+    }
+
+
+
     public function updateHorario(int $idReservaPivote, string $fecha, string $horaReserva)
     {
         $this->idReservaPivote = $idReservaPivote;

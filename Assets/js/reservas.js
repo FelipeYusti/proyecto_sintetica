@@ -72,8 +72,10 @@ function listCanchasSelect() {
 }
 listCanchasSelect();
 
+//=========================================================================================
 const elements = {
   modal: document.querySelector("#detalles"),
+  modal: document.querySelector('#editarReservaModal'),
   modalBody: document.querySelector("#modal-body"),
   btnClose: document.querySelector("#btn-close")[0]
 };
@@ -128,6 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         if (!data.status) {
+
           info.revert();
         }
       } else {
@@ -137,17 +140,18 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     eventClick: (info) => {
       elements.modalBody.innerHTML = ` <p><strong> Ubicacion : </strong> ${info.event.title}</p>`;
-      elements.modalBody.innerHTML += `<p><strong> Fecha de Reserva : </strong> ${
-        info.event.start.toISOString().split("T")[0]
-      }</p>`;
+      elements.modalBody.innerHTML += `<p><strong> Fecha de Reserva : </strong> ${info.event.start.toISOString().split("T")[0]
+        }</p>`;
       elements.modalBody.innerHTML += `<p><strong> Hora de Inicio : </strong> ${info.event.extendedProps.hora}</p>`;
       elements.modalBody.innerHTML += `<p></i><strong> Reservada por : </strong> ${info.event.extendedProps.individuo}</p>`;
       elements.modalBody.innerHTML += `<p><strong>Tipo de cancha : </strong> ${info.event.extendedProps.tipo}</p>`;
       elements.modalBody.innerHTML += `<p><strong>Capacidad : ${info.event.extendedProps.capacidad} Jugadores</p>`;
       elements.modalBody.innerHTML += `<p><strong>Valor :</strong> $${info.event.extendedProps.valor} </p>`;
-
+      elements.modalBody.innerHTML += `<button type="button" class="btn btn-primary" onclick="editar(${info.event.extendedProps.idPivot})">Editar</button>`;
+      console.log(info.event.extendedProps.idPivot);
       $("#detalles").modal("show");
     },
+
     events: (info, successCallback) => {
       const url = `${base_url}/reservas/showTabla`;
       fetchData(url, "GET", null)
@@ -181,6 +185,36 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   calendar.render();
 });
+//==========================================================EDITAR==================================================
+
+function editar(id) {
+  $("#detalles").modal("hide");
+  $("#editarReservaModal").modal("show");
+
+  document.addEventListener("submit", (e) => {
+
+    idReservaInput.value = id; // Guardar el ID en el input hidden
+
+    fetch(base_url + `/reservas/getReserva/` + id, {
+      method: "POST"
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.data.length > 0) {
+          const reserva = data.data[0];
+          idReservaInput.value = reserva.idreservas;
+          nombreReserva.value = reserva.nombreReserva;
+          idConvenio.value = reserva.nombreConvenios;
+          idUsuario.value = reserva.username;
+        }
+      })
+      .catch((error) => console.error("Error al obtener datos del convenio:", error));
+
+  })
+}
+
+
+
 
 const fetchData = async (url, method = "GET", body = null) => {
   try {
@@ -378,7 +412,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let selectElem = document.getElementById(`idCancha${contadorClicks}`);
 
-        // Validación para que el dia de la reserva, se puede hacer un dia pasado
+        // Validación para que el dia de la reserva,no se puede hacer un dia pasado
 
         const input = document.querySelector(`#diaReserva${contadorClicks}`);
         const hoy = new Date().toISOString().split("T")[0];
