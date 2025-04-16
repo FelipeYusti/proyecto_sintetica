@@ -157,13 +157,19 @@ class Reservas extends Controllers
     }
     public function updateReserva()
     {
-        $arrPost = ['idReserva', 'nombreReserva', 'idConvenio', 'idUsuario'];
+        $arrPost = ['idReserva', 'nombreReserva', 'idConvenio', 'idUsuario', 'diaReserva', 'idCancha1', 'horaReserva', 'horasReservas'];
+        //$arrPost2 = [];
 
         if (check_post($arrPost)) {
             $idReserva = strClean($_POST['idReserva']);
             $nombreReserva = strClean($_POST['nombreReserva']);
             $idConvenio = strClean($_POST['idConvenio']);
             $idUsuario = strClean($_POST['idUsuario']);
+            $diaReserva = strClean($_POST['diaReserva']);
+            $idCancha1 = strClean($_POST['idCancha1']);
+            $horaReserva = strClean($_POST['horaReserva']);
+            $horasReservas = strClean($_POST['horasReservas']);
+
             try {
 
                 $insert = $this->model->updateReserva(
@@ -173,7 +179,14 @@ class Reservas extends Controllers
                     $idUsuario
                 );
 
-                if (intval($insert) > 0) {
+                $insert2 = $this->model->updateReservaPivote(
+                    $diaReserva,
+                    $idCancha1,
+                    $horaReserva,
+                    $horasReservas
+                );
+
+                if (intval($insert) > 0 and intval($insert2) > 0) {
 
                     $arrResponse = array('status' => true, 'msg' => 'Reserva actualizada correctamente');
                 } else if ($insert == 'exist') {
@@ -223,6 +236,7 @@ class Reservas extends Controllers
 
         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
     }
+
     public function deleteReserva1()
     {
         if ($_POST) {

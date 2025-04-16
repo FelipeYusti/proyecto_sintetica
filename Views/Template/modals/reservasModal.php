@@ -17,12 +17,12 @@
 
                     <div class="mb-3">
                         <label for="nombreReserva" class="form-label"><b>Nombre del reservante</b></label>
-                        <input type="text" class="form-control" id="nombreReserva" name="nombreReserva">
+                        <input type="text" class="form-control" id="nombreReserva" name="nombreReserva" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="idConvenio" class="form-label"><b>Convenio (si aplica)</b></label>
-                        <select class="form-control" name="idConvenio" id="idConvenio">
+                        <select class="form-control" name="idConvenio" id="idConvenio" required>
                             <option selected disabled>No aplica</option>
                             <div class="selectConvenio" name="selectConvenio" id="selectConvenio"></div>
                         </select>
@@ -30,7 +30,7 @@
 
                     <div class="mb-3">
                         <label for="idUsuario" class="form-label"><b>Usuario</b></label>
-                        <select class="form-control" name="idUsuario" id="idUsuario">
+                        <select class="form-control" name="idUsuario" id="idUsuario" required>
                             <option selected disabled>Seleccione el usuario</option>
                             <div class="selectUsuario" name="selectUsuario" id="selectUsuario"></div>
                         </select>
@@ -38,17 +38,24 @@
 
                     <div class="mb-3">
                         <label for="diaReserva" class="form-label"><b>Día de la reserva</b></label>
-                        <input type="text" class="form-control" id="diaReserva" name="diaReserva">
+                        <input type="text" class="form-control" id="diaReserva" name="diaReserva" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="genero" class="form-label"><b>Cancha</b></label>
+                        <select class="form-control" name="idCancha1" id="idCancha1" required>
+                            <option selected="" value="" disabled>Seleccione la cancha</option>
+                        </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="horaReserva" class="form-label"><b>Hora de la reserva</b></label>
-                        <input type="text" class="form-control" id="horaReserva" name="horaReserva">
+                        <input type="text" class="form-control" id="horaReserva" name="horaReserva" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="horasReservas" class="form-label"><b>Horas reservadas</b></label>
-                        <input type="text" class="form-control" id="horasReservas" name="horasReservas">
+                        <input type="text" class="form-control" id="horasReservas" name="horasReservas" required>
                     </div>
             </div>
 

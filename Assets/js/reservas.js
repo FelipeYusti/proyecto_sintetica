@@ -1,14 +1,22 @@
 const frmCrearReserva = document.querySelector("#frmCrearReserva");
 const btnCrearReserva = document.querySelector("#btnCrearReserva");
-let idReservaInput = document.querySelector("#idReserva");
-let nombreReserva = document.querySelector("#nombreReserva");
-let idConvenio = document.querySelector("#idConvenio");
-let idUsuario = document.querySelector("#idUsuario");
 let container2 = document.querySelector("#container2");
 let container1 = document.querySelector("#container1");
 let foother = document.querySelector("#footer");
 let btnFormularioProducto = document.querySelector("#btnFormularioProducto");
 let formularioProducto = document.querySelector("#formularioProducto");
+
+//====
+let idReservaInput = document.querySelector("#idReserva");
+let nombreReserva = document.querySelector("#nombreReserva");
+let idConvenio = document.querySelector("#idConvenio");
+let idUsuario = document.querySelector("#idUsuario");
+let diaReserva = document.querySelector("#diaReserva");
+let idCancha1 = document.querySelector("#idCancha1");
+let horaReserva = document.querySelector("#horaReserva");
+let horasReservas = document.querySelector("#horasReservas");
+//===
+
 
 let select = "";
 
@@ -148,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
       elements.modalBody.innerHTML += `<p><strong>Capacidad : ${info.event.extendedProps.capacidad} Jugadores</p>`;
       elements.modalBody.innerHTML += `<p><strong>Valor :</strong> $${info.event.extendedProps.valor} </p>`;
       elements.modalBody.innerHTML += `<button type="button" class="btn btn-primary" onclick="editar(${info.event.extendedProps.idPivot})">Editar</button>`;
-      console.log(info.event.extendedProps.idPivot);
+      console.log(info.event);
       $("#detalles").modal("show");
     },
 
@@ -187,15 +195,15 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //==========================================================EDITAR==================================================
 
-function editar(id) {
+function editar(idPivote) {
   $("#detalles").modal("hide");
   $("#editarReservaModal").modal("show");
 
   document.addEventListener("submit", (e) => {
 
-    idReservaInput.value = id; // Guardar el ID en el input hidden
+    idReservaInput.value = idPivote; // Guardar el ID en el input hidden
 
-    fetch(base_url + `/reservas/getReserva/` + id, {
+    fetch(base_url + `/reservas/getReserva/` + idPivote, {
       method: "POST"
     })
       .then((res) => res.json())
@@ -320,7 +328,7 @@ frmCrearReserva.addEventListener("submit", (e) => {
     console.log(key, value);
   });
 
-  // ========================================================================COMENTAREADO POR PRUEBAAAAAAAA MK========================
+  // ========================================================================COMENTAREADO POR PRUEBAAAAAA========================
   if (select === "update") {
     frmData.append("idReserva", idReservaInput.value); // Usar el input hidden con el ID
 

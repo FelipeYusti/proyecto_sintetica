@@ -24,6 +24,14 @@ class ReservasModel extends Mysql
         $request = $this->select_all($sql);
         return $request;
     }
+
+    public function getReserva()
+    {
+        $sql = "SELECT convenios.idconvenios,convenios.nombre FROM convenios WHERE convenios.status>0";
+        $request = $this->select_all($sql);
+        return $request;
+    }
+
     public function getConvenios()
     {
         $sql = "SELECT convenios.idconvenios,convenios.nombre FROM convenios WHERE convenios.status>0";
@@ -98,9 +106,9 @@ class ReservasModel extends Mysql
         return $requestInsert;
     }
 
-    public function addReservaPivote(int $idReserva, int $idCancha, string $fecha, string $horaReserva, int $horasReservadas)
+    public function addReservaPivote(int $idReservaPivote, int $idCancha, string $fecha, string $horaReserva, int $horasReservadas)
     {
-        $this->idReserva = $idReserva;
+        $this->idReservaPivote = $idReservaPivote;
         $this->idCancha = $idCancha;
         $this->fecha = $fecha;
         $this->horaReserva = $horaReserva;
@@ -109,7 +117,7 @@ class ReservasModel extends Mysql
         $sql = "INSERT INTO reservas_has_canchas (reservas_has_canchas.reservas_idreservas,reservas_has_canchas.canchas_idcanchas,reservas_has_canchas.fecha,reservas_has_canchas.horaReserva,reservas_has_canchas.horasReservadas)
          VALUES(?,?,?,?,?)";
 
-        $arrData = array($this->idReserva, $this->idCancha, $this->fecha, $this->horaReserva, $this->horasReservadas);
+        $arrData = array($this->idReservaPivote, $this->idCancha, $this->fecha, $this->horaReserva, $this->horasReservadas);
 
         return $this->insert($sql, $arrData);
     }
@@ -134,7 +142,7 @@ class ReservasModel extends Mysql
         return $respuesta;
     }
 
-    public function updateReserva2(int $idPivote, string $diaReserva, int $idCancha, string $horaReserva, int $horasReservadas)
+    public function updateReservaPivote(int $idPivote, string $diaReserva, int $idCancha, string $horaReserva, int $horasReservadas)
     {
         $this->idPivote = $idPivote;
         $this->diaReserva = $diaReserva;
