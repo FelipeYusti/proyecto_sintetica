@@ -1,4 +1,5 @@
-const frmCrearReserva = document.querySelector("#frmCrearReserva");
+const editarReservaModal = document.querySelector("#editarReservaModal");
+const frmEditarReserva = document.querySelector("#frmEditarReserva");
 const btnCrearReserva = document.querySelector("#btnCrearReserva");
 let container2 = document.querySelector("#container2");
 let container1 = document.querySelector("#container1");
@@ -8,6 +9,7 @@ let formularioProducto = document.querySelector("#formularioProducto");
 
 //====
 let idReservaInput = document.querySelector("#idReserva");
+let idReservaPivote = document.querySelector("#idReservaPivote");
 let nombreReserva = document.querySelector("#nombreReserva");
 let idConvenio = document.querySelector("#idConvenio");
 let idUsuario = document.querySelector("#idUsuario");
@@ -156,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
       elements.modalBody.innerHTML += `<p><strong>Capacidad : ${info.event.extendedProps.capacidad} Jugadores</p>`;
       elements.modalBody.innerHTML += `<p><strong>Valor :</strong> $${info.event.extendedProps.valor} </p>`;
       elements.modalBody.innerHTML += `<button type="button" class="btn btn-primary" onclick="editar(${info.event.extendedProps.idPivot})">Editar</button>`;
-      console.log(info.event);
+      console.log(info.event.extendedProps.idPivot);
       $("#detalles").modal("show");
     },
 
@@ -199,26 +201,32 @@ function editar(idPivote) {
   $("#detalles").modal("hide");
   $("#editarReservaModal").modal("show");
 
+  select = 'update';
   const idReservaInput = document.getElementById("idReserva");
   idReservaInput.value = idPivote;
 
   fetch(`${base_url}/reservas/getReserva/${idPivote}`, {
     method: "GET"
   })
-    .then((res) => {
-      if (!res.ok) throw new Error("Respuesta no OK del servidor");
-      return res.json();
-    })
+    .then((res) => res.json())
     .then((data) => {
-      console.log("DATA:", data); // Ver si hay status, msg, data, etc.
+      console.log(data.data);
 
+      if (data.data.length > 0) {
+        const reserva = data.data[0];
+        idReservaInput.value = reserva.idreservas;
+        idReservaPivote.value = reserva.idPivote;
+        nombreReserva.value = reserva.nombre;
+        idConvenio.value = reserva.convenios_idconvenios;
+        idUsuario.value = reserva.users_idusers;
+        diaReserva.value = reserva.fecha;
+        idCancha1.value = reserva.canchas_idcanchas;
+        horaReserva.value = reserva.horaReserva;
+        horasReservas.value = reserva.horasReservadas;
+      }
     })
-    .catch((error) => {
-      console.error("Error al obtener datos de la reserva:", error);
-    });
+
 }
-
-
 
 
 const fetchData = async (url, method = "GET", body = null) => {
@@ -316,10 +324,10 @@ document.addEventListener("click", (e) => {
   }
 });
 
-frmCrearReserva.addEventListener("submit", (e) => {
+editarReservaModal.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  let frmData = new FormData(frmCrearReserva);
+  let frmData = new FormData(frmEditarReserva);
 
   frmData.forEach((value, key) => {
     console.log(key, value);
@@ -328,7 +336,7 @@ frmCrearReserva.addEventListener("submit", (e) => {
   // ========================================================================COMENTAREADO POR PRUEBAAAAAA========================
   if (select === "update") {
     frmData.append("idReserva", idReservaInput.value); // Usar el input hidden con el ID
-
+    frmData.append("idReservaPivote", idReservaInput.value)
     fetch(base_url + "/reservas/updateReserva", {
       method: "POST",
       body: frmData
@@ -341,9 +349,9 @@ frmCrearReserva.addEventListener("submit", (e) => {
           icon: data.status ? "success" : "error"
         }).then(() => {
           if (data.status) {
-            frmCrearConvenio.reset();
-            $("#crearReservaModal").modal("hide");
-            listReserva();
+            frmEditarReserva.reset();
+            $("#editarReservaModal").modal("hide");
+            location.reload();
           }
         });
       });

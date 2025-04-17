@@ -158,11 +158,12 @@ class Reservas extends Controllers
     }
     public function updateReserva()
     {
-        $arrPost = ['idReserva', 'nombreReserva', 'idConvenio', 'idUsuario', 'diaReserva', 'idCancha1', 'horaReserva', 'horasReservas'];
+        $arrPost = ['idReserva', 'idReservaPivote', 'nombreReserva', 'idConvenio', 'idUsuario', 'diaReserva', 'idCancha1', 'horaReserva', 'horasReservas'];
         //$arrPost2 = [];
 
         if (check_post($arrPost)) {
-            $idReserva = strClean($_POST['idReserva']);
+            $idReserva = strClean($_POST['idReserva']);//Pivote
+            $idReservaPivote = strClean($_POST['idReservaPivote']);
             $nombreReserva = strClean($_POST['nombreReserva']);
             $idConvenio = strClean($_POST['idConvenio']);
             $idUsuario = strClean($_POST['idUsuario']);
@@ -181,6 +182,7 @@ class Reservas extends Controllers
                 );
 
                 $insert2 = $this->model->updateReservaPivote(
+                    $idReservaPivote,
                     $diaReserva,
                     $idCancha1,
                     $horaReserva,

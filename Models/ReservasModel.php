@@ -29,18 +29,26 @@ class ReservasModel extends Mysql
     {
         $this->idReservaPivote = $idReservaPivote;
 
-        $sql = "SELECT reservas.nombre,
-        reservas.convenios_idconvenios,
-        reservas.idreservas,
-        reservas.users_idusers,
-        reservas_has_canchas.idreservas_idreservas AS idPivote,
-        reservas_has_canchas.reservas_idreservas,
-        reservas_has_canchas.canchas_idcanchas,
-        reservas_has_canchas.fecha,
-        reservas_has_canchas.horaReserva,
-        reservas_has_canchas.horasReservadas
+        $sql = "SELECT 
+            reservas.nombre,
+            reservas.convenios_idconvenios,
+            reservas.idreservas,
+            reservas.users_idusers,
+            reservas_has_canchas.idreservas_idreservas as idPivote,
+            reservas_has_canchas.reservas_idreservas,
+            reservas_has_canchas.canchas_idcanchas,
+            reservas_has_canchas.fecha,
+            reservas_has_canchas.horaReserva,
+            reservas_has_canchas.horasReservadas,
+            convenios.nombre as nombreConvenio,
+            convenios.idconvenios,
+            users.username,
+            canchas.nombre as nombreCancha
         FROM reservas_has_canchas 
         JOIN reservas ON reservas_has_canchas.reservas_idreservas = reservas.idreservas 
+        JOIN convenios ON reservas.convenios_idconvenios=convenios.idconvenios
+        JOIN users ON reservas.users_idusers=users.idusers
+        JOIN canchas ON canchas.idcanchas=reservas_has_canchas.canchas_idcanchas
         WHERE reservas_has_canchas.idreservas_idreservas = '{$this->idReservaPivote}'";
 
         return $request = $this->select_all($sql);
@@ -165,11 +173,11 @@ class ReservasModel extends Mysql
         $this->horaReserva = $horaReserva;
         $this->horasReservadas = $horasReservadas;
 
-        $query_update = "UPDATE reservas_has_canchas SET reservas_has_canchas.reservas_idreservas=?, reservas_has_canchas.canchas_idcanchas=?,
+        $query_update = "UPDATE reservas_has_canchas SET  reservas_has_canchas.canchas_idcanchas=?,
         reservas_has_canchas.fecha=?, reservas_has_canchas.horaReserva=?,
         reservas_has_canchas.horasReservadas=? WHERE reservas_has_canchas.idreservas_idreservas=?";
 
-        $arrData = [$this->diaReserva, $this->idCancha, $this->horaReserva, $this->horasReservadas, $this->idPivote];
+        $arrData = [$this->idCancha, $this->diaReserva, $this->horaReserva, $this->horasReservadas, $this->idPivote];
 
         $request_update = $this->update($query_update, $arrData);
         $respuesta = $request_update;

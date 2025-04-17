@@ -14,6 +14,7 @@
                 <form id="frmEditarReserva" method="POST">
 
                     <input type="hidden" name="idReserva" id="idReserva" value="0">
+                    <input type="hidden" name="idReservaPivote" id="idReservaPivote" value="0">
 
                     <div class="mb-3">
                         <label for="nombreReserva" class="form-label"><b>Nombre del reservante</b></label>
@@ -50,12 +51,12 @@
 
                     <div class="mb-3">
                         <label for="horaReserva" class="form-label"><b>Hora de la reserva</b></label>
-                        <input type="text" class="form-control" id="horaReserva" name="horaReserva" required>
+                        <input type="time" class="form-control" id="horaReserva" name="horaReserva" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="horasReservas" class="form-label"><b>Horas reservadas</b></label>
-                        <input type="text" class="form-control" id="horasReservas" name="horasReservas" required>
+                        <input type="number" class="form-control" id="horasReservas" name="horasReservas" required>
                     </div>
             </div>
 
