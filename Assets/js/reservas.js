@@ -202,7 +202,9 @@ document.addEventListener("DOMContentLoaded", function () {
 function editar(idPivote) {
   $("#detalles").modal("hide");
   $("#editarReservaModal").modal("show");
-
+  listCanchasSelectEditar();
+  listConveniosSelectEditar();
+  listUsuariosSelectEditar();
   select = 'update';
   const idReservaInput = document.getElementById("idReserva");
   idReservaInput.value = idPivote;
@@ -493,3 +495,45 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+// ----------------------------------------------------------------------Selec de modal de editar-----------------------------------------------------------------------
+
+
+function listConveniosSelectEditar() {
+  fetch(base_url + "/reservas/getConvenios")
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      let selectElem = document.getElementById("selectConvenioEditar");
+      selectElem.innerHTML = "";
+      data.data.forEach((convenio) => {
+        selectElem.innerHTML += `<option value="${convenio.idconvenios}">${convenio.nombre}</option>`;
+      });
+    })
+    .catch((error) => console.error("Error al listar convenios:", error));
+}
+
+function listUsuariosSelectEditar() {
+  fetch(base_url + "/reservas/getUsuarios")
+    .then((res) => res.json())
+    .then((data) => {
+      let selectElem = document.getElementById("selectUsuarioEditar");
+      selectElem.innerHTML = "";
+      data.data.forEach((user) => {
+        selectElem.innerHTML += `<option value="${user.idusers}">${user.username}</option>`;
+      });
+    })
+    .catch((error) => console.error("Error al listar usuarios:", error));
+}
+
+function listCanchasSelectEditar() {
+  fetch(base_url + "/reservas/getCanchas")
+    .then((res) => res.json())
+    .then((data) => {
+      data.data.forEach((cancha) => {
+        let selectElem = document.getElementById("idCanchaEditar");
+        selectElem.innerHTML += `<option value="${cancha.idcanchas}">${cancha.nombre}</option>`;
+      });
+    })
+    .catch((error) => console.error("Error al listar canchas:", error));
+}

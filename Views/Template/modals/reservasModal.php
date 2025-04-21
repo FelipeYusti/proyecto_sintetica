@@ -25,7 +25,7 @@
                         <label for="idConvenio" class="form-label"><b>Convenio (si aplica)</b></label>
                         <select class="form-control" name="idConvenio" id="idConvenio" required>
                             <option selected disabled>No aplica</option>
-                            <div class="selectConvenio" name="selectConvenio" id="selectConvenio"></div>
+                            <div class="selectConvenio" name="selectConvenioEditar" id="selectConvenioEditar"></div>
                         </select>
                     </div>
 
@@ -33,7 +33,7 @@
                         <label for="idUsuario" class="form-label"><b>Usuario</b></label>
                         <select class="form-control" name="idUsuario" id="idUsuario" required>
                             <option selected disabled>Seleccione el usuario</option>
-                            <div class="selectUsuario" name="selectUsuario" id="selectUsuario"></div>
+                            <div class="selectUsuario" name="selectUsuarioEditar" id="selectUsuarioEditar"></div>
                         </select>
                     </div>
 
@@ -46,6 +46,7 @@
                         <label for="genero" class="form-label"><b>Cancha</b></label>
                         <select class="form-control" name="idCancha1" id="idCancha1" required>
                             <option selected="" value="" disabled>Seleccione la cancha</option>
+                            <div class="selectUsuario" name="idCanchaEditar" id="idCanchaEditar"></div>
                         </select>
                     </div>
 
