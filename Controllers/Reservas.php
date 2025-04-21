@@ -257,6 +257,27 @@ class Reservas extends Controllers
         die();
     }
 
+    public function cancelarReserva()
+    {
+        if ($_POST) {
+            $idReserva = intval($_POST['idReserva']);
+
+            $requestDelete = $this->model->cancelarReserva($idReserva);
+
+            if ($requestDelete) {
+                $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado la reserva.');
+            } else {
+                $arrResponse = array('status' => false, 'msg' => 'No se pudo eliminar la reserva.');
+            }
+
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode(['status' => false, 'msg' => 'No se recibió una solicitud válida.']);
+        }
+
+        die();
+    }
+
     public function deleteReserva()
     {
         $json = file_get_contents("php://input");

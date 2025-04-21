@@ -180,6 +180,7 @@ class ReservasModel extends Mysql
         $arrData = [$this->idCancha, $this->diaReserva, $this->horaReserva, $this->horasReservadas, $this->idPivote];
 
         $request_update = $this->update($query_update, $arrData);
+
         $respuesta = $request_update;
 
         return $respuesta;
@@ -209,4 +210,14 @@ class ReservasModel extends Mysql
         $request = $this->update($sql, $arrData);
         return $request;
     }
+
+    public function cancelarReserva(int $idReserva)
+    {
+        $this->idReserva = intval($idReserva);
+
+        $sql = "DELETE FROM reservas_has_canchas WHERE idreservas_idreservas = " . $this->idReserva;
+        $request = $this->delete($sql);
+        return $request;
+    }
+
 }

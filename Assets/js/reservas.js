@@ -26,6 +26,7 @@ let select = "";
 
 btnCrearReserva.addEventListener("click", () => {
   frmCrearReserva.reset();
+
   document.getElementById("selectConvenio").selectedIndex = 0;
   document.getElementById("selectUsuario").selectedIndex = 0;
   container1.style.display = "none";
@@ -157,7 +158,8 @@ document.addEventListener("DOMContentLoaded", function () {
       elements.modalBody.innerHTML += `<p><strong>Tipo de cancha : </strong> ${info.event.extendedProps.tipo}</p>`;
       elements.modalBody.innerHTML += `<p><strong>Capacidad : ${info.event.extendedProps.capacidad} Jugadores</p>`;
       elements.modalBody.innerHTML += `<p><strong>Valor :</strong> $${info.event.extendedProps.valor} </p>`;
-      elements.modalBody.innerHTML += `<button type="button" class="btn btn-primary" onclick="editar(${info.event.extendedProps.idPivot})">Editar</button>`;
+      elements.modalBody.innerHTML += `<button type="button" style="margin-right: 10px; margin-top: 15px;" class="btn btn-primary" onclick="editar(${info.event.extendedProps.idPivot})">Editar</button>`;
+      elements.modalBody.innerHTML += `<button type="button" style="margin-top: 15px;" class="btn btn-danger" onclick="cancelar(${info.event.extendedProps.idPivot})">Cancelar reserva</button>`;
       console.log(info.event.extendedProps.idPivot);
       $("#detalles").modal("show");
     },
@@ -227,6 +229,50 @@ function editar(idPivote) {
     })
 
 }
+
+//--------------------------------------------------Cancelar cita ---------------------------------------------------------
+function cancelar(idPivote) {
+  Swal.fire({
+    title: "Estas seguro que deseas cancelar la reserva?",
+    text: `Esto no se puede revertir! ${idPivote}`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`${base_url}/reservas/cancelarReserva`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `idReserva=${idPivote}`,
+      })
+        .then(response => response.json())
+        .then(data => {
+          Swal.fire({
+            title: "Cancelada!",
+            text: "Se a cancelado la reserva correctamente",
+            icon: "success"
+          }).then(() => {
+            window.location.reload();
+          });
+        })
+        .catch(error => {
+          Swal.fire({
+            title: "Error!",
+            text: "No se a podido eliminar la reserva",
+            icon: "error"
+          });
+          console.error(error);
+        });
+    }
+  });
+}
+
+//------------------------------------
+
 
 
 const fetchData = async (url, method = "GET", body = null) => {
