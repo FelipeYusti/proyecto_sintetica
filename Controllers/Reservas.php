@@ -103,7 +103,7 @@ class Reservas extends Controllers
 
         // 5 es el maximo de inserciones 
         for ($i = 1; $i <= 5; $i++) {
-            if (isset($_POST["diaReserva$i"], $_POST["horaReserva$i"], $_POST["horasReservadas$i"])) {
+            if (isset($_POST["diaReserva$i"], $_POST["horaReserva$i"], $_POST["horasReservadas$i"], $_POST["idCancha$i"])) {
                 $reservasPivote[] = [
                     'idReservaPivote' => strClean($_POST["idReservaPivote$i"]),
                     'diaReserva' => strClean($_POST["diaReserva$i"]),
@@ -158,17 +158,17 @@ class Reservas extends Controllers
     }
     public function updateReserva()
     {
-        $arrPost = ['idReserva', 'idReservaPivote', 'nombreReserva', 'idConvenio', 'idUsuario', 'diaReserva', 'idCancha1', 'horaReserva', 'horasReservas'];
+        $arrPost = ['idReserva', 'idReservaPivote', 'nombreReserva', 'idConvenio', 'idUsuario', 'diaReserva', 'idCancha', 'horaReserva', 'horasReservas'];
         //$arrPost2 = [];
 
         if (check_post($arrPost)) {
-            $idReserva = strClean($_POST['idReserva']);//Pivote
+            $idReserva = strClean($_POST['idReserva']); //Pivote
             $idReservaPivote = strClean($_POST['idReservaPivote']);
             $nombreReserva = strClean($_POST['nombreReserva']);
             $idConvenio = strClean($_POST['idConvenio']);
             $idUsuario = strClean($_POST['idUsuario']);
             $diaReserva = strClean($_POST['diaReserva']);
-            $idCancha1 = strClean($_POST['idCancha1']);
+            $idCancha1 = strClean($_POST['idCancha']);
             $horaReserva = strClean($_POST['horaReserva']);
             $horasReservas = strClean($_POST['horasReservas']);
 

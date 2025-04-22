@@ -20,7 +20,6 @@ let horaReserva = document.querySelector("#horaReserva");
 let horasReservas = document.querySelector("#horasReservas");
 //===
 
-
 let select = "";
 
 //let contadorClicks = 1;
@@ -40,7 +39,6 @@ btnCrearReserva.addEventListener("click", () => {
 window.addEventListener("DOMContentLoaded", () => {
   listUsuariosSelect();
   listConveniosSelect();
-
 });
 
 //===========================Listar los select de convenios y usuarios =================================
@@ -88,9 +86,9 @@ listCanchasSelect();
 //=========================================================================================
 const elements = {
   modal: document.querySelector("#detalles"),
-  modal: document.querySelector('#editarReservaModal'),
+  modal: document.querySelector("#editarReservaModal"),
   modalBody: document.querySelector("#modal-body"),
-  btnClose: document.querySelector("#btn-close")[0]
+  btnClose: document.querySelector("#btn-close")[0],
 };
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -103,19 +101,20 @@ document.addEventListener("DOMContentLoaded", function () {
     eventTimeFormat: {
       hour: "numeric",
       minute: "2-digit",
-      meridiem: "short"
+      meridiem: "short",
     },
     headerToolbar: {
       left: "prev,next today",
       center: "title",
-      right: "dayGridMonth,timeGridWeek,timeGridDay"
+      right: "dayGridMonth,timeGridWeek,timeGridDay",
     },
     initialView: "dayGridMonth",
     editable: true, // Permite arrastrar y soltar Reservas
     ventOverlap: false, // No permite superposición de Reservas
     eventDrop: async (info) => {
       const fecha = info.event.start.toISOString().split("T")[0];
-      const hora = info.event.start.getHours() + ":" + info.event.start.getMinutes();
+      const hora =
+        info.event.start.getHours() + ":" + info.event.start.getMinutes();
       const id = info.event.extendedProps.idPivot;
       const result = await Swal.fire({
         title: "Actualizar Reserva",
@@ -123,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
         icon: "warning",
         showDenyButton: true,
         confirmButtonText: "Sí",
-        denyButtonText: "Cancelar"
+        denyButtonText: "Cancelar",
       });
 
       if (result.isConfirmed) {
@@ -132,18 +131,21 @@ document.addEventListener("DOMContentLoaded", function () {
         frmData.append("nuevaFecha", fecha);
         frmData.append("nuevaHora", hora);
 
-        const data = await fetchData(`${base_url}/reservas/updateHorario`, "POST", frmData);
+        const data = await fetchData(
+          `${base_url}/reservas/updateHorario`,
+          "POST",
+          frmData
+        );
 
         Swal.fire({
           title: data.status ? "Correcto" : "Error",
           text: data.msg,
           icon: data.status ? "success" : "error",
           showConfirmButton: false,
-          timer: 1700
+          timer: 1700,
         });
 
         if (!data.status) {
-
           info.revert();
         }
       } else {
@@ -153,8 +155,9 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     eventClick: (info) => {
       elements.modalBody.innerHTML = ` <p><strong> Ubicacion : </strong> ${info.event.title}</p>`;
-      elements.modalBody.innerHTML += `<p><strong> Fecha de Reserva : </strong> ${info.event.start.toISOString().split("T")[0]
-        }</p>`;
+      elements.modalBody.innerHTML += `<p><strong> Fecha de Reserva : </strong> ${
+        info.event.start.toISOString().split("T")[0]
+      }</p>`;
       elements.modalBody.innerHTML += `<p><strong> Hora de Inicio : </strong> ${info.event.extendedProps.hora}</p>`;
       elements.modalBody.innerHTML += `<p></i><strong> Reservada por : </strong> ${info.event.extendedProps.individuo}</p>`;
       elements.modalBody.innerHTML += `<p><strong>Tipo de cancha : </strong> ${info.event.extendedProps.tipo}</p>`;
@@ -184,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 tipo: reserva.tipoCancha,
                 hora: reserva.horaReserva,
                 valor: reserva.valorCancha,
-                start: `${fechaISO}T${reserva.horaReserva}`
+                start: `${fechaISO}T${reserva.horaReserva}`,
               };
             });
             successCallback(reservas);
@@ -195,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch((error) => {
           console.error("Error al cargar las reservas:", error);
         });
-    }
+    },
   });
   calendar.render();
 });
@@ -207,12 +210,12 @@ function editar(idPivote) {
   listCanchasSelectEditar();
   listConveniosSelectEditar();
   listUsuariosSelectEditar();
-  select = 'update';
+  select = "update";
   const idReservaInput = document.getElementById("idReserva");
   idReservaInput.value = idPivote;
 
   fetch(`${base_url}/reservas/getReserva/${idPivote}`, {
-    method: "GET"
+    method: "GET",
   })
     .then((res) => res.json())
     .then((data) => {
@@ -230,8 +233,7 @@ function editar(idPivote) {
         horaReserva.value = reserva.horaReserva;
         horasReservas.value = reserva.horasReservadas;
       }
-    })
-
+    });
 }
 
 //--------------------------------------------------Cancelar cita ---------------------------------------------------------
@@ -243,7 +245,7 @@ function cancelar(idPivote) {
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, delete it!"
+    confirmButtonText: "Yes, delete it!",
   }).then((result) => {
     if (result.isConfirmed) {
       fetch(`${base_url}/reservas/cancelarReserva`, {
@@ -253,21 +255,21 @@ function cancelar(idPivote) {
         },
         body: `idReserva=${idPivote}`,
       })
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           Swal.fire({
             title: "Cancelada!",
             text: "Se a cancelado la reserva correctamente",
-            icon: "success"
+            icon: "success",
           }).then(() => {
             window.location.reload();
           });
         })
-        .catch(error => {
+        .catch((error) => {
           Swal.fire({
             title: "Error!",
             text: "No se a podido eliminar la reserva",
-            icon: "error"
+            icon: "error",
           });
           console.error(error);
         });
@@ -277,13 +279,11 @@ function cancelar(idPivote) {
 
 //------------------------------------
 
-
-
 const fetchData = async (url, method = "GET", body = null) => {
   try {
     const options = {
       method: method,
-      body: body ? body : null
+      body: body ? body : null,
     };
 
     const response = await fetch(url, options);
@@ -298,7 +298,7 @@ const fetchData = async (url, method = "GET", body = null) => {
     Swal.fire({
       icon: "error",
       title: "Error",
-      text: error.message
+      text: error.message,
     });
     return null;
   }
@@ -322,22 +322,22 @@ document.addEventListener("click", (e) => {
         icon: "warning",
         showDenyButton: true,
         confirmButtonText: "Sí",
-        denyButtonText: `Cancelar`
+        denyButtonText: `Cancelar`,
       }).then((result) => {
         if (result.isConfirmed) {
           fetch(base_url + "/reservas/deleteReserva/", {
             method: "POST",
             body: JSON.stringify({ idReserva }),
             headers: {
-              "Content-Type": "application/json"
-            }
+              "Content-Type": "application/json",
+            },
           })
             .then((res) => res.json())
             .then((data) => {
               Swal.fire({
                 title: data.status ? "Correcto" : "Error",
                 text: data.msg,
-                icon: data.status ? "success" : "error"
+                icon: data.status ? "success" : "error",
               }).then(() => {
                 if (data.status) {
                   listReserva();
@@ -352,10 +352,11 @@ document.addEventListener("click", (e) => {
       select = "update";
       idReservaInput.value = idReserva; // Guardar el ID en el input hidden
       $("#crearReservaModal").modal("show");
-      document.getElementById("exampleModalLabel").innerHTML = "Actualizar reserva";
+      document.getElementById("exampleModalLabel").innerHTML =
+        "Actualizar reserva";
 
       fetch(base_url + `/reservas/getReserva/` + idReserva, {
-        method: "GET"
+        method: "GET",
       })
         .then((res) => res.json())
         .then((data) => {
@@ -367,7 +368,9 @@ document.addEventListener("click", (e) => {
             idUsuario.value = reserva.username;
           }
         })
-        .catch((error) => console.error("Error al obtener datos del convenio:", error));
+        .catch((error) =>
+          console.error("Error al obtener datos del convenio:", error)
+        );
     }
   } catch (error) {
     console.error("Error al manejar el clic:", error);
@@ -386,17 +389,17 @@ editarReservaModal.addEventListener("submit", (e) => {
   // ========================================================================COMENTAREADO POR PRUEBAAAAAA========================
   if (select === "update") {
     frmData.append("idReserva", idReservaInput.value); // Usar el input hidden con el ID
-    frmData.append("idReservaPivote", idReservaInput.value)
+    frmData.append("idReservaPivote", idReservaInput.value);
     fetch(base_url + "/reservas/updateReserva", {
       method: "POST",
-      body: frmData
+      body: frmData,
     })
       .then((res) => res.json())
       .then((data) => {
         Swal.fire({
           title: data.status ? "Correcto" : "Error",
           text: data.msg,
-          icon: data.status ? "success" : "error"
+          icon: data.status ? "success" : "error",
         }).then(() => {
           if (data.status) {
             frmEditarReserva.reset();
@@ -408,14 +411,14 @@ editarReservaModal.addEventListener("submit", (e) => {
   } else {
     fetch(base_url + "/reservas/createReserva", {
       method: "POST",
-      body: frmData
+      body: frmData,
     })
       .then((res) => res.json())
       .then((data) => {
         Swal.fire({
           title: data.status ? "Correcto" : "Error",
           text: data.msg,
-          icon: data.status ? "success" : "error"
+          icon: data.status ? "success" : "error",
         }).then(() => {
           if (data.status) {
             frmCrearReserva.reset();
@@ -430,7 +433,9 @@ editarReservaModal.addEventListener("submit", (e) => {
 document.addEventListener("DOMContentLoaded", () => {
   let contadorClicks = 1;
 
-  const btnFormularioProducto = document.querySelector("#btnFormularioProducto");
+  const btnFormularioProducto = document.querySelector(
+    "#btnFormularioProducto"
+  );
 
   btnFormularioProducto.addEventListener("click", () => {
     const formularioProducto = document.querySelector("#formularioProducto");
@@ -439,7 +444,7 @@ document.addEventListener("DOMContentLoaded", () => {
       Swal.fire({
         icon: "error",
         title: "Llegaste al limite",
-        text: "No se pueden hacer más de 5 reservas"
+        text: "No se pueden hacer más de 5 reservas",
       });
     } else {
       if (formularioProducto) {
@@ -473,7 +478,6 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           </div>`;
 
-
         let selectElem = document.getElementById(`idCancha${contadorClicks}`);
 
         // Validación para que el dia de la reserva,no se puede hacer un dia pasado
@@ -500,7 +504,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ----------------------------------------------------------------------Selec de modal de editar-----------------------------------------------------------------------
-
 
 function listConveniosSelectEditar() {
   fetch(base_url + "/reservas/getConvenios")

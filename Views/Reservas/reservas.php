@@ -408,7 +408,7 @@ header_admin($data);
                                             </select>
                                         </div>
                                         <div class="row">
-                                            <label for="txtName" class="form-label"><b>Hora de la reserva</b> </label>
+                                            <label for="txtName" class="form-label"><b>Hora de la reserva</b></label>
                                             <input type="time" class="form-control" id="horaReserva1"
                                                 name="horaReserva1" required>
                                         </div>
