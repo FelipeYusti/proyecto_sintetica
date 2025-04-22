@@ -44,7 +44,7 @@
 
                     <div class="mb-3">
                         <label for="genero" class="form-label"><b>Cancha</b></label>
-                        <select class="form-control" name="idCancha1" id="idCancha1" required>
+                        <select class="form-control" name="idCancha" id="idCancha" required>
                             <option selected="" value="" disabled>Seleccione la cancha</option>
                             <div class="selectUsuario" name="idCanchaEditar" id="idCanchaEditar"></div>
                         </select>

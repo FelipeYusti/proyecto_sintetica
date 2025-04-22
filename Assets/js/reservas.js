@@ -15,6 +15,7 @@ let idConvenio = document.querySelector("#idConvenio");
 let idUsuario = document.querySelector("#idUsuario");
 let diaReserva = document.querySelector("#diaReserva");
 let idCancha1 = document.querySelector("#idCancha1");
+let idCancha = document.querySelector("#idCancha");
 let horaReserva = document.querySelector("#horaReserva");
 let horasReservas = document.querySelector("#horasReservas");
 //===
@@ -39,6 +40,7 @@ btnCrearReserva.addEventListener("click", () => {
 window.addEventListener("DOMContentLoaded", () => {
   listUsuariosSelect();
   listConveniosSelect();
+
 });
 
 //===========================Listar los select de convenios y usuarios =================================
@@ -224,7 +226,7 @@ function editar(idPivote) {
         idConvenio.value = reserva.convenios_idconvenios;
         idUsuario.value = reserva.users_idusers;
         diaReserva.value = reserva.fecha;
-        idCancha1.value = reserva.canchas_idcanchas;
+        idCancha.value = reserva.canchas_idcanchas;
         horaReserva.value = reserva.horaReserva;
         horasReservas.value = reserva.horasReservadas;
       }
@@ -470,6 +472,7 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
             </div>
           </div>`;
+
 
         let selectElem = document.getElementById(`idCancha${contadorClicks}`);
 

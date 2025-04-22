@@ -404,6 +404,7 @@ header_admin($data);
                                             <label for="genero" class="form-label"><b>Cancha</b></label>
                                             <select class="form-control" name="idCancha1" id="idCancha1">
                                                 <option selected="" value="" disabled>Seleccione la cancha</option>
+
                                             </select>
                                         </div>
                                         <div class="row">
