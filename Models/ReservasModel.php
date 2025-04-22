@@ -173,6 +173,11 @@ class ReservasModel extends Mysql
         $this->horaReserva = $horaReserva;
         $this->horasReservadas = $horasReservadas;
 
+        if (!is_numeric($idPivote) || intval($idPivote) <= 0) {
+            error_log("ID Pivote inválido recibido: $idPivote");
+            return false;
+        }
+
         $query_update = "UPDATE reservas_has_canchas SET  reservas_has_canchas.canchas_idcanchas=?,
         reservas_has_canchas.fecha=?, reservas_has_canchas.horaReserva=?,
         reservas_has_canchas.horasReservadas=? WHERE reservas_has_canchas.idreservas_idreservas=?";

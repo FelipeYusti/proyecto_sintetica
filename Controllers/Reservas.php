@@ -159,10 +159,9 @@ class Reservas extends Controllers
     public function updateReserva()
     {
         $arrPost = ['idReserva', 'idReservaPivote', 'nombreReserva', 'idConvenio', 'idUsuario', 'diaReserva', 'idCancha', 'horaReserva', 'horasReservas'];
-        //$arrPost2 = [];
 
         if (check_post($arrPost)) {
-            $idReserva = strClean($_POST['idReserva']); //Pivote
+            $idReserva = strClean($_POST['idReserva']);
             $idReservaPivote = strClean($_POST['idReservaPivote']);
             $nombreReserva = strClean($_POST['nombreReserva']);
             $idConvenio = strClean($_POST['idConvenio']);
@@ -173,7 +172,6 @@ class Reservas extends Controllers
             $horasReservas = strClean($_POST['horasReservas']);
 
             try {
-
                 $insert = $this->model->updateReserva(
                     $idReserva,
                     $nombreReserva,
@@ -189,25 +187,26 @@ class Reservas extends Controllers
                     $horasReservas
                 );
 
-                if (intval($insert) > 0 and intval($insert2) > 0) {
-
+                if ($insert !== false && $insert2 !== false) {
                     $arrResponse = array('status' => true, 'msg' => 'Reserva actualizada correctamente');
-                } else if ($insert == 'exist') {
-
-                    $arrResponse = array('status' => false, 'msg' => 'Ya existe una convenio con el mismo nombre');
+                } else if ($insert === 'exist') {
+                    $arrResponse = array('status' => false, 'msg' => 'Ya existe un convenio con el mismo nombre');
                 } else {
-
-                    $arrResponse = array('status' => false, 'msg' => 'Error al insertar');
+                    $arrResponse = array('status' => false, 'msg' => 'Error al actualizar la reserva');
                 }
+
             } catch (\Throwable $th) {
                 $arrResponse = array('status' => false, 'msg' => "Error desconocido: $th");
             }
+
         } else {
             $arrResponse = array('status' => false, 'msg' => 'Debe insertar todos los datos');
         }
 
         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
     }
+
+
     public function updateHorario()
     {
         $arrPost = ['idPivot', 'nuevaFecha', 'nuevaHora'];

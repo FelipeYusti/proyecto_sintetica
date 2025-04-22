@@ -155,9 +155,8 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     eventClick: (info) => {
       elements.modalBody.innerHTML = ` <p><strong> Ubicacion : </strong> ${info.event.title}</p>`;
-      elements.modalBody.innerHTML += `<p><strong> Fecha de Reserva : </strong> ${
-        info.event.start.toISOString().split("T")[0]
-      }</p>`;
+      elements.modalBody.innerHTML += `<p><strong> Fecha de Reserva : </strong> ${info.event.start.toISOString().split("T")[0]
+        }</p>`;
       elements.modalBody.innerHTML += `<p><strong> Hora de Inicio : </strong> ${info.event.extendedProps.hora}</p>`;
       elements.modalBody.innerHTML += `<p></i><strong> Reservada por : </strong> ${info.event.extendedProps.individuo}</p>`;
       elements.modalBody.innerHTML += `<p><strong>Tipo de cancha : </strong> ${info.event.extendedProps.tipo}</p>`;
@@ -377,6 +376,38 @@ document.addEventListener("click", (e) => {
   }
 });
 
+const frmCrearReserva = document.querySelector("#frmCrearReserva");
+
+frmCrearReserva.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  let frmData = new FormData(frmCrearReserva);
+
+  if (select === "update") {
+    // lógica para update
+  } else {
+    fetch(base_url + "/reservas/createReserva", {
+      method: "POST",
+      body: frmData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        Swal.fire({
+          title: data.status ? "Correcto" : "Error",
+          text: data.msg,
+          icon: data.status ? "success" : "error",
+        }).then(() => {
+          if (data.status) {
+            frmCrearReserva.reset();
+            $("#crearReservaModal").modal("hide");
+            location.reload();
+          }
+        });
+      });
+  }
+});
+
+
 editarReservaModal.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -389,7 +420,7 @@ editarReservaModal.addEventListener("submit", (e) => {
   // ========================================================================COMENTAREADO POR PRUEBAAAAAA========================
   if (select === "update") {
     frmData.append("idReserva", idReservaInput.value); // Usar el input hidden con el ID
-    frmData.append("idReservaPivote", idReservaInput.value);
+    frmData.append("idReservaPivote", idReservaPivote.value);
     fetch(base_url + "/reservas/updateReserva", {
       method: "POST",
       body: frmData,
