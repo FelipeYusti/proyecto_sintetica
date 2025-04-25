@@ -48,6 +48,25 @@ class Reservas extends Controllers
         die();
     }
 
+    public function getCanchaValidacion($fecha, $hora)
+    {
+        $fecha = intval(strClean($fecha));
+        $hora = intval(strClean($hora));
+
+        $arrData = $this->model->getCanchaValidacion($fecha, $hora);
+
+        if (empty($arrData)) {
+            $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados');
+        } else {
+            $arrResponse = array('status' => true, 'data' => $arrData);
+        }
+
+        $arrResponse = array('status' => false, 'msg' => 'ID inválido');
+
+        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
     public function getConvenios()
     {
 
@@ -194,11 +213,9 @@ class Reservas extends Controllers
                 } else {
                     $arrResponse = array('status' => false, 'msg' => 'Error al actualizar la reserva');
                 }
-
             } catch (\Throwable $th) {
                 $arrResponse = array('status' => false, 'msg' => "Error desconocido: $th");
             }
-
         } else {
             $arrResponse = array('status' => false, 'msg' => 'Debe insertar todos los datos');
         }

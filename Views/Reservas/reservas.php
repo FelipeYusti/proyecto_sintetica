@@ -305,7 +305,6 @@ header_admin($data);
                                         <button type="button" id="btnCrearReserva" class="btn btn-primary">
                                             Agregar reserva
                                         </button>
-
                                     </div>
 
                                 </div>
@@ -380,7 +379,7 @@ header_admin($data);
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Reservar</button>
+                            <button type="submit" class="btn btn-outline-success">Reservar</button>
                         </div>
 
                         <div class="col-5" style="text-align: center;">
@@ -401,17 +400,29 @@ header_admin($data);
                                             input.min = hoy;
                                         </script>
                                         <div class="row">
+                                            <label for="horaReserva1" class="form-label"><b>Hora de la reserva</b></label>
+                                            <input type="time" class="form-control" id="horaReserva1" name="horaReserva1" required step="3600">
+                                        </div>
+
+                                        <script>
+                                            const inputHora = document.getElementById("horaReserva1");
+
+                                            inputHora.addEventListener("change", () => {
+                                                // Forzar minutos en 00
+                                                const valor = inputHora.value;
+                                                const [hora] = valor.split(":");
+                                                inputHora.value = `${hora.padStart(2, '0')}:00`;
+                                            });
+                                        </script>
+
+                                        <div class="row">
                                             <label for="genero" class="form-label"><b>Cancha</b></label>
                                             <select class="form-control" name="idCancha1" id="idCancha1">
                                                 <option selected="" value="" disabled>Seleccione la cancha</option>
 
                                             </select>
                                         </div>
-                                        <div class="row">
-                                            <label for="txtName" class="form-label"><b>Hora de la reserva</b></label>
-                                            <input type="time" class="form-control" id="horaReserva1"
-                                                name="horaReserva1" required>
-                                        </div>
+
                                         <div class="row">
                                             <label for="txtName" class="form-label"><b>Horas reservadas</b> </label>
                                             <input type="number" class="form-control" id="horasReservadas1"
@@ -422,7 +433,7 @@ header_admin($data);
 
                             </div>
 
-                            <button type="submit" id="btnFormularioProducto" class="btn btn-primary">Agregar otro
+                            <button type="submit" id="btnFormularioProducto" class="btn btn-outline-primary">Agregar otro
                                 producto</button>
                         </div>
                     </div>

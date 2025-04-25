@@ -25,6 +25,33 @@ class ReservasModel extends Mysql
         return $request;
     }
 
+    public function getCanchaValidacion($fecha, $hora)
+    {
+
+        $this->fecha = $fecha;
+        $this->hora = $hora;
+
+        $sql = "SELECT 
+        canchas.idcanchas,
+        canchas.nombre
+        FROM canchas
+        WHERE NOT EXISTS (
+        SELECT 1
+        FROM reservas_has_canchas
+        WHERE 
+        reservas_has_canchas.canchas_idcanchas = canchas.idcanchas
+        AND reservas_has_canchas.fecha = '{$this->fecha}'
+        AND '{$this->$hora}' BETWEEN reservas_has_canchas.horaReserva 
+        AND DATE_ADD(
+            reservas_has_canchas.horaReserva, 
+            INTERVAL reservas_has_canchas.horasReservadas HOUR
+        )
+      );";
+        $request = $this->select_all($sql);
+        return $request;
+    }
+
+
     public function getReserva($idReservaPivote)
     {
         $this->idReservaPivote = $idReservaPivote;
@@ -224,5 +251,4 @@ class ReservasModel extends Mysql
         $request = $this->delete($sql);
         return $request;
     }
-
 }

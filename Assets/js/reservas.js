@@ -155,15 +155,16 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     eventClick: (info) => {
       elements.modalBody.innerHTML = ` <p><strong> Ubicacion : </strong> ${info.event.title}</p>`;
-      elements.modalBody.innerHTML += `<p><strong> Fecha de Reserva : </strong> ${info.event.start.toISOString().split("T")[0]
-        }</p>`;
+      elements.modalBody.innerHTML += `<p><strong> Fecha de Reserva : </strong> ${
+        info.event.start.toISOString().split("T")[0]
+      }</p>`;
       elements.modalBody.innerHTML += `<p><strong> Hora de Inicio : </strong> ${info.event.extendedProps.hora}</p>`;
       elements.modalBody.innerHTML += `<p></i><strong> Reservada por : </strong> ${info.event.extendedProps.individuo}</p>`;
       elements.modalBody.innerHTML += `<p><strong>Tipo de cancha : </strong> ${info.event.extendedProps.tipo}</p>`;
       elements.modalBody.innerHTML += `<p><strong>Capacidad : ${info.event.extendedProps.capacidad} Jugadores</p>`;
       elements.modalBody.innerHTML += `<p><strong>Valor :</strong> $${info.event.extendedProps.valor} </p>`;
-      elements.modalBody.innerHTML += `<button type="button" style="margin-right: 10px; margin-top: 15px;" class="btn btn-primary" onclick="editar(${info.event.extendedProps.idPivot})">Editar</button>`;
-      elements.modalBody.innerHTML += `<button type="button" style="margin-top: 15px;" class="btn btn-danger" onclick="cancelar(${info.event.extendedProps.idPivot})">Cancelar reserva</button>`;
+      elements.modalBody.innerHTML += `<button type="button" style="margin-right: 10px; margin-top: 15px;" class="btn btn-outline-primary" onclick="editar(${info.event.extendedProps.idPivot})">Editar</button>`;
+      elements.modalBody.innerHTML += `<button type="button" style="margin-top: 15px;" class="btn btn-outline-danger" onclick="cancelar(${info.event.extendedProps.idPivot})">Cancelar reserva</button>`;
       console.log(info.event.extendedProps.idPivot);
       $("#detalles").modal("show");
     },
@@ -407,7 +408,6 @@ frmCrearReserva.addEventListener("submit", (e) => {
   }
 });
 
-
 editarReservaModal.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -491,15 +491,15 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
 
               <div class="row">
+                <label for="txtName" class="form-label"><b>Hora de la reserva</b></label>
+                <input type="time" class="form-control" id="horaReserva${contadorClicks}" name="horaReserva${contadorClicks}" required step="3600">
+              </div>
+
+              <div class="row">
                 <label for="txtName" class="form-label"><b>Cancha</b></label>
                 <select class="form-control" name="idCancha${contadorClicks}" id="idCancha${contadorClicks}">
                   <option selected="" value="" disabled>Seleccione la cancha</option>
                 </select> 
-              </div>
-  
-              <div class="row">
-                <label for="txtName" class="form-label"><b>Hora de la reserva</b></label>
-                <input type="time" class="form-control" id="horaReserva${contadorClicks}" name="horaReserva${contadorClicks}" required>
               </div>
   
               <div class="row">
