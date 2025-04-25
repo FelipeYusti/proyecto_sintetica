@@ -1,5 +1,34 @@
-const ctx = document.getElementById("myChart");
+const fetchData = async (url, method = "GET", body = null) => {
+  // definimos los paremetros que necesitamos.
+  try {
+    // Configuramos nuestra peticion
+    const options = {
+      method: method,
+      body: body ? body : null,
+    };
+    // Ejecutamos la peticion enviando los parametros URL y Options.
+    const response = await fetch(url, options); // Esperamos el response.
 
+    if (!response.ok) {
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
+
+    return await response.json(); // retornamos la respuesta del fetch.
+  } catch (error) {
+    console.error("Error en fetchData:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: error.message,
+    });
+    return null;
+  }
+};
+const ganancias = fetchData(base_url + "/home/getCantidaReservas");
+
+const ctx = document.getElementById("myChart");
+const dataReservas = fetchData(base_url + "/home/getCantidaReservas");
+console.log(dataReservas);
 new Chart(ctx, {
   type: "bar",
   data: {
@@ -69,7 +98,6 @@ new Chart(dona, {
   },
 });
 const ctxReservas = document.getElementById("reservas");
-const dataReservas = "";
 new Chart(ctxReservas, {
   type: "bar",
   data: {
@@ -90,29 +118,3 @@ new Chart(ctxReservas, {
     },
   },
 });
-const fetchData = async (url, method = "GET", body = null) => {
-  // definimos los paremetros que necesitamos.
-  try {
-    // Configuramos nuestra peticion
-    const options = {
-      method: method,
-      body: body ? body : null,
-    };
-    // Ejecutamos la peticion enviando los parametros URL y Options.
-    const response = await fetch(url, options); // Esperamos el response.
-
-    if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
-    }
-
-    return await response.json(); // retornamos la respuesta del fetch.
-  } catch (error) {
-    console.error("Error en fetchData:", error);
-    Swal.fire({
-      icon: "error",
-      title: "Error",
-      text: error.message,
-    });
-    return null;
-  }
-};

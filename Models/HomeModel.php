@@ -9,43 +9,40 @@ class HomeModel extends Mysql
     }
 
 
-    public function getRevenueMonth()
+    public function getRevenueMonth($month, $year)
     {
-        $mes = date('m');
-        $sql = "SELECT idcanchas AS ID, nombre, tipo,capacidad,valor,status FROM " . $this->table_name . " WHERE status > 0";
+        $this->month = $month;
+        $this->year = $year;
+        $sql = "SELECT reservas.nombre, fecha FROM reservas WHERE MONTH(fecha) = {$this->month} AND YEAR(fecha) = {$this->year} AND status= 1;";
         $request = $this->select_all($sql);
         return $request;
     }
-    public function getRevenueYear()
+    public function getRevenueYear($year)
     {
-        $año = date('Y');
-        $sql = "SELECT idcanchas AS ID, nombre,tipo,capacidad,valor,status FROM "
-            . $this->table_name . " WHERE status > 0 AND idcanchas = {$this->año}";
+        $this->year = $year;
+        $sql = "SELECT reservas.nombre, fecha FROM reservas WHERE year(fecha)= {$this->year} AND status= 1; ";
         $request = $this->select($sql);
         return $request;
     }
 
-    public function getCountReser()
+    public function getReserMonth($month, $year)
     {
-        $mes = date('m');
-        $sql = "SELECT idcanchas AS ID, nombre,tipo,capacidad,valor,status FROM "
-            . $this->table_name . " WHERE status > 0 AND idcanchas = {$this->$mes}";
-        $request = $this->select($sql);
+        $this->month = $month;
+        $this->year = $year;
+        $sql = "SELECT reservas.nombre, fecha FROM reservas WHERE MONTH(fecha) = {$this->month} AND YEAR(fecha) = {$this->year} AND status= 1;";
+        $request = $this->select_all($sql);
         return $request;
     }
-    public function getCountReserYear()
+    public function getCountReserYear($year)
     {
-        $this->idCancha = $idCancha;
-        $sql = "SELECT idcanchas AS ID, nombre,tipo,capacidad,valor,status FROM "
-            . $this->table_name . " WHERE status > 0 AND idcanchas = {$this->idCancha}";
+        $this->year = $year;
+        $sql = "SELECT fecha,COUNT(reservas.idreservas) as cantidad FROM reservas WHERE year(fecha)= 2025 AND status= 1; ";
         $request = $this->select($sql);
         return $request;
     }
 
     public function getCountAgreements()
     {
-
-
         $sql = "SELECT idcanchas AS ID, nombre,tipo,capacidad,valor,status FROM "
             . $this->table_name . " WHERE status > 0 AND idcanchas = {}";
         $request = $this->select($sql);

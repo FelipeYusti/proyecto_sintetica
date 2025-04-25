@@ -17,23 +17,29 @@ class Home extends Controllers
 
     public function getGananciaMes()
     {
-        $arrData = $this->model->getRevenueMonth();
+        $year = date('Y');
+        $month = date('m');
+        $arrData = $this->model->getRevenueMonth($month, $year);
         echo json_encode($arrData);
     }
     public function getGananciaAño()
     {
-        $arrData = $this->model->getRevenueYear();
+        $year = date('Y');
+        $arrData = $this->model->getRevenueYear($year);
         echo json_encode($arrData);
     }
     public function getCantidaReservas()
     {
-        $arrData = $this->model->getCountReser();
-        echo json_encode($arrData);
+        $year = date('Y');
+        $month = date('m');
+        $arrData = $this->model->getReserMonth($month, $year);
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
     }
     public function getReservasAnual()
     {
-        $arrData = $this->model->getCountReserYear();
-        echo json_encode($arrData);
+        $year = date('Y');
+        $arrData = $this->model->getCountReserYear($year);
+        echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
     }
     public function getCantidaConvenios()
     {
