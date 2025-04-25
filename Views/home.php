@@ -263,7 +263,7 @@
                       </svg>
                     </div>
                     <div class="progress-detail">
-                      <p class="mb-2">Total Sales</p>
+                      <p class="mb-2">Total Año</p>
                       <h4 class="counter">$560K</h4>
                     </div>
                   </div>
@@ -286,7 +286,7 @@
                       </svg>
                     </div>
                     <div class="progress-detail">
-                      <p class="mb-2">Total Profit</p>
+                      <p class="mb-2">Total Mes</p>
                       <h4 class="counter">$185K</h4>
                     </div>
                   </div>
@@ -309,7 +309,7 @@
                       </svg>
                     </div>
                     <div class="progress-detail">
-                      <p class="mb-2">Total Cost</p>
+                      <p class="mb-2">Reservas</p>
                       <h4 class="counter">$375K</h4>
                     </div>
                   </div>
@@ -332,31 +332,8 @@
                       </svg>
                     </div>
                     <div class="progress-detail">
-                      <p class="mb-2">Revenue</p>
+                      <p class="mb-2">Convenios</p>
                       <h4 class="counter">$742K</h4>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1100">
-                <div class="card-body">
-                  <div class="progress-widget">
-                    <div
-                      id="circle-progress-05"
-                      class="text-center circle-progress-01 circle-progress circle-progress-primary"
-                      data-min-value="0"
-                      data-max-value="100"
-                      data-value="50"
-                      data-type="percent">
-                      <svg class="card-slie-arrow icon-24" width="24px" viewBox="0 0 24 24">
-                        <path
-                          fill="currentColor"
-                          d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
-                      </svg>
-                    </div>
-                    <div class="progress-detail">
-                      <p class="mb-2">Net Income</p>
-                      <h4 class="counter">$150K</h4>
                     </div>
                   </div>
                 </div>
@@ -413,227 +390,65 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12 col-lg-8">
+      <div class="col-md-12 col-lg-12">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             <div class="card" data-aos="fade-up" data-aos-delay="800">
-              <div
-                class="flex-wrap card-header d-flex justify-content-between align-items-center">
+              <div class="flex-wrap card-header d-flex justify-content-between">
                 <div class="header-title">
-                  <h4 class="card-title">$855.8K</h4>
-                  <p class="mb-0">Gross Sales</p>
-                </div>
-                <div class="d-flex align-items-center align-self-center">
-                  <div class="d-flex align-items-center text-primary">
-                    <svg
-                      class="icon-12"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      viewBox="0 0 24 24"
-                      fill="currentColor">
-                      <g>
-                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                      </g>
-                    </svg>
-                    <div class="ms-2">
-                      <span class="text-gray">Sales</span>
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-center ms-3 text-info">
-                    <svg
-                      class="icon-12"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      viewBox="0 0 24 24"
-                      fill="currentColor">
-                      <g>
-                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                      </g>
-                    </svg>
-                    <div class="ms-2">
-                      <span class="text-gray">Cost</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="dropdown">
-                  <a
-                    href="#"
-                    class="text-gray dropdown-toggle"
-                    id="dropdownMenuButton22"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    This Week
-                  </a>
-                  <ul
-                    class="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="dropdownMenuButton22">
-                    <li><a class="dropdown-item" href="#">This Week</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
+                  <h4 class="card-title">Activity overview</h4>
                 </div>
               </div>
               <div class="card-body">
-                <div id="d-main" class="d-main"></div>
+                <canvas id="myChart"></canvas>
               </div>
             </div>
           </div>
-          <div class="col-md-12 col-xl-6">
-            <div class="card" data-aos="fade-up " data-aos-delay="900">
+          <div class="col-md-6">
+            <div class="card" data-aos="fade-up" data-aos-delay="800">
               <div class="flex-wrap card-header d-flex justify-content-between">
                 <div class="header-title">
-                  <h4 class="card-title">Earnings</h4>
-                </div>
-                <div class="dropdown">
-                  <a
-                    href="#"
-                    class="text-gray dropdown-toggle"
-                    id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    This Week
-                  </a>
-                  <ul
-                    class="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="dropdownMenuButton1">
-                    <li><a class="dropdown-item" href="#">This Week</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
+                  <h4 class="card-title">Ganancia Mensual</h4>
                 </div>
               </div>
               <div class="card-body">
-                <div class="flex-wrap d-flex align-items-center justify-content-between">
-                  <div id="myChart" class="col-md-8 col-lg-8 myChart"></div>
-                  <div class="d-grid gap col-md-4 col-lg-4">
-                    <div class="d-flex align-items-start">
-                      <svg
-                        class="mt-2 icon-14"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="14"
-                        viewBox="0 0 24 24"
-                        fill="#3a57e8">
-                        <g>
-                          <circle cx="12" cy="12" r="8" fill="#3a57e8"></circle>
-                        </g>
-                      </svg>
-                      <div class="ms-3">
-                        <span class="text-gray">Fashion</span>
-                        <h6>251K</h6>
-                      </div>
-                    </div>
-                    <div class="d-flex align-items-start">
-                      <svg
-                        class="mt-2 icon-14"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="14"
-                        viewBox="0 0 24 24"
-                        fill="#4bc7d2">
-                        <g>
-                          <circle cx="12" cy="12" r="8" fill="#4bc7d2"></circle>
-                        </g>
-                      </svg>
-                      <div class="ms-3">
-                        <span class="text-gray">Accessories</span>
-                        <h6>176K</h6>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-12 col-xl-6">
-            <div class="card" data-aos="fade-up" data-aos-delay="1000">
-              <div class="flex-wrap card-header d-flex justify-content-between">
-                <div class="header-title">
-                  <h4 class="card-title">Conversions</h4>
-                </div>
-                <div class="dropdown">
-                  <a
-                    href="#"
-                    class="text-gray dropdown-toggle"
-                    id="dropdownMenuButton3"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    This Week
-                  </a>
-                  <ul
-                    class="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="dropdownMenuButton3">
-                    <li><a class="dropdown-item" href="#">This Week</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="card-body">
-                <div id="d-activity" class="d-activity"></div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-      <div class="col-md-12 col-lg-4">
-        <div class="row">
-          <div class="col-md-12 col-lg-12">
-            <div class="card" data-aos="fade-up" data-aos-delay="600">
-              <div class="flex-wrap card-header d-flex justify-content-between">
-                <div class="header-title">
-                  <h4 class="mb-2 card-title">Activity overview</h4>
-                  <p class="mb-0">
-                    <svg class="me-2 icon-24" width="24" height="24" viewBox="0 0 24 24">
-                      <path
-                        fill="#17904b"
-                        d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" />
-                    </svg>
-                    16% this month
-                  </p>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="mb-2 d-flex profile-media align-items-top">
-                  <div class="mt-1 profile-dots-pills border-primary"></div>
-                  <div class="ms-4">
-                    <h6 class="mb-1">$2400, Purchase</h6>
-                    <span class="mb-0">11 JUL 8:10 PM</span>
-                  </div>
-                </div>
-                <div class="mb-2 d-flex profile-media align-items-top">
-                  <div class="mt-1 profile-dots-pills border-primary"></div>
-                  <div class="ms-4">
-                    <h6 class="mb-1">New order #8744152</h6>
-                    <span class="mb-0">11 JUL 11 PM</span>
-                  </div>
-                </div>
-                <div class="mb-2 d-flex profile-media align-items-top">
-                  <div class="mt-1 profile-dots-pills border-primary"></div>
-                  <div class="ms-4">
-                    <h6 class="mb-1">Affiliate Payout</h6>
-                    <span class="mb-0">11 JUL 7:64 PM</span>
-                  </div>
-                </div>
-                <div class="mb-2 d-flex profile-media align-items-top">
-                  <div class="mt-1 profile-dots-pills border-primary"></div>
-                  <div class="ms-4">
-                    <h6 class="mb-1">New user added</h6>
-                    <span class="mb-0">11 JUL 1:21 AM</span>
-                  </div>
-                </div>
-                <div class="mb-1 d-flex profile-media align-items-top">
-                  <div class="mt-1 profile-dots-pills border-primary"></div>
-                  <div class="ms-4">
-                    <h6 class="mb-1">Product added</h6>
-                    <span class="mb-0">11 JUL 4:50 AM</span>
-                  </div>
-                </div>
+                <canvas id="line"></canvas>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="col-md-12 col-lg-12">
+      <div class="row">
+
+        <div class="col-md-4 col-lg-6">
+          <div class="card" data-aos="fade-up" data-aos-delay="600">
+            <div class="flex-wrap card-header d-flex justify-content-between">
+              <div class="header-title">
+                <h4 class="card-title">Activity overview</h4>
+              </div>
+            </div>
+            <div class="card-body">
+              <canvas id="dona"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-6">
+          <div class="card" data-aos="fade-up" data-aos-delay="600">
+            <div class="flex-wrap card-header d-flex justify-content-between">
+              <div class="header-title">
+                <h4 class="card-title">Reservas realizadas</h4>
+              </div>
+            </div>
+            <div class="card-body">
+              <canvas id="reservas"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
 </main>
 <?php footer_admin($data); ?>

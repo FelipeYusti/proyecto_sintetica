@@ -48,15 +48,13 @@
 <script src="<?= media() ?>/vendor/aos/dist/aos.js"></script>
 
 <script src="<?= media() ?>/vendor/sweetalert/sweetalert2.all.min.js"></script>
-<!--  <script src="<?= media() ?>/vendor/datatables/datatables.min.js"></script> -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script src="<?= media() ?>/vendor/jquery/jquery-ui.js"></script>
 <!-- App Script -->
 
 <script src="<?= media() ?>/js/hope-ui.js"></script>
-<!--  <script src="/js/reservas.js"></script>
-  <script src="/js/convenios.js"></script> -->
-<!--   <script src="/js/login.js"></script> - -->
 <?php if (isset($data['script'])): ?>
   <script src="<?= media() ?>/js/<?= $data['script'] ?>.js"></script>
 <?php endif; ?>
