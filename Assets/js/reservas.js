@@ -574,3 +574,33 @@ function listCanchasSelectEditar() {
     })
     .catch((error) => console.error("Error al listar canchas:", error));
 }
+
+//====================================================================== Validacion de la cancha dsiponible =============================================================
+
+let diaReserva1 = document.querySelector("#diaReserva1");
+let horaReserva1 = document.querySelector("#horaReserva1");
+
+horaReserva1.style.display = "none";
+
+diaReserva1.addEventListener("input", (e) => {
+  console.log("2");
+  horaReserva1.style.display = "block";
+  horaReserva1.focus();
+});
+
+horaReserva1.addEventListener("input", () => {
+  console.log("2");
+  const fecha = diaReserva1.value;
+  const hora = horaReserva1.value;
+
+  let url = base_url + `/reservas/getCanchaValidacion/${fecha}&${hora}`;
+
+  fetch(url, {
+    method: "GET",
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => console.error("Error al listar canchas:", error));
+});

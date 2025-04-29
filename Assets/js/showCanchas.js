@@ -216,6 +216,7 @@ function restaurarCronometrosActivos() {
     }
   });
 }
+
 function formatTiempo(segundos) {
   const min = Math.floor(segundos / 60);
   const seg = segundos % 60;

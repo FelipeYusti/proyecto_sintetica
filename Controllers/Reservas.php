@@ -50,8 +50,8 @@ class Reservas extends Controllers
 
     public function getCanchaValidacion($fecha, $hora)
     {
-        $fecha = intval(strClean($fecha));
-        $hora = intval(strClean($hora));
+        $fecha = strClean($fecha);
+        $hora = strClean($hora);
 
         $arrData = $this->model->getCanchaValidacion($fecha, $hora);
 
@@ -61,11 +61,10 @@ class Reservas extends Controllers
             $arrResponse = array('status' => true, 'data' => $arrData);
         }
 
-        $arrResponse = array('status' => false, 'msg' => 'ID inválido');
-
         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         die();
     }
+
 
     public function getConvenios()
     {
