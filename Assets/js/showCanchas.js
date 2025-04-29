@@ -84,7 +84,7 @@ function toggleCronometro(id) {
   let horas = parseInt(inputHoras.value);
 
   if (!cronometros[id]) {
-    // si numero de horas llea null o "", sale alerta
+    // si numero de horas llega null o "", sale alerta
     if (isNaN(horas) || horas < 1 || horas > 5) {
       Swal.fire({
         icon: "error",
@@ -102,21 +102,40 @@ function toggleCronometro(id) {
     cronometros[id] = {
       tiempoTotal,
       fin,
+      enPausa: false,
     };
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(cronometros)); // Aqui guardo los datos en el localStorage
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cronometros));
   }
 
+  // Si está corriendo, lo detenemos (guardamos tiempo restante)
   if (cronometros[id].intervalo) {
     clearInterval(cronometros[id].intervalo);
+    const ahora = Date.now();
+    const tiempoRestante = Math.floor((cronometros[id].fin - ahora) / 1000);
+
+    cronometros[id].tiempoRestante = tiempoRestante;
+    cronometros[id].enPausa = true;
+
     delete cronometros[id].intervalo;
     boton.textContent = "Iniciar";
     return;
   }
 
+  // Si estaba pausado, reanudar desde tiempoRestante
+  if (cronometros[id].enPausa) {
+    const nuevoFin = Date.now() + cronometros[id].tiempoRestante * 1000;
+    cronometros[id].fin = nuevoFin;
+    delete cronometros[id].tiempoRestante;
+    cronometros[id].enPausa = false;
+  }
+
   boton.textContent = "Detener";
   actualizarDisplay(id);
   cronometros[id].intervalo = setInterval(() => actualizarDisplay(id), 1000);
+
+  // Solo actualiza el localStorage si no está pausado
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(cronometros));
 }
 
 function actualizarDisplay(id) {
@@ -134,7 +153,7 @@ function actualizarDisplay(id) {
 
     // Notificación
     if (Notification.permission === "granted") {
-      new Notification("⏰ ¡Tiempo terminado!", {
+      new Notification("¡Tiempo terminado!", {
         body: `La cancha ${id} ha completado su tiempo.`,
       });
     }
@@ -183,5 +202,24 @@ function restaurarCronometrosActivos() {
     boton.textContent = "Detener";
     actualizarDisplay(id);
     cronometros[id].intervalo = setInterval(() => actualizarDisplay(id), 1000);
+
+    if (data.enPausa) {
+      display.textContent = formatTiempo(data.tiempoRestante || 0);
+      boton.textContent = "Iniciar";
+    } else {
+      boton.textContent = "Detener";
+      actualizarDisplay(id);
+      cronometros[id].intervalo = setInterval(
+        () => actualizarDisplay(id),
+        1000
+      );
+    }
   });
+}
+function formatTiempo(segundos) {
+  const min = Math.floor(segundos / 60);
+  const seg = segundos % 60;
+  return `${min.toString().padStart(2, "0")}:${seg
+    .toString()
+    .padStart(2, "0")}`;
 }

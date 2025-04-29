@@ -534,7 +534,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// ----------------------------------------------------------------------Selec de modal de editar-----------------------------------------------------------------------
+// ----------------------------------------------------------------------Select de modal de editar-----------------------------------------------------------------------
 
 function listConveniosSelectEditar() {
   fetch(base_url + "/reservas/getConvenios")
