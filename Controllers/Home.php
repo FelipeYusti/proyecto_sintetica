@@ -20,26 +20,40 @@ class Home extends Controllers
         $year = date('Y');
         $month = date('m');
         $arrData = $this->model->getRevenueMonth($month, $year);
-        echo json_encode($arrData);
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
     }
-    public function getGananciaAño()
+    public function getGananciaAnual()
     {
-        $year = date('Y');
-        $arrData = $this->model->getRevenueYear($year);
-        echo json_encode($arrData);
+
+        $arrData = $this->model->getRevenueYear();
+        $resultado = [
+            'fecha' => [],
+            'monto' => []
+        ];
+        foreach ($arrData as $row) {
+            $resultado['fecha'][] = $row['mes'];
+            $resultado['monto'][] =  $row['monto'];
+        }
+        echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
     }
     public function getCantidaReservas()
     {
-        $year = date('Y');
-        $month = date('m');
-        $arrData = $this->model->getReserMonth($month, $year);
+      
+        $arrData = $this->model->getReserMonth();
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
     }
     public function getReservasAnual()
     {
-        $year = date('Y');
-        $arrData = $this->model->getCountReserYear($year);
-        echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+        $arrData = $this->model->getCountReserYear();
+        $resultado = [
+            'fecha' => [],
+            'cantidad' => []
+        ];
+        foreach ($arrData as $row) {
+            $resultado['fecha'][] = $row['mes'];
+            $resultado['cantidad'][] =  $row['cantidad'];
+        }
+        echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
     }
     public function getCantidaConvenios()
     {

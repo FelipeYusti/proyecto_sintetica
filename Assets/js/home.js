@@ -1,3 +1,27 @@
+const elements = {
+  cardReservas: document.getElementById("reservasAno"),
+  cardReservaHoy: document.getElementById("reservasHoy"),
+  cardTotalAno: document.getElementById("totalMes"),
+  cardTotalMes: document.getElementById("totalAno"),
+  cardConvenios: document.getElementById("convenios"),
+};
+
+const renderCard = async () => {
+  const request = {
+    ResevasAno: document.getElementById("reservasAno"),
+    ReservasHoy: await fetchData(base_url + "/home/getCantidaReservas"),
+    TotalAno: await fetchData(base_url + "/home/getReservasAnual"),
+    TotalMes: await fetchData(base_url + "/home/getReservasAnual"),
+    Convenios: await fetchData(base_url + "/home/getCantidaConvenios"),
+  };
+  console.log(request.ReservasHoy.cantidad);
+  elements.cardReservas.innerHTML = request.ReservasHoy.cantidad;
+  elements.cardReservaHoy.innerHTML = "";
+  elements.cardTotalAno.innerHTML = "";
+  elements.cardTotalMes.innerHTML = "";
+  elements.cardConvenios.innerHTML = request.Convenios.cantidad;
+};
+
 const fetchData = async (url, method = "GET", body = null) => {
   // definimos los paremetros que necesitamos.
   try {
@@ -24,97 +48,61 @@ const fetchData = async (url, method = "GET", body = null) => {
     return null;
   }
 };
-const ganancias = fetchData(base_url + "/home/getCantidaReservas");
 
-const ctx = document.getElementById("myChart");
-const dataReservas = fetchData(base_url + "/home/getCantidaReservas");
-console.log(dataReservas);
-new Chart(ctx, {
-  type: "bar",
-  data: {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-    datasets: [
-      {
-        label: "# of Votes",
-        data: [12, 19, 3, 5, 2, 3],
-        borderWidth: 1,
+const chartLine = async () => {
+  const ctxLine = document.getElementById("line");
+  /*  const ganancias = await fetchData(base_url + "/home/getGananciaAnual") */ new Chart(
+    ctxLine,
+    {
+      type: "line",
+      data: {
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        datasets: [
+          {
+            label: "My First Dataset",
+            data: [65, 59, 80, 81, 56, 55, 40],
+            fill: false,
+            borderColor: "rgb(75, 192, 192)",
+            tension: 0.1,
+          },
+        ],
       },
-    ],
-  },
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    }
+  );
+};
+const chartBar = async () => {
+  const ctx = document.getElementById("myChart");
+  const dataReservas = await fetchData(base_url + "/home/getReservasAnual");
+  console.log(dataReservas.fecha);
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: dataReservas.fecha,
+      datasets: [
+        {
+          label: "Reservas",
+          data: dataReservas.cantidad,
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
       },
     },
-  },
-});
+  });
+};
 
-const ctxLine = document.getElementById("line");
-/* const fecha = Utils.months({ count: 7 }); */
-new Chart(ctxLine, {
-  type: "line",
-  data: {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-    datasets: [
-      {
-        label: "My First Dataset",
-        data: [65, 59, 80, 81, 56, 55, 40],
-        fill: false,
-        borderColor: "rgb(75, 192, 192)",
-        tension: 0.1,
-      },
-    ],
-  },
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  },
-});
-const dona = document.getElementById("dona");
-new Chart(dona, {
-  type: "line",
-  data: {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-    datasets: [
-      {
-        label: "My First Dataset",
-        data: [65, 59, 80, 81, 56, 55, 40],
-        fill: false,
-        borderColor: "rgb(75, 192, 192)",
-        tension: 0.1,
-      },
-    ],
-  },
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  },
-});
-const ctxReservas = document.getElementById("reservas");
-new Chart(ctxReservas, {
-  type: "bar",
-  data: {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-    datasets: [
-      {
-        label: "# of Votes",
-        data: [12, 19, 3, 5, 2, 3],
-        borderWidth: 1,
-      },
-    ],
-  },
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  },
-});
+chartBar();
+chartLine();
+renderCard();
