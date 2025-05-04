@@ -9,22 +9,28 @@ class HomeModel extends Mysql
     }
 
 
-    public function getRevenueMonth($month, $year)
+    public function getRevenueMonth()
     {
-        $this->month = $month;
-        $this->year = $year;
-        $sql = "SELECT reservas.nombre, fecha FROM reservas WHERE MONTH(fecha) = {$this->month} AND YEAR(fecha) = {$this->year} AND status= 1;";
-        $request = $this->select_all($sql);
+
+        $sql = "SELECT SUM(canchas.valor) AS totalMes FROM reservas_has_canchas 
+        JOIN reservas ON reservas.idreservas = reservas_has_canchas.reservas_idreservas
+        JOIN canchas ON canchas.idcanchas = reservas_has_canchas.canchas_idcanchas
+        WHERE reservas.status > 0 AND YEAR(reservas_has_canchas.fecha) = YEAR(CURDATE())
+        AND MONTH(reservas_has_canchas.fecha) = MONTH(CURDATE());";
+        $request = $this->select($sql);
         return $request;
     }
     public function getRevenueYear()
     {
-
-        $sql = "SELECT reservas.idreservas,reservas_has_canchas.idreservas_idreservas as idPivot,reservas.nombre as nombreReserva,reservas_has_canchas.fecha as fechaReserva,
-        canchas.nombre as nombreCancha,canchas.tipo as tipoCancha,canchas.valor as valorCancha,reservas_has_canchas.horaReserva from reservas_has_canchas 
-        JOIN reservas ON reservas.idreservas=reservas_has_canchas.reservas_idreservas 
-        JOIN canchas ON canchas.idcanchas=reservas_has_canchas.canchas_idcanchas WHERE reservas.status>0 ";
+        $sql = "SELECT SUM(canchas.valor) AS totalAno FROM reservas_has_canchas JOIN reservas ON reservas.idreservas = reservas_has_canchas.reservas_idreservas JOIN canchas ON canchas.idcanchas = reservas_has_canchas.canchas_idcanchas WHERE reservas.status > 0 AND YEAR(reservas_has_canchas.fecha) = YEAR(CURDATE());";
         $request = $this->select($sql);
+        return $request;
+    }
+    public function getRevenueMonthYear()
+    {
+
+        $sql = "SELECT MONTH(reservas_has_canchas.fecha) AS numero, MONTHNAME(reservas_has_canchas.fecha) AS mes, SUM(canchas.valor) AS ganancias FROM reservas_has_canchas JOIN reservas ON reservas.idreservas = reservas_has_canchas.reservas_idreservas JOIN canchas ON canchas.idcanchas = reservas_has_canchas.canchas_idcanchas WHERE reservas.status > 0 AND YEAR(reservas_has_canchas.fecha) = YEAR(CURDATE()) GROUP BY numero, mes ORDER BY numero ";
+        $request = $this->select_all($sql);
         return $request;
     }
 
@@ -40,6 +46,12 @@ class HomeModel extends Mysql
         FROM reservas WHERE YEAR(fecha) = YEAR(CURDATE()) 
         GROUP BY MONTH(fecha), MONTHNAME(fecha) ORDER BY MONTH(fecha);";
         $request = $this->select_all($sql);
+        return $request;
+    }
+    public function getCountReserToday()
+    {
+        $sql = "SELECT COUNT(*) AS cantidadHoy FROM  reservas WHERE  DATE(fecha) = CURDATE();";
+        $request = $this->select($sql);
         return $request;
     }
 

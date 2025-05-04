@@ -15,31 +15,42 @@ class Home extends Controllers
         $this->views->getView($this, "home", $data);
     }
 
-    public function getGananciaMes()
+    public function getGananciaMensual()
     {
-        $year = date('Y');
-        $month = date('m');
-        $arrData = $this->model->getRevenueMonth($month, $year);
+     
+        $arrData = $this->model->getRevenueMonth();
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+    }
+    public function getGananciaTotal()
+    {
+        
+        $arrData = $this->model->getRevenueYear();
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
     }
     public function getGananciaAnual()
     {
 
-        $arrData = $this->model->getRevenueYear();
+        $arrData = $this->model->getRevenueMonthYear();
         $resultado = [
             'fecha' => [],
             'monto' => []
         ];
         foreach ($arrData as $row) {
             $resultado['fecha'][] = $row['mes'];
-            $resultado['monto'][] =  $row['monto'];
+            $resultado['monto'][] =  $row['ganancias'];
         }
         echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
     }
-    public function getCantidaReservas()
+    public function getReservasMes()
     {
       
         $arrData = $this->model->getReserMonth();
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+    }
+    public function getReservasHoy()
+    {
+      
+        $arrData = $this->model->getCountReserToday();
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
     }
     public function getReservasAnual()
