@@ -4,7 +4,7 @@ const fetchData = async (url, method = "GET", body = null) => {
     // Configuramos nuestra peticion
     const options = {
       method: method,
-      body: body ? body : null
+      body: body ? body : null,
     };
     // Ejecutamos la peticion enviando los parametros URL y Options.
     const response = await fetch(url, options); // Esperamos el response.
@@ -19,31 +19,32 @@ const fetchData = async (url, method = "GET", body = null) => {
     Swal.fire({
       icon: "error",
       title: "Error",
-      text: error.message
+      text: error.message,
     });
     return null;
   }
 };
 
 const elements = {
-  cardReservas: document.getElementById("reservasAno"),
+  cardReservasAno: document.getElementById("reservasAno"),
+  cardReservaMes: document.getElementById("reservasMes"),
   cardReservaHoy: document.getElementById("reservasHoy"),
   cardTotalAno: document.getElementById("totalMes"),
   cardTotalMes: document.getElementById("totalAno"),
-  cardConvenios: document.getElementById("convenios")
+  cardConvenios: document.getElementById("convenios"),
 };
 
 const renderCard = async () => {
   const request = {
-    ResevasAno: await fetchData(base_url + "/home/getReservasMes"),
+    ReservasAno: await fetchData(base_url + "/home/getReservasAno"),
+    ReservasMes: await fetchData(base_url + "/home/getReservasMes"),
     ReservasHoy: await fetchData(base_url + "/home/getReservasHoy"),
     TotalAno: await fetchData(base_url + "/home/getGananciaTotal"),
     TotalMes: await fetchData(base_url + "/home/getGananciaMensual"),
-    Convenios: await fetchData(base_url + "/home/getCantidaConvenios")
+    Convenios: await fetchData(base_url + "/home/getCantidaConvenios"),
   };
-
-  console.log(request.ReservasHoy.cantidadHoy)
-  elements.cardReservas.innerHTML = request.ResevasAno.cantidad;
+  elements.cardReservasAno.innerHTML = request.ReservasAno.cantidad;
+  elements.cardReservaMes.innerHTML = request.ReservasMes.cantidad;
   elements.cardReservaHoy.innerHTML = request.ReservasHoy.cantidadHoy;
   elements.cardTotalAno.innerHTML = "$" + request.TotalAno.totalAno;
   elements.cardTotalMes.innerHTML = "$" + request.TotalMes.totalMes;
@@ -64,17 +65,17 @@ const chartLine = async () => {
           data: dataGancias.monto,
           fill: false,
           borderColor: "rgb(75, 192, 192)",
-          tension: 0.1
-        }
-      ]
+          tension: 0.1,
+        },
+      ],
     },
     options: {
       scales: {
         y: {
-          beginAtZero: true
-        }
-      }
-    }
+          beginAtZero: true,
+        },
+      },
+    },
   });
 };
 
@@ -90,17 +91,17 @@ const chartBar = async () => {
         {
           label: "Reservas",
           data: dataReservas.cantidad,
-          borderWidth: 1
-        }
-      ]
+          borderWidth: 1,
+        },
+      ],
     },
     options: {
       scales: {
         y: {
-          beginAtZero: true
-        }
-      }
-    }
+          beginAtZero: true,
+        },
+      },
+    },
   });
 };
 

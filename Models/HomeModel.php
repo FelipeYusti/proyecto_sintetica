@@ -34,6 +34,12 @@ class HomeModel extends Mysql
         return $request;
     }
 
+    public function getReserYear()
+    {
+        $sql = "SELECT COUNT(*) AS cantidad  FROM reservas WHERE YEAR(fecha) = YEAR(CURDATE()) ;";
+        $request = $this->select($sql);
+        return $request;
+    }
     public function getReserMonth()
     {
         $sql = "SELECT DATE_FORMAT(fecha, '%Y-%m') AS mes, COUNT(*) AS cantidad FROM reservas GROUP BY DATE_FORMAT(fecha, '%Y-%m') ORDER BY mes;";

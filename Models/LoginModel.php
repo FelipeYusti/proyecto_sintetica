@@ -13,8 +13,8 @@ class LoginModel extends Mysql{
     public function loginUser(string $usuario, string $password){
         $this->strUsuario = $usuario;
         $this->strPassword = $password;
-        $sql = "SELECT idUsuarios, status FROM usuario WHERE
-        documento = '{$this->strUsuario}' AND
+        $sql = "SELECT idusers, status FROM users WHERE
+        username = '{$this->strUsuario}' AND
         password = '{$this->strPassword}' AND
         status != 0";
         
@@ -25,17 +25,14 @@ class LoginModel extends Mysql{
     public function sessionLogin(int $idUser){
         $this->intUsuario = $idUser;
 
-        $sql = "SELECT u.idUsuarios, 
-        u.nombre,
+        $sql = "SELECT u.idusers, 
+        u.username,
         u.apellido,
-        u.documento,
-        u.telefono,
         u.correo,
-        u.codigo,
         u.rol,
         u.status
-        FROM usuario u
-        WHERE u.idUsuarios = {$this->intUsuario}";
+        FROM users u
+        WHERE u.idusers = {$this->intUsuario}";
 
         $request = $this->select($sql);
         return $request;

@@ -17,13 +17,13 @@ class Home extends Controllers
 
     public function getGananciaMensual()
     {
-     
+
         $arrData = $this->model->getRevenueMonth();
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
     }
     public function getGananciaTotal()
     {
-        
+
         $arrData = $this->model->getRevenueYear();
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
     }
@@ -41,15 +41,21 @@ class Home extends Controllers
         }
         echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
     }
+    public function getReservasAno()
+    {
+
+        $arrData = $this->model->getReserYear();
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+    }
     public function getReservasMes()
     {
-      
+
         $arrData = $this->model->getReserMonth();
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
     }
     public function getReservasHoy()
     {
-      
+
         $arrData = $this->model->getCountReserToday();
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
     }

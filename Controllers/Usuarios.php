@@ -5,10 +5,10 @@ class Usuarios extends Controllers
     public function __construct()
     {
         parent::__construct();
-        /* session_start();
+        session_start();
         if (empty($_SESSION['login'])) {
             header('Location: ' . base_url() . '/login');
-        } */
+        }
     }
     public function usuarios()
     {
@@ -82,11 +82,10 @@ class Usuarios extends Controllers
         if (check_post($arrPosts)) {
 
             $username = strClean($_POST['txtUsername']);
-            $password = strClean($_POST['txtPassword']);
+            $password = hash("SHA256", $_POST['txtPassword']);
             $email = strClean($_POST['txtCorreo']);
             $rol = strClean($_POST['txtRol']);
             try {
-
                 $insert = $this->model->add(
                     $username,
                     $password,

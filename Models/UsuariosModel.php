@@ -30,7 +30,6 @@ class UsuariosModel extends Mysql
         $this->email = $email;
         $this->rol = $rol;
         $this->password = $password;
-        $this->password = password_hash($this->password, PASSWORD_BCRYPT);
         $query_usuarios = "SELECT * FROM users WHERE username = '{$this->username}' AND status > 0";
 
         $request = $this->select_all($query_usuarios);

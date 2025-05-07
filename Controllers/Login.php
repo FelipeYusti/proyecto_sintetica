@@ -23,22 +23,23 @@ class Login extends Controllers
     public function loginUser()
     {
         if ($_POST) {
-            $arrPost = ['txtDocumento', 'txtPassword'];
+            $arrPost = ['txtUser', 'txtPassword'];
             if (!check_post($arrPost)) {
                 $arrResponse = array('status' => false, 'msg' => 'Error de datos');
             } else {
-                $strUsuario = strClean($_POST['txtDocumento']);
+                $strUsuario = strClean($_POST['txtUser']);
                 $strPassword = hash("SHA256", $_POST['txtPassword']);
+                echo "PASS: ".$strPassword;
                 $requestUser = $this->model->loginUser($strUsuario, $strPassword);
                 if (empty($requestUser)) {
                     $arrResponse = array('status' => false, 'msg' => 'El usuario o la contraseña es incorrecto',  'pass' => $strPassword);
                 } else {
                     $arrData = $requestUser;
                     if ($arrData['status'] == 1) {
-                        $_SESSION['idUsuarios'] = $arrData['idUsuarios'];
+                        $_SESSION['idusers'] = $arrData['idUsuarios'];
                         $_SESSION['login'] = true;
 
-                        $arrData = $this->model->sessionLogin($_SESSION['idUsuarios']);
+                        $arrData = $this->model->sessionLogin($_SESSION['idusers']);
                         $_SESSION['userData'] = $arrData;
 
                         $arrResponse = array('status' => true, 'msg' => 'ok');
