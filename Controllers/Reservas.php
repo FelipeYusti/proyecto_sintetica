@@ -48,10 +48,12 @@ class Reservas extends Controllers
         die();
     }
 
-    public function getCanchaValidacion($fecha, $hora)
+    public function getCanchaValidacion()
     {
-        $fecha = strClean($fecha);
-        $hora = strClean($hora);
+        $fecha = strClean($_POST['fecha']);
+        $hora = strClean($_POST['hora']);
+        echo $hora;
+        echo $fecha;
 
         $arrData = $this->model->getCanchaValidacion($fecha, $hora);
 

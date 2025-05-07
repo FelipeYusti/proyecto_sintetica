@@ -41,7 +41,7 @@ class ReservasModel extends Mysql
         WHERE 
         reservas_has_canchas.canchas_idcanchas = canchas.idcanchas
         AND reservas_has_canchas.fecha = '{$this->fecha}'
-        AND '{$this->$hora}' BETWEEN reservas_has_canchas.horaReserva 
+        AND '{$this->hora}' BETWEEN reservas_has_canchas.horaReserva 
         AND DATE_ADD(
             reservas_has_canchas.horaReserva, 
             INTERVAL reservas_has_canchas.horasReservadas HOUR

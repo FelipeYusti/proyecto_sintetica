@@ -21,8 +21,7 @@ let horasReservas = document.querySelector("#horasReservas");
 //===
 
 let select = "";
-
-//let contadorClicks = 1;
+let contadorClicks2 = 0;
 
 btnCrearReserva.addEventListener("click", () => {
   frmCrearReserva.reset();
@@ -421,6 +420,7 @@ editarReservaModal.addEventListener("submit", (e) => {
   if (select === "update") {
     frmData.append("idReserva", idReservaInput.value); // Usar el input hidden con el ID
     frmData.append("idReservaPivote", idReservaPivote.value);
+
     fetch(base_url + "/reservas/updateReserva", {
       method: "POST",
       body: frmData,
@@ -471,6 +471,8 @@ document.addEventListener("DOMContentLoaded", () => {
   btnFormularioProducto.addEventListener("click", () => {
     const formularioProducto = document.querySelector("#formularioProducto");
     contadorClicks++;
+    contadorClicks2++;
+
     if (contadorClicks > 5) {
       Swal.fire({
         icon: "error",
@@ -479,44 +481,47 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     } else {
       if (formularioProducto) {
-        formularioProducto.innerHTML += `
-          <div class="row" id="idRow${contadorClicks}">
-            <div style="margin: 50px; border: 1px solid #ccc; padding: 50px; border-radius: 50px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" class="mb-3">
-              <input type="hidden" name="idReservaPivote${contadorClicks}" id="idReservaPivote${contadorClicks}" value="40">
-              <input type="hidden" name="numeroInserciones${contadorClicks}" id="numeroInserciones${contadorClicks}" value="${contadorClicks}">
-  
-              <div class="row">
-                <label for="txtName" class="form-label"><b>Día de la reserva</b></label>
-                <input type="date" class="form-control" id="diaReserva${contadorClicks}" name="diaReserva${contadorClicks}" required>
-              </div>
+        switch (contadorClicks) {
+          case 2:
+            console.log("2");
+            document.getElementById("idRow2").style.display = "block";
+            // Con esto especifica que tipo de entrada de datos acepta
+            const campos = document.querySelectorAll(
+              "#idRow2 input, #idRow2 select, #idRow2 textarea"
+            );
+            campos.forEach((el) => (el.disabled = false));
 
-              <div class="row">
-                <label for="txtName" class="form-label"><b>Hora de la reserva</b></label>
-                <input type="time" class="form-control" id="horaReserva${contadorClicks}" name="horaReserva${contadorClicks}" required step="3600">
-              </div>
-
-              <div class="row">
-                <label for="txtName" class="form-label"><b>Cancha</b></label>
-                <select class="form-control" name="idCancha${contadorClicks}" id="idCancha${contadorClicks}">
-                  <option selected="" value="" disabled>Seleccione la cancha</option>
-                </select> 
-              </div>
-  
-              <div class="row">
-                <label for="txtName" class="form-label"><b>Horas reservadas</b></label>
-                <input type="number" class="form-control" id="horasReservadas${contadorClicks}" name="horasReservadas${contadorClicks}" required>
-              </div>
-            </div>
-          </div>`;
+            break;
+          case 3:
+            console.log("3");
+            document.getElementById("idRow3").style.display = "block";
+            const campos3 = document.querySelectorAll(
+              "#idRow3 input, #idRow3 select, #idRow3 textarea"
+            );
+            campos3.forEach((el) => (el.disabled = false));
+            break;
+          case 4:
+            console.log("4");
+            document.getElementById("idRow4").style.display = "block";
+            const campos4 = document.querySelectorAll(
+              "#idRow4 input, #idRow4 select, #idRow4 textarea"
+            );
+            campos4.forEach((el) => (el.disabled = false));
+            break;
+          case 5:
+            console.log("5");
+            document.getElementById("idRow5").style.display = "block";
+            const campos5 = document.querySelectorAll(
+              "#idRow5 input, #idRow5 select, #idRow5 textarea"
+            );
+            campos5.forEach((el) => (el.disabled = false));
+            break;
+          default:
+        }
 
         let selectElem = document.getElementById(`idCancha${contadorClicks}`);
 
-        // Validación para que el dia de la reserva,no se puede hacer un dia pasado
-
-        const input = document.querySelector(`#diaReserva${contadorClicks}`);
-        const hoy = new Date().toISOString().split("T")[0];
-
-        input.setAttribute("min", hoy);
+        // Validación para que el dia de la reserva, no se puede hacer un dia pasado
 
         fetch(base_url + "/reservas/getCanchas")
           .then((res) => res.json())
@@ -583,7 +588,7 @@ let horaReserva1 = document.querySelector("#horaReserva1");
 horaReserva1.style.display = "none";
 
 diaReserva1.addEventListener("input", (e) => {
-  console.log("2");
+  console.log("1");
   horaReserva1.style.display = "block";
   horaReserva1.focus();
 });
@@ -593,14 +598,33 @@ horaReserva1.addEventListener("input", () => {
   const fecha = diaReserva1.value;
   const hora = horaReserva1.value;
 
-  let url = base_url + `/reservas/getCanchaValidacion/${fecha}&${hora}`;
+  let frmData = new FormData();
+
+  let idCancha1 = document.getElementById(`idCancha${contadorClicks2}`);
+  let inputDiaReserva1 = document.querySelector(
+    `#diaReserva${contadorClicks2}`
+  );
+  let inputHoraReserva1 = document.querySelector(
+    `#horaReserva${contadorClicks2}`
+  );
+  let horasReservadas1 = document.querySelector(
+    `horasReservadas${contadorClicks2}`
+  );
+  let url = base_url + `/reservas/getCanchaValidacion`;
+
+  frmData.append("hora", hora);
+  frmData.append("fecha", fecha);
 
   fetch(url, {
-    method: "GET",
+    method: "POST",
+    body: frmData,
   })
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
+      data.data.forEach((cancha) => {
+        selectElem.innerHTML += `<option value="${cancha.idcanchas}">${cancha.nombre}</option>`;
+      });
     })
     .catch((error) => console.error("Error al listar canchas:", error));
 });
