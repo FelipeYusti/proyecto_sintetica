@@ -28,25 +28,46 @@ class Reservas extends Controllers
         die();
     }
 
-    public function getReserva($idReserva)
+    public function getReserva($idReservaPivote)
     {
+        $idReservaPivote = intval(strClean($idReservaPivote));
 
-        $intIdConvenio = intval(strClean($idReserva));
-
-        if ($intIdConvenio > 0) {
-
-            $arrData = $this->model->getById($idReserva);
+        if ($idReservaPivote > 0) {
+            $arrData = $this->model->getReserva($idReservaPivote);
 
             if (empty($arrData)) {
                 $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados');
             } else {
                 $arrResponse = array('status' => true, 'data' => $arrData);
             }
+        } else {
+            $arrResponse = array('status' => false, 'msg' => 'ID inválido');
         }
 
         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         die();
     }
+
+    public function getCanchaValidacion()
+    {
+        $fecha = strClean($_POST['fecha']);
+        $hora = strClean($_POST['hora']);
+        echo $hora;
+        echo $fecha;
+
+        $arrData = $this->model->getCanchaValidacion($fecha, $hora);
+
+        if (empty($arrData)) {
+            $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados');
+        } else {
+            $arrResponse = array('status' => true, 'data' => $arrData);
+        }
+
+        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+
     public function getConvenios()
     {
 
@@ -102,7 +123,7 @@ class Reservas extends Controllers
 
         // 5 es el maximo de inserciones 
         for ($i = 1; $i <= 5; $i++) {
-            if (isset($_POST["diaReserva$i"], $_POST["horaReserva$i"], $_POST["horasReservadas$i"])) {
+            if (isset($_POST["diaReserva$i"], $_POST["horaReserva$i"], $_POST["horasReservadas$i"], $_POST["idCancha$i"])) {
                 $reservasPivote[] = [
                     'idReservaPivote' => strClean($_POST["idReservaPivote$i"]),
                     'diaReserva' => strClean($_POST["diaReserva$i"]),
@@ -157,15 +178,20 @@ class Reservas extends Controllers
     }
     public function updateReserva()
     {
-        $arrPost = ['idReserva', 'nombreReserva', 'idConvenio', 'idUsuario'];
+        $arrPost = ['idReserva', 'idReservaPivote', 'nombreReserva', 'idConvenio', 'idUsuario', 'diaReserva', 'idCancha', 'horaReserva', 'horasReservas'];
 
         if (check_post($arrPost)) {
             $idReserva = strClean($_POST['idReserva']);
+            $idReservaPivote = strClean($_POST['idReservaPivote']);
             $nombreReserva = strClean($_POST['nombreReserva']);
             $idConvenio = strClean($_POST['idConvenio']);
             $idUsuario = strClean($_POST['idUsuario']);
-            try {
+            $diaReserva = strClean($_POST['diaReserva']);
+            $idCancha1 = strClean($_POST['idCancha']);
+            $horaReserva = strClean($_POST['horaReserva']);
+            $horasReservas = strClean($_POST['horasReservas']);
 
+            try {
                 $insert = $this->model->updateReserva(
                     $idReserva,
                     $nombreReserva,
@@ -173,15 +199,20 @@ class Reservas extends Controllers
                     $idUsuario
                 );
 
-                if (intval($insert) > 0) {
+                $insert2 = $this->model->updateReservaPivote(
+                    $idReservaPivote,
+                    $diaReserva,
+                    $idCancha1,
+                    $horaReserva,
+                    $horasReservas
+                );
 
+                if ($insert !== false && $insert2 !== false) {
                     $arrResponse = array('status' => true, 'msg' => 'Reserva actualizada correctamente');
-                } else if ($insert == 'exist') {
-
-                    $arrResponse = array('status' => false, 'msg' => 'Ya existe una convenio con el mismo nombre');
+                } else if ($insert === 'exist') {
+                    $arrResponse = array('status' => false, 'msg' => 'Ya existe un convenio con el mismo nombre');
                 } else {
-
-                    $arrResponse = array('status' => false, 'msg' => 'Error al insertar');
+                    $arrResponse = array('status' => false, 'msg' => 'Error al actualizar la reserva');
                 }
             } catch (\Throwable $th) {
                 $arrResponse = array('status' => false, 'msg' => "Error desconocido: $th");
@@ -192,6 +223,8 @@ class Reservas extends Controllers
 
         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
     }
+
+
     public function updateHorario()
     {
         $arrPost = ['idPivot', 'nuevaFecha', 'nuevaHora'];
@@ -223,6 +256,7 @@ class Reservas extends Controllers
 
         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
     }
+
     public function deleteReserva1()
     {
         if ($_POST) {
@@ -237,6 +271,27 @@ class Reservas extends Controllers
         } else {
             print_r($_POST);
         }
+        die();
+    }
+
+    public function cancelarReserva()
+    {
+        if ($_POST) {
+            $idReserva = intval($_POST['idReserva']);
+
+            $requestDelete = $this->model->cancelarReserva($idReserva);
+
+            if ($requestDelete) {
+                $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado la reserva.');
+            } else {
+                $arrResponse = array('status' => false, 'msg' => 'No se pudo eliminar la reserva.');
+            }
+
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode(['status' => false, 'msg' => 'No se recibió una solicitud válida.']);
+        }
+
         die();
     }
 

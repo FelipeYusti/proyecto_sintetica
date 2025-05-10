@@ -24,6 +24,64 @@ class ReservasModel extends Mysql
         $request = $this->select_all($sql);
         return $request;
     }
+
+    public function getCanchaValidacion($fecha, $hora)
+    {
+
+        $this->fecha = $fecha;
+        $this->hora = $hora;
+
+        $sql = "SELECT 
+        canchas.idcanchas,
+        canchas.nombre
+        FROM canchas
+        WHERE NOT EXISTS (
+        SELECT 1
+        FROM reservas_has_canchas
+        WHERE 
+        reservas_has_canchas.canchas_idcanchas = canchas.idcanchas
+        AND reservas_has_canchas.fecha = '{$this->fecha}'
+        AND '{$this->hora}' BETWEEN reservas_has_canchas.horaReserva 
+        AND DATE_ADD(
+            reservas_has_canchas.horaReserva, 
+            INTERVAL reservas_has_canchas.horasReservadas HOUR
+        )
+      );";
+        $request = $this->select_all($sql);
+        return $request;
+    }
+
+
+    public function getReserva($idReservaPivote)
+    {
+        $this->idReservaPivote = $idReservaPivote;
+
+        $sql = "SELECT 
+            reservas.nombre,
+            reservas.convenios_idconvenios,
+            reservas.idreservas,
+            reservas.users_idusers,
+            reservas_has_canchas.idreservas_idreservas as idPivote,
+            reservas_has_canchas.reservas_idreservas,
+            reservas_has_canchas.canchas_idcanchas,
+            reservas_has_canchas.fecha,
+            reservas_has_canchas.horaReserva,
+            reservas_has_canchas.horasReservadas,
+            convenios.nombre as nombreConvenio,
+            convenios.idconvenios,
+            users.username,
+            canchas.nombre as nombreCancha
+        FROM reservas_has_canchas 
+        JOIN reservas ON reservas_has_canchas.reservas_idreservas = reservas.idreservas 
+        JOIN convenios ON reservas.convenios_idconvenios=convenios.idconvenios
+        JOIN users ON reservas.users_idusers=users.idusers
+        JOIN canchas ON canchas.idcanchas=reservas_has_canchas.canchas_idcanchas
+        WHERE reservas_has_canchas.idreservas_idreservas = '{$this->idReservaPivote}'";
+
+        return $request = $this->select_all($sql);
+    }
+
+
     public function getConvenios()
     {
         $sql = "SELECT convenios.idconvenios,convenios.nombre FROM convenios WHERE convenios.status>0";
@@ -98,9 +156,9 @@ class ReservasModel extends Mysql
         return $requestInsert;
     }
 
-    public function addReservaPivote(int $idReserva, int $idCancha, string $fecha, string $horaReserva, int $horasReservadas)
+    public function addReservaPivote(int $idReservaPivote, int $idCancha, string $fecha, string $horaReserva, int $horasReservadas)
     {
-        $this->idReserva = $idReserva;
+        $this->idReservaPivote = $idReservaPivote;
         $this->idCancha = $idCancha;
         $this->fecha = $fecha;
         $this->horaReserva = $horaReserva;
@@ -109,7 +167,7 @@ class ReservasModel extends Mysql
         $sql = "INSERT INTO reservas_has_canchas (reservas_has_canchas.reservas_idreservas,reservas_has_canchas.canchas_idcanchas,reservas_has_canchas.fecha,reservas_has_canchas.horaReserva,reservas_has_canchas.horasReservadas)
          VALUES(?,?,?,?,?)";
 
-        $arrData = array($this->idReserva, $this->idCancha, $this->fecha, $this->horaReserva, $this->horasReservadas);
+        $arrData = array($this->idReservaPivote, $this->idCancha, $this->fecha, $this->horaReserva, $this->horasReservadas);
 
         return $this->insert($sql, $arrData);
     }
@@ -133,6 +191,35 @@ class ReservasModel extends Mysql
 
         return $respuesta;
     }
+
+    public function updateReservaPivote(int $idPivote, string $diaReserva, int $idCancha, string $horaReserva, int $horasReservadas)
+    {
+        $this->idPivote = $idPivote;
+        $this->diaReserva = $diaReserva;
+        $this->idCancha = $idCancha;
+        $this->horaReserva = $horaReserva;
+        $this->horasReservadas = $horasReservadas;
+
+        if (!is_numeric($idPivote) || intval($idPivote) <= 0) {
+            error_log("ID Pivote inválido recibido: $idPivote");
+            return false;
+        }
+
+        $query_update = "UPDATE reservas_has_canchas SET  reservas_has_canchas.canchas_idcanchas=?,
+        reservas_has_canchas.fecha=?, reservas_has_canchas.horaReserva=?,
+        reservas_has_canchas.horasReservadas=? WHERE reservas_has_canchas.idreservas_idreservas=?";
+
+        $arrData = [$this->idCancha, $this->diaReserva, $this->horaReserva, $this->horasReservadas, $this->idPivote];
+
+        $request_update = $this->update($query_update, $arrData);
+
+        $respuesta = $request_update;
+
+        return $respuesta;
+    }
+
+
+
     public function updateHorario(int $idReservaPivote, string $fecha, string $horaReserva)
     {
         $this->idReservaPivote = $idReservaPivote;
@@ -153,6 +240,15 @@ class ReservasModel extends Mysql
         $sql = "UPDATE reservas SET status = ? WHERE idreservas = ?";
         $arrData = array(0, $this->idReserva);
         $request = $this->update($sql, $arrData);
+        return $request;
+    }
+
+    public function cancelarReserva(int $idReserva)
+    {
+        $this->idReserva = intval($idReserva);
+
+        $sql = "DELETE FROM reservas_has_canchas WHERE idreservas_idreservas = " . $this->idReserva;
+        $request = $this->delete($sql);
         return $request;
     }
 }

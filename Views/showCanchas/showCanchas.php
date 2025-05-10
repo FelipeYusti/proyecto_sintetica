@@ -294,43 +294,29 @@ header_admin($data);
                     </div>
                 </div>
             </div> -->
-            <div class="col-md-12 col-lg-8">
+            <div class="col-md-15 col-lg-10">
                 <div class="row">
                     <div class="col-3">
                         <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1300">
                             <div class="card-body">
                                 <div class="progress-widget">
-                                    <button type="button" id="btnCrearConvenio" class="btn btn-primary">
-                                        Registrar
-                                    </button>
+                                    <h1
+                                        class="btn btn-primary text-white fw-bold shadow-lg rounded-pill px-4 py-2 fs-4">
+                                        Canchas
+                                    </h1>
                                 </div>
                             </div>
                         </li>
                     </div>
                 </div>
-                <div class="row">
-                    <table class="table" id="tablaConvenios">
-                        <thead>
-                            <tr>
-                                <th>id</th>
-                                <th>Nombre </th>
-                                <th>Descripcion</th>
-                                <th>Fecha Inicio</th>
-                                <th>Fecha Fin</th>
-                                <th>Descuento</th>
-                                <th>Cancha</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                <div class="row" id="contenidoCanchas" name="contenidoCanchas">
 
                 </div>
+
             </div>
         </div>
     </div>
     </div>
 </main>
 <?php footer_admin($data); ?>
-<script src="<?= media() ?>/js/convenio.js"></script>
+<script src="<?= media() ?>/js/showCanchas.js"></script>

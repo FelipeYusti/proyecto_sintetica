@@ -297,6 +297,7 @@ header_admin($data);
             </div> -->
                 <div class="col-md-12 col-lg-12">
                     <div class="row">
+                        <?php getModal('reservasModal', $data); ?>
                         <div class="col-3">
                             <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1300">
                                 <div class="card-body">
@@ -304,7 +305,6 @@ header_admin($data);
                                         <button type="button" id="btnCrearReserva" class="btn btn-primary">
                                             Agregar reserva
                                         </button>
-
                                     </div>
 
                                 </div>
@@ -312,12 +312,16 @@ header_admin($data);
                         </div>
                     </div>
                     <div class="row">
-                        <div class="modal fade" id="detalles" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal fade" id="detalles" data-bs-backdrop="static" data-bs-keyboard="false"
+                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header bg-primary">
-                                        <h4 class="modal-title text-white text-align-center" id="staticBackdropLabel"> <b>Información de la Reserva</b></h4>
-                                        <button type="button" class="btn-close" id="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <h4 class="modal-title text-white text-align-center" id="staticBackdropLabel">
+                                            <b>Información de la Reserva</b>
+                                        </h4>
+                                        <button type="button" class="btn-close" id="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body" id="modal-body">
 
@@ -375,7 +379,7 @@ header_admin($data);
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Reservar</button>
+                            <button type="submit" class="btn btn-outline-success">Reservar</button>
                         </div>
 
                         <div class="col-5" style="text-align: center;">
@@ -390,17 +394,35 @@ header_admin($data);
                                             <input type="date" class="form-control" id="diaReserva1" name="diaReserva1"
                                                 required>
                                         </div>
+                                        <script>
+                                            const input = document.getElementById(`diaReserva1`);
+                                            const hoy = new Date().toISOString().split('T')[0];
+                                            input.min = hoy;
+                                        </script>
+                                        <div class="row">
+                                            <label for="horaReserva1" class="form-label"><b>Hora de la reserva</b></label>
+                                            <input type="time" class="form-control" id="horaReserva1" name="horaReserva1" step="3600">
+                                        </div>
+
+                                        <script>
+                                            const inputHora = document.getElementById("horaReserva1");
+
+                                            inputHora.addEventListener("change", () => {
+                                                // Forzar minutos en 00
+                                                const valor = inputHora.value;
+                                                const [hora] = valor.split(":");
+                                                inputHora.value = `${hora.padStart(2, '0')}:00`;
+                                            });
+                                        </script>
+
                                         <div class="row">
                                             <label for="genero" class="form-label"><b>Cancha</b></label>
                                             <select class="form-control" name="idCancha1" id="idCancha1">
                                                 <option selected="" value="" disabled>Seleccione la cancha</option>
+
                                             </select>
                                         </div>
-                                        <div class="row">
-                                            <label for="txtName" class="form-label"><b>Hora de la reserva</b> </label>
-                                            <input type="time" class="form-control" id="horaReserva1"
-                                                name="horaReserva1" required>
-                                        </div>
+
                                         <div class="row">
                                             <label for="txtName" class="form-label"><b>Horas reservadas</b> </label>
                                             <input type="number" class="form-control" id="horasReservadas1"
@@ -408,10 +430,193 @@ header_admin($data);
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row" id="idRow2" style="display:none">
+                                    <div style="margin: 50px; border: 1px solid #ccc; padding: 50px; border-radius: 50px; box-shadow: 0 0 10px rgba(0,0,0,0.1);"
+                                        class="mb-3">
+                                        <input type="hidden" name="idReservaPivote2" id="idReservaPivote2" value="40" disabled>
 
+                                        <div class="row">
+                                            <label for="txtName" class="form-label"><b>Día de la reserva</b> </label>
+                                            <input type="date" class="form-control" id="diaReserva2" name="diaReserva2"
+                                                required disabled>
+                                        </div>
+                                        <script>
+                                            const input2 = document.getElementById(`diaReserva2`);
+                                            const hoy2 = new Date().toISOString().split('T')[0];
+                                            input2.min = hoy2;
+                                        </script>
+                                        <div class="row">
+                                            <label for="horaReserva2" class="form-label"><b>Hora de la reserva</b></label>
+                                            <input type="time" class="form-control" id="horaReserva2" name="horaReserva2" required disabled step="3600">
+                                        </div>
+
+                                        <script>
+                                            const inputHora2 = document.getElementById("horaReserva2");
+
+                                            inputHora.addEventListener("change", () => {
+                                                // Forzar minutos en 00
+                                                const valor2 = inputHora2.value;
+                                                const [hora2] = valor2.split(":");
+                                                inputHora2.value = `${hora2.padStart(2, '0')}:00`;
+                                            });
+                                        </script>
+
+                                        <div class="row">
+                                            <label for="genero" class="form-label"><b>Cancha</b></label>
+                                            <select class="form-control" name="idCancha2" id="idCancha2" disabled>
+                                                <option selected="" value="" disabled>Seleccione la cancha</option>
+
+                                            </select>
+                                        </div>
+
+                                        <div class="row">
+                                            <label for="txtName" class="form-label"><b>Horas reservadas</b> </label>
+                                            <input type="number" class="form-control" id="horasReservadas2"
+                                                name="horasReservadas2" disabled required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" id="idRow3" style="display:none">
+                                    <div style="margin: 50px; border: 1px solid #ccc; padding: 50px; border-radius: 50px; box-shadow: 0 0 10px rgba(0,0,0,0.1);"
+                                        class="mb-3">
+                                        <input type="hidden" name="idReservaPivote3" id="idReservaPivote3" disabled value="40">
+
+                                        <div class="row">
+                                            <label for="txtName" class="form-label"><b>Día de la reserva</b> </label>
+                                            <input type="date" class="form-control" id="diaReserva3" name="diaReserva3"
+                                                disabled required>
+                                        </div>
+                                        <script>
+                                            const input3 = document.getElementById(`diaReserva3`);
+                                            const hoy3 = new Date().toISOString().split('T')[0];
+                                            input3.min = hoy3;
+                                        </script>
+                                        <div class="row">
+                                            <label for="horaReserva3" class="form-label"><b>Hora de la reserva</b></label>
+                                            <input type="time" class="form-control" id="horaReserva3" name="horaReserva3" required disabled step="3600">
+                                        </div>
+
+                                        <script>
+                                            const inputHora3 = document.getElementById("horaReserva3");
+
+                                            inputHora.addEventListener("change", () => {
+                                                // Forzar minutos en 00
+                                                const valor3 = inputHora3.value;
+                                                const [hora3] = valor3.split(":");
+                                                inputHora3.value = `${hora3.padStart(2, '0')}:00`;
+                                            });
+                                        </script>
+
+                                        <div class="row">
+                                            <label for="genero" class="form-label"><b>Cancha</b></label>
+                                            <select class="form-control" name="idCancha3" id="idCancha3" disabled>
+                                                <option selected="" value="" disabled>Seleccione la cancha</option>
+
+                                            </select>
+                                        </div>
+
+                                        <div class="row">
+                                            <label for="txtName" class="form-label"><b>Horas reservadas</b> </label>
+                                            <input type="number" class="form-control" id="horasReservadas3"
+                                                name="horasReservadas3" disabled required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" id="idRow4" style="display:none">
+                                    <div style="margin: 50px; border: 1px solid #ccc; padding: 50px; border-radius: 50px; box-shadow: 0 0 10px rgba(0,0,0,0.1);"
+                                        class="mb-3">
+                                        <input type="hidden" name="idReservaPivote4" id="idReservaPivote4" value="40" disabled>
+
+                                        <div class="row">
+                                            <label for="txtName" class="form-label"><b>Día de la reserva</b> </label>
+                                            <input type="date" class="form-control" id="diaReserva4" name="diaReserva4"
+                                                disabled required>
+                                        </div>
+                                        <script>
+                                            const input4 = document.getElementById(`diaReserva4`);
+                                            const hoy4 = new Date().toISOString().split('T')[0];
+                                            input4.min = hoy4;
+                                        </script>
+                                        <div class="row">
+                                            <label for="horaReserva4" class="form-label"><b>Hora de la reserva</b></label>
+                                            <input type="time" class="form-control" id="horaReserva4" name="horaReserva4" required step="3600" disabled>
+                                        </div>
+
+                                        <script>
+                                            const inputHora4 = document.getElementById("horaReserva4");
+
+                                            inputHora.addEventListener("change", () => {
+                                                // Forzar minutos en 00
+                                                const valor4 = inputHora4.value;
+                                                const [hora4] = valor4.split(":");
+                                                inputHora4.value = `${hora4.padStart(2, '0')}:00`;
+                                            });
+                                        </script>
+
+                                        <div class="row">
+                                            <label for="genero" class="form-label"><b>Cancha</b></label>
+                                            <select class="form-control" name="idCancha4" id="idCancha4" disabled>
+                                                <option selected="" value="" disabled>Seleccione la cancha</option>
+
+                                            </select>
+                                        </div>
+
+                                        <div class="row">
+                                            <label for="txtName" class="form-label"><b>Horas reservadas</b> </label>
+                                            <input type="number" class="form-control" id="horasReservadas4"
+                                                name="horasReservadas4" disabled required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" id="idRow5" style="display:none">
+                                    <div style="margin: 50px; border: 1px solid #ccc; padding: 50px; border-radius: 50px; box-shadow: 0 0 10px rgba(0,0,0,0.1);"
+                                        class="mb-3">
+                                        <input type="hidden" name="idReservaPivote5" id="idReservaPivote5" disabled value="40">
+
+                                        <div class="row">
+                                            <label for="txtName" class="form-label"><b>Día de la reserva</b> </label>
+                                            <input type="date" class="form-control" id="diaReserva5" name="diaReserva5"
+                                                disabled required>
+                                        </div>
+                                        <script>
+                                            const input5 = document.getElementById(`diaReserva5`);
+                                            const hoy5 = new Date().toISOString().split('T')[0];
+                                            input5.min = hoy5;
+                                        </script>
+                                        <div class="row">
+                                            <label for="horaReserva5" class="form-label"><b>Hora de la reserva</b></label>
+                                            <input type="time" class="form-control" id="horaReserva5" name="horaReserva5" disabled required step="3600">
+                                        </div>
+
+                                        <script>
+                                            const inputHora5 = document.getElementById("horaReserva5");
+
+                                            inputHora.addEventListener("change", () => {
+                                                // Forzar minutos en 00
+                                                const valor5 = inputHora5.value;
+                                                const [hora5] = valor5.split(":");
+                                                inputHora5.value = `${hora5.padStart(2, '0')}:00`;
+                                            });
+                                        </script>
+
+                                        <div class="row">
+                                            <label for="genero" class="form-label"><b>Cancha</b></label>
+                                            <select class="form-control" name="idCancha5" id="idCancha5" disabled>
+                                                <option selected="" value="" disabled>Seleccione la cancha</option>
+
+                                            </select>
+                                        </div>
+
+                                        <div class="row">
+                                            <label for="txtName" class="form-label"><b>Horas reservadas</b> </label>
+                                            <input type="number" class="form-control" id="horasReservadas5"
+                                                disabled name="horasReservadas5" required>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <button type="submit" id="btnFormularioProducto" class="btn btn-primary">Agregar otro
+                            <button type="submit" id="btnFormularioProducto" class="btn btn-outline-primary">Agregar otro
                                 producto</button>
                         </div>
                     </div>

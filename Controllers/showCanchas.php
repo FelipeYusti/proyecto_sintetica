@@ -19,4 +19,12 @@ class ShowCanchas extends Controllers
         $data['script'] = "showCanchas";
         $this->views->getView($this, "showCanchas", $data);
     }
+
+    public function getCanchas()
+    {
+        $arrData = $this->model->getCanchas();
+
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        die();
+    }
 }
