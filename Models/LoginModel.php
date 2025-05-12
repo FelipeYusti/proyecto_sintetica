@@ -27,7 +27,6 @@ class LoginModel extends Mysql{
 
         $sql = "SELECT u.idusers, 
         u.username,
-        u.apellido,
         u.correo,
         u.rol,
         u.status

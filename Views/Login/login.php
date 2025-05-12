@@ -56,8 +56,6 @@
       <div style="justify-content: center;">
         <div style="text-align:justify; padding: 15px;">
           <p>SyntheSports es un sistema integral diseñado para la gestión eficiente de canchas sintéticas, orientado a optimizar tanto la administración como la experiencia del usuario.</p>
-          <p> La plataforma permite registrar y administrar diferentes tipos de canchas deportivas, incluyendo Fútbol, Tenis y Vóley, especificando sus características, disponibilidad y horarios.</p>
-
         </div>
       </div>
     </div>

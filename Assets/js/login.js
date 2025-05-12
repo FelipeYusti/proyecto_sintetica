@@ -4,10 +4,10 @@ if (document.querySelector("#formLogin")) {
   formLogin.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    let strDocumento = document.querySelector("#txtPassword").value;
+    let strUser = document.querySelector("#txtUser").value;
     let strPassword = document.querySelector("#txtPassword").value;
 
-    if (strDocumento == "" || strPassword == "") {
+    if (strUser == "" || strPassword == "") {
       Swal.fire({
         title: "Ingresar",
         text: "Por favor, escribe usuario y contraseña",
@@ -23,7 +23,7 @@ if (document.querySelector("#formLogin")) {
         if (res.status == 200) {
           res.json().then((data) => {
             if (data.status) {
-              window.location = base_url + "/dashboard";
+              window.location = base_url + "/home";
               console.log(data.msg);
             } else {
               Swal.fire({
