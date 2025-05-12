@@ -52,8 +52,6 @@ class Reservas extends Controllers
     {
         $fecha = strClean($_POST['fecha']);
         $hora = strClean($_POST['hora']);
-        echo $hora;
-        echo $fecha;
 
         $arrData = $this->model->getCanchaValidacion($fecha, $hora);
 

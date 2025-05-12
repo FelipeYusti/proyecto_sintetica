@@ -352,7 +352,7 @@ header_admin($data);
                                     <input type="hidden" name="idReserva" id="idReserva" value="0">
                                     <div class="row">
                                         <label for="txtName" class="form-label"><b>Nombre de el reservante</b> </label>
-                                        <input type="text" class="form-control" id="nombreReserva" name="nombreReserva">
+                                        <input type="text" class="form-control" id="nombreReserva" name="nombreReserva" required>
                                     </div>
                                 </div>
                             </div>
@@ -360,7 +360,7 @@ header_admin($data);
                             <div class="row">
                                 <div id="userStatusZone" class="mb-3">
                                     <label for="txtType" class="form-label"><b>Convenio (Si aplica)</b></label>
-                                    <select class="form-control" name="idConvenio" id="idConvenio">
+                                    <select class="form-control" name="idConvenio" id="idConvenio" required>
                                         <option selected="" value="" disabled>No aplica</option>
                                         <div class="selectConvenio" name="selectConvenio" id="selectConvenio"></div>
                                     </select>
@@ -371,7 +371,7 @@ header_admin($data);
                             <div class="row">
                                 <div id="userStatusZone" class="mb-3">
                                     <label for="genero" class="form-label">Usuario</label>
-                                    <select class="form-control" name="idUsuario" id="idUsuario">
+                                    <select class="form-control" name="idUsuario" id="idUsuario" required>
                                         <option selected="" value="" disabled>Seleccione el usuario</option>
                                         <div class="selectUsuario" name="selectUsuario" id="selectUsuario"></div>
                                     </select>
@@ -453,7 +453,7 @@ header_admin($data);
                                         <script>
                                             const inputHora2 = document.getElementById("horaReserva2");
 
-                                            inputHora.addEventListener("change", () => {
+                                            inputHora2.addEventListener("change", () => {
                                                 // Forzar minutos en 00
                                                 const valor2 = inputHora2.value;
                                                 const [hora2] = valor2.split(":");
@@ -499,7 +499,7 @@ header_admin($data);
                                         <script>
                                             const inputHora3 = document.getElementById("horaReserva3");
 
-                                            inputHora.addEventListener("change", () => {
+                                            inputHora3.addEventListener("change", () => {
                                                 // Forzar minutos en 00
                                                 const valor3 = inputHora3.value;
                                                 const [hora3] = valor3.split(":");
@@ -545,7 +545,7 @@ header_admin($data);
                                         <script>
                                             const inputHora4 = document.getElementById("horaReserva4");
 
-                                            inputHora.addEventListener("change", () => {
+                                            inputHora4.addEventListener("change", () => {
                                                 // Forzar minutos en 00
                                                 const valor4 = inputHora4.value;
                                                 const [hora4] = valor4.split(":");
@@ -591,7 +591,7 @@ header_admin($data);
                                         <script>
                                             const inputHora5 = document.getElementById("horaReserva5");
 
-                                            inputHora.addEventListener("change", () => {
+                                            inputHora5.addEventListener("change", () => {
                                                 // Forzar minutos en 00
                                                 const valor5 = inputHora5.value;
                                                 const [hora5] = valor5.split(":");

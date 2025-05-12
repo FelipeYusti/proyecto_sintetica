@@ -68,7 +68,7 @@ function listUsuariosSelect() {
     })
     .catch((error) => console.error("Error al listar usuarios:", error));
 }
-
+/*
 function listCanchasSelect() {
   fetch(base_url + "/reservas/getCanchas")
     .then((res) => res.json())
@@ -80,7 +80,7 @@ function listCanchasSelect() {
     })
     .catch((error) => console.error("Error al listar canchas:", error));
 }
-listCanchasSelect();
+listCanchasSelect(); */
 
 //=========================================================================================
 const elements = {
@@ -440,6 +440,7 @@ editarReservaModal.addEventListener("submit", (e) => {
         });
       });
   } else {
+    // =========================================Insercion====================
     fetch(base_url + "/reservas/createReserva", {
       method: "POST",
       body: frmData,
@@ -600,6 +601,7 @@ horaReserva1.addEventListener("input", () => {
 
   let frmData = new FormData();
 
+  /*
   let idCancha1 = document.getElementById(`idCancha${contadorClicks2}`);
   let inputDiaReserva1 = document.querySelector(
     `#diaReserva${contadorClicks2}`
@@ -610,6 +612,7 @@ horaReserva1.addEventListener("input", () => {
   let horasReservadas1 = document.querySelector(
     `horasReservadas${contadorClicks2}`
   );
+   */
   let url = base_url + `/reservas/getCanchaValidacion`;
 
   frmData.append("hora", hora);
@@ -622,9 +625,167 @@ horaReserva1.addEventListener("input", () => {
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
+      let selectElem = document.getElementById("idCancha1");
+      selectElem.innerHTML = "";
       data.data.forEach((cancha) => {
         selectElem.innerHTML += `<option value="${cancha.idcanchas}">${cancha.nombre}</option>`;
       });
     })
     .catch((error) => console.error("Error al listar canchas:", error));
 });
+
+//=====================================
+let diaReserva2 = document.querySelector("#diaReserva2");
+let horaReserva2 = document.querySelector("#horaReserva2");
+
+horaReserva2.style.display = "none";
+
+diaReserva2.addEventListener("input", (e) => {
+  horaReserva2.style.display = "block";
+  horaReserva2.focus();
+});
+
+horaReserva2.addEventListener("input", () => {
+  const fecha = diaReserva2.value;
+  const hora = horaReserva2.value;
+
+  let frmData = new FormData();
+
+  let url = base_url + `/reservas/getCanchaValidacion`;
+
+  frmData.append("hora", hora);
+  frmData.append("fecha", fecha);
+
+  fetch(url, {
+    method: "POST",
+    body: frmData,
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      let selectElem = document.getElementById("idCancha2");
+      selectElem.innerHTML = "";
+      data.data.forEach((cancha) => {
+        selectElem.innerHTML += `<option value="${cancha.idcanchas}">${cancha.nombre}</option>`;
+      });
+    })
+    .catch((error) => console.error("Error al listar canchas:", error));
+});
+
+//==================================================================================
+
+let diaReserva3 = document.querySelector("#diaReserva3");
+let horaReserva3 = document.querySelector("#horaReserva3");
+
+horaReserva3.style.display = "none";
+
+diaReserva3.addEventListener("input", (e) => {
+  horaReserva3.style.display = "block";
+  horaReserva3.focus();
+});
+
+horaReserva2.addEventListener("input", () => {
+  const fecha = diaReserva2.value;
+  const hora = horaReserva2.value;
+
+  let frmData = new FormData();
+
+  let url = base_url + `/reservas/getCanchaValidacion`;
+
+  frmData.append("hora", hora);
+  frmData.append("fecha", fecha);
+
+  fetch(url, {
+    method: "POST",
+    body: frmData,
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      let selectElem = document.getElementById("idCancha3");
+      selectElem.innerHTML = "";
+      data.data.forEach((cancha) => {
+        selectElem.innerHTML += `<option value="${cancha.idcanchas}">${cancha.nombre}</option>`;
+      });
+    })
+    .catch((error) => console.error("Error al listar canchas:", error));
+});
+
+//=======================================
+let diaReserva4 = document.querySelector("#diaReserva4");
+let horaReserva4 = document.querySelector("#horaReserva4");
+
+horaReserva4.style.display = "none";
+
+diaReserva4.addEventListener("input", (e) => {
+  horaReserva4.style.display = "block";
+  horaReserva4.focus();
+});
+
+horaReserva4.addEventListener("input", () => {
+  const fecha = diaReserva4.value;
+  const hora = horaReserva4.value;
+
+  let frmData = new FormData();
+
+  let url = base_url + `/reservas/getCanchaValidacion`;
+
+  frmData.append("hora", hora);
+  frmData.append("fecha", fecha);
+
+  fetch(url, {
+    method: "POST",
+    body: frmData,
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      let selectElem = document.getElementById("idCancha4");
+      selectElem.innerHTML = "";
+      data.data.forEach((cancha) => {
+        selectElem.innerHTML += `<option value="${cancha.idcanchas}">${cancha.nombre}</option>`;
+      });
+    })
+    .catch((error) => console.error("Error al listar canchas:", error));
+});
+
+//==========================================================
+
+let diaReserva5 = document.querySelector("#diaReserva5");
+let horaReserva5 = document.querySelector("#horaReserva5");
+
+horaReserva4.style.display = "none";
+
+diaReserva5.addEventListener("input", (e) => {
+  horaReserva5.style.display = "block";
+  horaReserva5.focus();
+});
+
+horaReserva5.addEventListener("input", () => {
+  const fecha = diaReserva5.value;
+  const hora = horaReserva5.value;
+
+  let frmData = new FormData();
+
+  let url = base_url + `/reservas/getCanchaValidacion`;
+
+  frmData.append("hora", hora);
+  frmData.append("fecha", fecha);
+
+  fetch(url, {
+    method: "POST",
+    body: frmData,
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      let selectElem = document.getElementById("idCancha5");
+      selectElem.innerHTML = "";
+      data.data.forEach((cancha) => {
+        selectElem.innerHTML += `<option value="${cancha.idcanchas}">${cancha.nombre}</option>`;
+      });
+    })
+    .catch((error) => console.error("Error al listar canchas:", error));
+});
+
+//==============================================================================================================================================================================
